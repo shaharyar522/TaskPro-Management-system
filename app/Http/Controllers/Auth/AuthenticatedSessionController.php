@@ -22,32 +22,32 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-  
 
-   public function store(LoginRequest $request): RedirectResponse
-{
-    $request->authenticate();
-    $request->session()->regenerate();
 
-    $user = Auth::user();
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
+        $request->session()->regenerate();
 
-    // ✅ Check if user is active
-    if ($user->status != 1) {
-        Auth::logout(); // Log out the user immediately
-        return redirect()->route('login')->with('warning', 'Your account is inactive.');
+        $user = Auth::user();
+
+        // ✅ Check if user is active
+        if ($user->status != 1) {
+            Auth::logout(); // Log out the user immediately
+            return redirect()->route('login')->with('warning', 'Your account is inactive.');
+        }
+
+        // ✅ Role-based redirection
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->hasRole('user')) {
+            return redirect()->route('user.dashboard');
+        }
+
+        // Fallback if no role matched
+        Auth::logout();
+        return redirect()->route('login')->with('warning', 'Access denied. No role assigned.');
     }
-
-    // ✅ Role-based redirection
-    if ($user->hasRole('admin')) {
-        return redirect()->route('admin.dashboard');
-    } elseif ($user->hasRole('user')) {
-        return redirect()->route('user.dashboard');
-    }
-
-    // Fallback if no role matched
-    Auth::logout();
-    return redirect()->route('login')->with('warning', 'Access denied. No role assigned.');
-}
 
 
 
