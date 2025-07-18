@@ -2,7 +2,12 @@
 
 @section('content')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
+<link rel="stylesheet" href="{{asset('css/userpage/editmodal.css')}}">
 @include('layouts.header')
+<style>
+ 
+
+</style>
 
 
 <div class="dashboard-content">
@@ -23,34 +28,50 @@
           <th>Registration Date</th>
           <th>Email</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th style="text-align: center;">Actions</th>
         </tr>
       </thead>
       <tbody>
-        @foreach($approved  as $user)
-          <tr id="user-row-{{ $user->id }}">
-            <td>{{ $user->id }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->last_name }}</td>
-            <td>{{ $user->copy_id }}</td>
-            <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y') }}</td>
-            <td>{{ $user->email }}</td>
-            <td><span class="badge bg-success">Approved</span></td>
-            <td>
-              <button class="btn btn-sm btn-danger block-user-btn" data-id="{{ $user->id }}">
+        @foreach($approved as $user)
+        <tr id="user-row-{{ $user->id }}">
+          <td>{{ $user->id }}</td>
+          <td>{{ $user->name }}</td>
+          <td>{{ $user->last_name }}</td>
+          <td>{{ $user->copy_id }}</td>
+          <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y') }}</td>
+          <td>{{ $user->email }}</td>
+          <td><span class="badge bg-success">Approved</span></td>
+
+          <td>
+            <div class="d-flex gap-2 justify-content-center action-buttons">
+              <!-- Block Button -->
+              <button class="btn btn-outline-danger btn-icon-text block-user-btn" data-id="{{ $user->id }}">
                 <i class="fas fa-ban"></i>
+                <span>User Block</span>
               </button>
-            </td>
-          </tr>
+
+              <!-- Edit Button -->
+              <button class="btn btn-outline-primary btn-icon-text edit-user-btn" data-id="{{ $user->id }}">
+                <i class="fas fa-edit"></i>
+                <span>Edit</span>
+              </button>
+            </div>
+          </td>
+
+
+        </tr>
         @endforeach
       </tbody>
     </table>
 
-     <div class="mt-3 d-flex justify-content-center">
-        {{ $approved->links('pagination::bootstrap-5') }}
+    <div class="mt-3 d-flex justify-content-center">
+      {{ $approved->links('pagination::bootstrap-5') }}
     </div>
   </div>
 </div>
+
+
+
 
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -95,6 +116,94 @@
     });
   });
 </script>
+<!-- end Block User Script -->
 
+{{-- ============ start edit portion start ============--}}
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="edit-user-form" method="POST">
+      @csrf
+      @method('PUT')
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" id="edit-user-id">
+          <div class="mb-3">
+            <label>First Name</label>
+            <input type="text" class="form-control" name="name" id="edit-name">
+          </div>
+          <div class="mb-3">
+            <label>Last Name</label>
+            <input type="text" class="form-control" name="last_name" id="edit-last-name">
+          </div>
+          <div class="mb-3">
+            <label>Copy ID</label>
+            <input type="text" class="form-control" name="copy_id" id="edit-copy-id">
+          </div>
+          <div class="mb-3">
+            <label>Registration Date</label>
+            <input type="date" class="form-control" name="registration_date" id="edit-registration-date">
+          </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email" id="edit-email">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Update User</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.edit-user-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const userId = button.dataset.id;
+
+      fetch(`/admin/pending-users/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+          document.getElementById('edit-user-id').value = user.id || '';
+          document.getElementById('edit-name').value = user.name || '';
+          document.getElementById('edit-last-name').value = user.last_name || '';
+          document.getElementById('edit-copy-id').value = user.copy_id || '';
+          document.getElementById('edit-email').value = user.email || '';
+          document.getElementById('edit-registration-date').value = user.registration_date || '';
+
+          document.getElementById('edit-user-form').action = `/admin/users/update/${user.id}`;
+
+          const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+          modal.show();
+        })
+        .catch(error => {
+          console.error('Error fetching user:', error);
+          alert('Something went wrong while fetching user data.');
+        });
+    });
+  });
+</script>
+
+@if(session('success'))
+<script>
+  Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: '{{ session('success') }}',
+      timer: 2000,
+      showConfirmButton: false
+    });
+</script>
+@endif
+
+{{-- ============ End edit portion start ============ --}}
 
 @endsection

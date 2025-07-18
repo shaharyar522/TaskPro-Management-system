@@ -69,6 +69,30 @@ class UserController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'copy_id' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'registration_date' => 'nullable|date',
+        ]);
+
+        $user = User::findOrFail($id);
+
+        $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->copy_id = $request->copy_id;
+        $user->email = $request->email;
+        $user->registration_date = $request->registration_date;
+        $user->save();
+
+        return redirect()->route('approved.users')->with('success', 'User updated successfully.');
+
+        
+    }
+
 
 
     public function blockedIndex()
