@@ -5,10 +5,6 @@
         </button>
     </div>
     <div class="user-actions">
-        <div class="notification-bell">
-            <i class="fas fa-bell"></i>
-            <span class="notification-badge">3</span>
-        </div>
         <div class="dropdown">
             <div class="user-profile dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-avatar">
@@ -17,8 +13,6 @@
             </div>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> Messages</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -36,3 +30,6 @@
         </div>
     </div>
 </header>
+
+
+
