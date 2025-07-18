@@ -73,16 +73,6 @@
                             @enderror
                         </div>
 
-                        <div class="mb-4 form-check d-flex justify-content-between align-items-center">
-                            <div>
-                                <input type="checkbox" class="form-check-input" name="remember" id="remember">
-                                <label class="form-check-label" for="remember">Remember Me</label>
-                            </div>
-                            @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
-                            @endif
-                        </div>
-
                         <div class="d-grid mb-3">
                             <button type="submit" class="btn btn-login">
                                 <i class="fas fa-sign-in-alt me-2"></i> Login

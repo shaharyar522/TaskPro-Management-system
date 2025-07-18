@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +10,15 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/maindashboad.css')}}">
- 
+       @stack('style')
 </head>
 <body>
+ 
     <!-- Sidebar -->
-     @include('layouts.sidebar')
+    @include('layouts.sidebar')
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
@@ -26,70 +29,41 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle sidebar
-            const toggleBtn = document.getElementById('toggleBtn');
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            
-            toggleBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('sidebar-collapsed');
-                mainContent.classList.toggle('main-content-expanded');
-            });
-            
-            // Mobile sidebar toggle
-            const mediaQuery = window.matchMedia('(max-width: 768px)');
-            
-            function handleMobileChange(e) {
-                if (e.matches) {
-                    sidebar.classList.remove('sidebar-collapsed');
-                    sidebar.classList.remove('sidebar-mobile-show');
-                    mainContent.classList.remove('main-content-expanded');
-                } else {
-                    if (!sidebar.classList.contains('sidebar-collapsed')) {
-                        sidebar.classList.add('sidebar-collapsed');
-                        mainContent.classList.add('main-content-expanded');
-                    }
-                }
-            }
-            
-            mediaQuery.addListener(handleMobileChange);
-            handleMobileChange(mediaQuery);
-            
-            // Sidebar menu item hover effect
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('mouseenter', function() {
-                    if (sidebar.classList.contains('sidebar-collapsed')) {
-                        this.style.transform = 'translateX(5px)';
-                        this.style.background = 'rgba(255, 255, 255, 0.1)';
-                    }
-                });
-                
-                link.addEventListener('mouseleave', function() {
-                    if (sidebar.classList.contains('sidebar-collapsed')) {
-                        this.style.transform = '';
-                        this.style.background = '';
-                    }
-                });
-                
-                link.addEventListener('click', function(e) {
-                    if (!this.classList.contains('active')) {
-                        navLinks.forEach(l => l.classList.remove('active'));
-                        this.classList.add('active');
-                    }
-                });
-            });
-            
-            // Mobile menu toggle
-            toggleBtn.addEventListener('click', function() {
-                if (window.matchMedia('(max-width: 768px)').matches) {
-                    sidebar.classList.toggle('sidebar-mobile-show');
-                }
-            });
+        /* JavaScript for Active Links */
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle sidebar link clicks
+    const navLinks = document.querySelectorAll('.sidebar-menu .nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Remove active class from all links
+            navLinks.forEach(l => l.classList.remove('active'));
+            // Add active class to clicked link
+            this.classList.add('active');
         });
+    });
+
+    // Initialize Bootstrap dropdown
+    const userDropdown = document.getElementById('userDropdown');
+    if (userDropdown) {
+        userDropdown.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dropdownMenu = this.nextElementSibling;
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!userDropdown.contains(e.target) && !e.target.closest('.dropdown-menu')) {
+                const dropdownMenu = document.querySelector('.dropdown-menu');
+                if (dropdownMenu) dropdownMenu.classList.remove('show');
+            }
+        });
+    }
+});;
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
+
 </html>
