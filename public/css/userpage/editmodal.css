@@ -1,0 +1,75 @@
+ /* Modal container adjustments */
+.modal-content {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: none;
+  padding: 10px 0;
+}
+
+/* Modal header styling */
+.modal-header {
+ padding: 15px 20px;
+  background: linear-gradient(135deg, #3f51b5, #5a67d8);
+  color: #fff;
+  border-bottom: 1px solid #e0e6ed;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Modal body spacing */
+.modal-body {
+  padding: 20px;
+  background-color: #fff;
+}
+
+/* Form fields spacing and visuals */
+.modal-body .form-control {
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.modal-body label {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* Modal footer */
+.modal-footer {
+  padding: 12px 20px;
+  border-top: 1px solid #e0e6ed;
+  background-color: #f9fbfd;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Submit button */
+.modal-footer .btn-primary {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  background: linear-gradient(135deg, #3f51b5, #5a67d8);
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.modal-footer .btn-primary:hover {
+  background: linear-gradient(135deg, #2c3e90, #4c56c0);
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+
+  .modal-content {
+    border-radius: 8px;
+  }
+}

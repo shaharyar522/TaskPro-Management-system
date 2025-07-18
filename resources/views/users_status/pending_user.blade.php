@@ -6,10 +6,12 @@
 
 @extends('layouts.app')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
+<link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
 
 @section('content')
 @include('layouts.header')
 
+       
 <div class="dashboard-content">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="section-title">
@@ -83,8 +85,8 @@
             <tr><th>Status</th>
               <td>
                 <select class="form-select" name="status" id="view-status-select">
-                  <option value="0">Inactive</option>
-                  <option value="1">Active</option>
+                  <option value="0">Pending</option>
+                  <option value="1">Approved</option>
                 </select>
               </td>
             </tr>

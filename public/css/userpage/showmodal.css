@@ -1,0 +1,77 @@
+/* User View Modal */
+#userViewModal .modal-content {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: none;
+  overflow: hidden;
+}
+
+/* Modal Header */
+#userViewModal .modal-header {
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #3f51b5, #5a67d8);
+  color: #fff;
+  border-bottom: 1px solid #e0e6ed;
+}
+
+#userViewModal .modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#userViewModal .btn-close {
+  filter: invert(1);
+}
+
+/* Modal Body */
+#userViewModal .modal-body {
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* Table Styling */
+#userViewModal .table {
+  font-size: 14px;
+  margin-bottom: 0;
+  border-color: #e0e6ed;
+}
+
+#userViewModal .table th {
+  width: 180px;
+  background-color: #f8f9fc;
+  color: #555;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+#userViewModal .table td {
+  background-color: #fff;
+  color: #333;
+  vertical-align: middle;
+}
+
+/* Status select dropdown */
+#view-status-select {
+  width: 150px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+/* Submit Button */
+#userViewModal .btn-success {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  background: linear-gradient(135deg, #28a745, #2ecc71);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+#userViewModal .btn-success:hover {
+  background: linear-gradient(135deg, #218838, #27ae60);
+}

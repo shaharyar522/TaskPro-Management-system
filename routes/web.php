@@ -37,10 +37,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/ApprovedUser', [UserController::class, 'approvedIndex'])->name('user.approve');
     Route::get('/approved-users', [UserController::class, 'approvedIndex'])->name('approved.users');
     Route::post('/users/block/{id}', [UserController::class, 'block'])->name('users.block');
+    Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+
 
 
     //blocked users 
     Route::get('/BlockedUser', [UserController::class, 'blockedIndex'])->name('user.blocked');
+    
    
 });
 
