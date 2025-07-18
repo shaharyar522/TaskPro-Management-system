@@ -49,7 +49,6 @@
                 <i class="fas fa-ban"></i>
                 <span>User Block</span>
               </button>
-
               <!-- Edit Button -->
               <button class="btn btn-outline-primary btn-icon-text edit-user-btn" data-id="{{ $user->id }}">
                 <i class="fas fa-edit"></i>
@@ -104,6 +103,16 @@
             if (data.success) {
               Swal.fire('Blocked!', data.message, 'success');
               document.getElementById('user-row-' + userId).remove();
+
+  // uay code immediattly coutntre show kary ga
+    const blockedCountElem = document.querySelector('.menu-badge.bg-danger');
+    const approvedCountElem = document.querySelector('.menu-badge.bg-success');
+
+    if (blockedCountElem && approvedCountElem) {
+      blockedCountElem.textContent = parseInt(blockedCountElem.textContent) + 1;
+      approvedCountElem.textContent = parseInt(approvedCountElem.textContent) - 1;
+    }
+
             } else {
               Swal.fire('Error!', data.message || 'Something went wrong.', 'error');
             }

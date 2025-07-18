@@ -1,8 +1,6 @@
 <header class="header">
     <div>
-        <button class="toggle-btn" id="toggleBtn">
-            <i class="fas fa-bars"></i>
-        </button>
+       
     </div>
     <div class="user-actions">
         <div class="dropdown">

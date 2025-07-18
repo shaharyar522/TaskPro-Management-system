@@ -40,11 +40,16 @@ class UserController extends Controller
     // Approve user (set status = 1)
     public function approve(Request $request, $id)
     {
+
         $user = User::findOrFail($id);
-        $user->status = 1;
+        $user->status = $request->status;
         $user->save();
 
-        return redirect()->route('user.pending')->with('success', 'User approved successfully.');
+        $message = ($request->status == 0)
+            ? 'User status is  pending .'
+            : 'User approved successfully.';
+
+        return redirect()->route('user.pending')->with('success', $message);
     }
 
     // Block a user (set blocked = 1)
@@ -88,9 +93,7 @@ class UserController extends Controller
         $user->registration_date = $request->registration_date;
         $user->save();
 
-        return redirect()->route('approved.users')->with('success', 'User updated successfully.');
-
-        
+        return redirect()->route('approved.users')->with('success', 'User Approved updated successfully.');
     }
 
 
@@ -100,5 +103,38 @@ class UserController extends Controller
         $blocked = User::where('blocked', 1)->paginate(5);;
 
         return view('users_status.block_user', compact('blocked'));
+    }
+
+    public function unblock($id)
+    {
+        $user = User::findOrFail($id);
+        $user->blocked = 0;
+        $user->save();
+
+        return response()->json(['message' => 'User unblocked successfully']);
+    }
+
+    public function Blockupdate(Request $request, $id)
+    {
+        // Validation...
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'copy_id' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'registration_date' => 'nullable|date',
+        ]);
+
+        // Update logic
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->copy_id = $request->copy_id;
+        $user->email = $request->email;
+        $user->registration_date = $request->registration_date;
+        $user->save();
+
+        // ✅ REDIRECTS CORRECTLY
+        return redirect()->route('user.blocked')->with('success', 'User Block updated successfully.');
     }
 }
