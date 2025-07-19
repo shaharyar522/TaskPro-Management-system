@@ -31,10 +31,15 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        // ✅ Check if user is active
-        if ($user->status != 1) {
-            Auth::logout(); // Log out the user immediately
-            return redirect()->route('login')->with('warning', 'Your account is inactive.');
+        // ✅ Allow admin even if status is 0
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        // ✅ Only block normal users
+        if ($user->status != 1 || $user->blocked == 1) {
+            Auth::logout(); // Log out immediately
+            return redirect()->route('login')->with('warning', 'Your account is inactive or blocked.');
         }
 
         // ✅ Role-based redirection

@@ -5,6 +5,7 @@
 
 
 @extends('layouts.app')
+@include('layouts.sidebar')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
 <link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
 

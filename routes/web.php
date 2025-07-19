@@ -4,6 +4,7 @@
     use App\Http\Controllers\PendingController;
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\UserController;
+    use App\Http\Controllers\UserDataController;
     use Illuminate\Support\Facades\Route;
     use Illuminate\Support\Facades\Auth;
     use Spatie\Permission\Traits\hasRole;
@@ -27,7 +28,6 @@
             return view('dashboard'); // Your admin dashboard view
         })->name('admin.dashboard');
 
-
         // user pending k luey route  jin ka staus =0 and blocke= 0
         Route::get('/PendingUser', [UserController::class, 'pendingIndex'])->name('user.pending');
         Route::get('/pending-users/{id}', [UserController::class, 'show']);
@@ -47,18 +47,38 @@
         Route::put('/users/updateblock/{id}', [UserController::class, 'Blockupdate'])->name('usersblock.update');
     });
 
+
+
+
+
     // Group for User only
     Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
         Route::get('/dashboard', function () {
             return view('user.dashboard'); // Your user dashboard view
         })->name('user.dashboard');
+
+        Route::post('/users-data/store', [UserDataController::class, 'store'])->name('userdata.store');
+        Route::get('/dashboard', [UserDataController::class, 'dashboard'])->name('user.dashboard');
+        Route::put('/Users/update/{id}',[UserDataController::class, 'update'])->name('userdata.update');
+Route::delete('/userdata/delete', [UserDataController::class, 'destroy'])->name('userdata.destroy');
+
+
+
+
+
+
+      
+        
     });
     //->middleware(['auth', 'verified'])
+
+
+
+
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
-
     require __DIR__ . '/auth.php';

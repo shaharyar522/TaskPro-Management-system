@@ -1,9 +1,8 @@
 @extends('layouts.app')
-
+@include('layouts.sidebar')
 @section('content')
 <!-- Header -->
 @include('layouts.header')
-
 <link rel="stylesheet" href="{{asset('css/dashbodfront.css')}}">
 
 <!-- Dashboard Content -->
@@ -30,12 +29,12 @@
                 </div>
 
                 <div class="stat-card">
-                    
+
                     <div class="stat-icon">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="stat-info">
-                         <span class="menu-badge bg-success">{{ $approvedCount ?? 0 }}</span>
+                        <span class="menu-badge bg-success">{{ $approvedCount ?? 0 }}</span>
                         <span class="stat-label">Approved User</span>
                     </div>
                 </div>
@@ -45,7 +44,7 @@
                         <i class="fas fa-exclamation-triangle"></i>
                     </div>
                     <div class="stat-info">
-                       <span class="menu-badge bg-danger">{{ $blockedCount ?? 0 }}</span>
+                        <span class="menu-badge bg-danger">{{ $blockedCount ?? 0 }}</span>
                         <span class="stat-label">blocked User</span>
                     </div>
                 </div>

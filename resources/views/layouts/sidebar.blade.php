@@ -37,6 +37,8 @@
         </li>
     </ul>
     @endrole
+
+    
     @role('user')
     <div class="sidebar-header">
         <div class="logo-icon">

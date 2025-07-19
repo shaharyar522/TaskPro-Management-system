@@ -13,7 +13,7 @@ class RolesAndUsersSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-   public function run(): void
+    public function run(): void
     {
         // Create roles
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
@@ -31,7 +31,7 @@ class RolesAndUsersSeeder extends Seeder
 
         // Create Normal User
         $user = User::firstOrCreate(
-            ['email' => 'user@example.com'],
+            ['email' => 'user@gmail.com'],
             [
                 'name' => 'Normal User',
                 'password' => Hash::make('user123'),

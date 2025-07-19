@@ -1,0 +1,127 @@
+  /* Vertical Form Styling */
+.profile-form-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 30px;
+    padding: 30px;
+}
+
+.profile-form-container h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #eee;
+}
+
+.input-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.profile-form-container .form-control {
+    height: 45px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1px 15px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    width: 79%;
+}
+
+.profile-form-container .form-control:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    background-color: #fff;
+    outline: none;
+}
+
+.form-submit {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.btn-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+    padding: 12px 30px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(78, 115, 223, 0.3);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: #3a56d4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(78, 115, 223, 0.4);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .input-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .input-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-form-container {
+        padding: 20px;
+    }
+    
+    .profile-form-container .form-control {
+        height: 50px;
+    }
+}
+
+/* Input Label Styling */
+.input-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #4e73df;
+    font-size: 0.9rem;
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.input-group {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.input-group:nth-child(1) { animation-delay: 0.1s; }
+.input-group:nth-child(2) { animation-delay: 0.2s; }
+.input-group:nth-child(3) { animation-delay: 0.3s; }
+.input-group:nth-child(4) { animation-delay: 0.4s; }

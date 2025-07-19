@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@include('layouts.sidebar')
 @section('content')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
 <link rel="stylesheet" href="{{asset('css/userpage/editmodal.css')}}">

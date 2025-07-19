@@ -22,7 +22,7 @@
 <body>
 
     <!-- Sidebar -->
-    @include('layouts.sidebar')
+  
      
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
