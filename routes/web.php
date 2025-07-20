@@ -59,17 +59,12 @@
 
         Route::post('/users-data/store', [UserDataController::class, 'store'])->name('userdata.store');
         Route::get('/dashboard', [UserDataController::class, 'dashboard'])->name('user.dashboard');
-        Route::put('/Users/update/{id}',[UserDataController::class, 'update'])->name('userdata.update');
-Route::delete('/userdata/delete', [UserDataController::class, 'destroy'])->name('userdata.destroy');
-
-
-
-
-
-
-      
-        
+        Route::get('/dashboard/edit/{id}', [UserDataController::class, 'edit'])->name('userdata.edit');
+        Route::put('/Users/update/{id}', [UserDataController::class, 'update'])->name('userdata.update');
+        Route::delete('/user/userdata/delete/{id}', [UserDataController::class, 'destroy'])->name('userdata.destroy');
     });
+
+
     //->middleware(['auth', 'verified'])
 
 

@@ -17,7 +17,7 @@ class UserDataController extends Controller
         $userId = Auth::id();
 
         // ✅ Get first record, not collection
-        $userData = UserData::where('user_id', $userId)->first();
+        $userData = UserData::where('user_id', $userId)->get();
 
         return view('user.dashboard', compact('userData'));
     }
@@ -58,10 +58,6 @@ class UserDataController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
         // ✅ Check if user already has a record
-        $existing = UserData::where('user_id', $request->user_id)->first();
-        if ($existing) {
-            return redirect()->back()->with('error', 'You have already submitted your data. You cannot submit it again unless it is deleted.');
-        }
 
         // ✅ Store using $request->all() or specific fields
         UserData::create([
@@ -101,9 +97,10 @@ class UserDataController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserData $userData)
+    public function edit($id)
     {
-        //
+        $userdata = UserData::findOrFail($id);
+        return view('user.edit', compact('userdata'));
     }
 
     /**
@@ -161,25 +158,27 @@ class UserDataController extends Controller
             'user_id' => $request->user_id,
         ]);
 
-        return redirect()->back()->with('success', 'Your data Update successfully!');
+
+        return redirect()
+            ->route('user.dashboard')
+            ->with('redirect_to_report', true)
+            ->with('success_type', 'Updated!')
+            ->with('success', 'User data updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
-    {
-        $userId = Auth::id(); // Get currently logged-in user's ID
+   public function destroy($id)
+{
+    $userData = UserData::findOrFail($id);
+    $userData->delete();
 
-        $userData = UserData::where('user_id', $userId)->first();
+    return redirect()
+        ->route('user.dashboard')
+        ->with('redirect_to_report', true)
+        ->with('success_type', 'Deleted!')
+        ->with('success', 'User record deleted successfully.');
+}
 
-        // If no record found for this user, redirect with error
-        if (!$userData) {
-            return redirect()->route('user.dashboard')->with('error', 'No data found for your account.');
-        }
-
-        $userData->delete();
-
-        return redirect()->route('user.dashboard')->with('success', 'Your data has been deleted successfully.');
-    }
 }
