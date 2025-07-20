@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
         // ✅ Only block normal users
         if ($user->status != 1 || $user->blocked == 1) {
             Auth::logout(); // Log out immediately
-            return redirect()->route('login')->with('warning', 'Your account is inactive or blocked.');
+            return redirect()->route('login')->with('warning', 'Your account is Pending Please wait approved by admin.');
         }
 
         // ✅ Role-based redirection
