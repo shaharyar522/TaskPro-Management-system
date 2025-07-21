@@ -1,9 +1,3 @@
-
-
-
-
-
-
 @extends('layouts.app')
 @include('layouts.sidebar')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
@@ -12,7 +6,7 @@
 @section('content')
 @include('layouts.header')
 
-       
+
 <div class="dashboard-content">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="section-title">
@@ -28,6 +22,7 @@
           <th class="name-col">First Name</th>
           <th class="name-col">Last Name</th>
           <th class="copy-col">Copy ID</th>
+          <th class="project-col">Project Name</th>
           <th class="date-col">Registration Date</th>
           <th class="email-col">Email</th>
           <th class="status-col">Status</th>
@@ -41,13 +36,16 @@
           <td class="name-col"><span>{{ $user->name }}</span></td>
           <td class="name-col">{{ $user->last_name }}</td>
           <td class="copy-col">{{ $user->copy_id }}</td>
+          <td class="project-col">{{ $user->project_name }}</td>
+
           <td class="date-col">{{ $user->created_at->format('d M Y') }}</td>
           <td class="email-col">{{ $user->email }}</td>
           <td class="status-col">
             <span class="badge bg-warning text-dark">Pending</span>
           </td>
           <td class="action-col">
-            <button class="btn-action btn-view" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#userViewModal" title="View">
+            <button class="btn-action btn-view" data-id="{{ $user->id }}" data-bs-toggle="modal"
+              data-bs-target="#userViewModal" title="View">
               <i class="fas fa-eye"></i>
             </button>
           </td>
@@ -55,8 +53,8 @@
         @endforeach
       </tbody>
     </table>
-     <div class="mt-3 d-flex justify-content-center">
-        {{ $pendings->links('pagination::bootstrap-5') }}
+    <div class="mt-3 d-flex justify-content-center">
+      {{ $pendings->links('pagination::bootstrap-5') }}
     </div>
   </div>
 
@@ -76,14 +74,47 @@
         <form method="POST" id="approve-user-form">
           @csrf
           <table class="table table-bordered">
-            <tr><th>ID</th><td id="view-id"></td></tr>
-            <tr><th>Name</th><td id="view-name"></td></tr>
-            <tr><th>Last Name</th><td id="view-lastname"></td></tr>
-            <tr><th>Copy ID</th><td id="view-copyid"></td></tr>
-            <tr><th>Registration Date</th><td id="view-regdate"></td></tr>
-            <tr><th>Email</th><td id="view-email"></td></tr>
-            <tr><th>Email Verified At</th><td id="view-verified"></td></tr>
-            <tr><th>Status</th>
+            <tr>
+              <th>ID</th>
+              <td id="view-id"></td>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <td id="view-name"></td>
+            </tr>
+            <tr>
+              <th>Last Name</th>
+              <td id="view-lastname"></td>
+            </tr>
+            <tr>
+              <th>Copy ID</th>
+              <td id="view-copyid"></td>
+            </tr>
+            
+            <tr>
+              <th>Project Name</th>
+              <td>
+                <select class="form-select" name="project_name" id="view-projectname-select">
+                  <option value="Frontier">Frontier</option>
+                  <option value="CCI">CCI</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <th>Registration Date</th>
+              <td id="view-regdate"></td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td id="view-email"></td>
+            </tr>
+            <tr>
+              <th>Email Verified At</th>
+              <td id="view-verified"></td>
+            </tr>
+            <tr>
+              <th>Status</th>
               <td>
                 <select class="form-select" name="status" id="view-status-select">
                   <option value="0">Pending</option>
@@ -119,6 +150,7 @@
             document.getElementById("view-name").innerText = data.name;
             document.getElementById("view-lastname").innerText = data.last_name;
             document.getElementById("view-copyid").innerText = data.copy_id;
+            document.getElementById("view-projectname-select").value = data.project_name ?? '';
             document.getElementById("view-regdate").innerText = data.registration_date ?? 'N/A';
             document.getElementById("view-email").innerText = data.email;
             document.getElementById("view-verified").innerText = data.email_verified_at ?? 'Not Verified';

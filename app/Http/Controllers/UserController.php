@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\User;
+use App\Models\User; 
 
 class UserController extends Controller
 {
@@ -42,6 +42,7 @@ class UserController extends Controller
     {
 
         $user = User::findOrFail($id);
+        $user->project_name = $request->project_name;
         $user->status = $request->status;
         $user->save();
 
@@ -80,6 +81,7 @@ class UserController extends Controller
             'name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'copy_id' => 'nullable|string|max:255',
+            'project_name' => 'nullable|string',
             'email' => 'required|email|unique:users,email,' . $id,
             'registration_date' => 'nullable|date',
         ]);
@@ -89,6 +91,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->last_name = $request->last_name;
         $user->copy_id = $request->copy_id;
+        $user->project_name = $request->project_name;
         $user->email = $request->email;
         $user->registration_date = $request->registration_date;
         $user->save();
@@ -97,7 +100,7 @@ class UserController extends Controller
     }
 
 
-    
+
 
 
 
@@ -124,6 +127,7 @@ class UserController extends Controller
             'name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'copy_id' => 'nullable|string|max:255',
+            'project_name' => 'nullable|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'registration_date' => 'nullable|date',
         ]);
@@ -133,11 +137,23 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->last_name = $request->last_name;
         $user->copy_id = $request->copy_id;
+        $user->project_name = $request->project_name;
         $user->email = $request->email;
         $user->registration_date = $request->registration_date;
         $user->save();
 
         // ✅ REDIRECTS CORRECTLY
         return redirect()->route('user.blocked')->with('success', 'User Block updated successfully.');
+    }
+
+
+    public function frontier()
+    {
+        return view('user.dashboard');
+    }
+
+    public function cci()
+    {
+        return view('user.dashboardtwo');
     }
 }

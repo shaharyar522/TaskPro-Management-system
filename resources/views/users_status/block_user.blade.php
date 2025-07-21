@@ -21,6 +21,7 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Copy ID</th>
+          <th>Project Name</th>
           <th>Registration Date</th>
           <th>Email</th>
           <th>Status</th>
@@ -33,27 +34,28 @@
           <td>{{ $user->name }}</td>
           <td>{{ $user->last_name }}</td>
           <td>{{ $user->copy_id }}</td>
+          <td>{{ $user->project_name }}</td>
           <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y') }}</td>
           <td>{{ $user->email }}</td>
 
 
-         <td>
-  <div class="d-flex gap-2 justify-content-center action-buttons">
-    
-    <!-- Unblock Button -->
-    <button class="btn btn-outline-success btn-icon-text unblock-user-btn" data-id="{{ $user->id }}">
-      <i class="fas fa-unlock-alt me-1"></i>
-      <span>Unblock</span>
-    </button>
+          <td>
+            <div class="d-flex gap-2 justify-content-center action-buttons">
 
-    <!-- Edit Button -->
-    <button class="btn btn-outline-primary btn-icon-text edit-user-btn" data-id="{{ $user->id }}">
-      <i class="fas fa-edit me-1"></i>
-      <span>Edit</span>
-    </button>
+              <!-- Unblock Button -->
+              <button class="btn btn-outline-success btn-icon-text unblock-user-btn" data-id="{{ $user->id }}">
+                <i class="fas fa-unlock-alt me-1"></i>
+                <span>Unblock</span>
+              </button>
 
-  </div>
-</td>
+              <!-- Edit Button -->
+              <button class="btn btn-outline-primary btn-icon-text edit-user-btn" data-id="{{ $user->id }}">
+                <i class="fas fa-edit me-1"></i>
+                <span>Edit</span>
+              </button>
+
+            </div>
+          </td>
 
 
         </tr>
@@ -111,14 +113,14 @@
     });
   });
 </script>
-        {{-- ============ start edit portion start ============--}}
+{{-- ============ start edit portion start ============--}}
 
 <!-- Edit User Modal -->
 <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form id="edit-user-form" method="POST">
-     @csrf
-    @method('PUT')
+      @csrf
+      @method('PUT')
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
@@ -140,6 +142,15 @@
             <label>Copy ID</label>
             <input type="text" class="form-control" name="copy_id" id="edit-copy-id">
           </div>
+          <div class="mb-3">
+            <label>Project Name</label>
+            <select class="form-control" name="project_name" id="edit-project-name">
+              <option value="">Select Project</option>
+              <option value="CCI">CCI</option>
+              <option value="Frontier">Frontier</option>
+            </select>
+          </div>
+
           <div class="mb-3">
             <label>Registration Date</label>
             <input type="date" class="form-control" name="registration_date" id="edit-registration-date">
@@ -170,6 +181,8 @@
           document.getElementById('edit-name').value = user.name || '';
           document.getElementById('edit-last-name').value = user.last_name || '';
           document.getElementById('edit-copy-id').value = user.copy_id || '';
+          document.getElementById('edit-project-name').value = user.project_name || '';
+
           document.getElementById('edit-email').value = user.email || '';
           document.getElementById('edit-registration-date').value = user.registration_date || '';
 

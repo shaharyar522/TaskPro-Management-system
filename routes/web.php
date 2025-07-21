@@ -16,12 +16,15 @@
                 return redirect()->route('admin.dashboard');
             } elseif ($user->hasRole('user')) {
                 return redirect()->route('user.dashboard');
+                return redirect()->route('user.dashboardtwo');
             }
         }
         return view('auth.login');
     });
 
-
+    Route::get('/test-global-var', function () {
+        return "This is a global variable";  // ✅ Should return "This is a global variable"
+    });
 
     Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
@@ -45,6 +48,12 @@
         Route::get('/BlockedUser', [UserController::class, 'blockedIndex'])->name('user.blocked');
         Route::post('/users/{id}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
         Route::put('/users/updateblock/{id}', [UserController::class, 'Blockupdate'])->name('usersblock.update');
+
+
+
+        //user Frontire and CCI 
+        Route::get('/dashboard/frontier', [UserController::class, 'frontier'])->name('dashboard.frontier');
+        Route::get('/dashboard/cci', [UserController::class, 'cci'])->name('dashboard.cci');
     });
 
 
@@ -57,11 +66,17 @@
             return view('user.dashboard'); // Your user dashboard view
         })->name('user.dashboard');
 
+        Route::get('/dashboard-cci', function () {
+            return view('user.dashboardtwo'); // ✅ Make sure this view exists
+        })->name('user.dashboardtwo');
+
+
         Route::post('/users-data/store', [UserDataController::class, 'store'])->name('userdata.store');
         Route::get('/dashboard', [UserDataController::class, 'dashboard'])->name('user.dashboard');
         Route::get('/dashboard/edit/{id}', [UserDataController::class, 'edit'])->name('userdata.edit');
         Route::put('/Users/update/{id}', [UserDataController::class, 'update'])->name('userdata.update');
         Route::delete('/user/userdata/delete/{id}', [UserDataController::class, 'destroy'])->name('userdata.destroy');
+        Route::get('/user-data', [UserDataController::class, 'index'])->name('user-data.index');
     });
 
 

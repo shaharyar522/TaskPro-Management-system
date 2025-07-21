@@ -42,12 +42,18 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('login')->with('warning', 'Your account is Pending Please wait approved by admin.');
         }
 
-        // ✅ Role-based redirection
-        if ($user->hasRole('admin')) {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->hasRole('user')) {
-            return redirect()->route('user.dashboard');
+        // ✅ Role: user
+        if ($user->hasRole('user')) {
+            if ($user->project_name === 'Frontier') {
+                return redirect()->route('user.dashboard');
+            } elseif ($user->project_name === 'CCI') {
+                return redirect()->route('user.dashboardCCI');
+            } else {
+                Auth::logout();
+                return redirect()->route('login')->with('warning', 'Invalid project selected.');
+            }
         }
+
 
         // Fallback if no role matched
         Auth::logout();

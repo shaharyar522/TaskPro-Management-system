@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{asset('css/userpage/editmodal.css')}}">
 @include('layouts.header')
 <style>
- 
+
 
 </style>
 
@@ -25,6 +25,7 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Copy ID</th>
+          <th>Project Name</th>
           <th>Registration Date</th>
           <th>Email</th>
           <th>Status</th>
@@ -38,6 +39,7 @@
           <td>{{ $user->name }}</td>
           <td>{{ $user->last_name }}</td>
           <td>{{ $user->copy_id }}</td>
+          <td>{{ $user->project_name }}</td>
           <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y') }}</td>
           <td>{{ $user->email }}</td>
           <td><span class="badge bg-success">Approved</span></td>
@@ -156,6 +158,15 @@
             <input type="text" class="form-control" name="copy_id" id="edit-copy-id">
           </div>
           <div class="mb-3">
+            <label>Project Name</label>
+            <select class="form-control" name="project_name" id="edit-project-name">
+              <option value="">Select Project</option>
+              <option value="CCI">CCI</option>
+              <option value="Frontier">Frontier</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
             <label>Registration Date</label>
             <input type="date" class="form-control" name="registration_date" id="edit-registration-date">
           </div>
@@ -187,7 +198,7 @@
           document.getElementById('edit-copy-id').value = user.copy_id || '';
           document.getElementById('edit-email').value = user.email || '';
           document.getElementById('edit-registration-date').value = user.registration_date || '';
-
+  document.getElementById('edit-project-name').value = user.project_name || '';
           document.getElementById('edit-user-form').action = `/admin/users/update/${user.id}`;
 
           const modal = new bootstrap.Modal(document.getElementById('editUserModal'));

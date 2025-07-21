@@ -64,7 +64,7 @@
 <div id="form-section">
 
     <div class="card mt-4 profile-form-container">
-        <h4 class="mb-4 text-primary">User Profile Information</h4>
+        <h4 class="mb-4 text-primary">User Profile Information Frontier</h4>
 
         <form method="POST" action="{{ route('userdata.store') }}" id="user-data-form">
             @csrf
@@ -220,9 +220,27 @@
 
 
 
-<div id="report-section" style="display: none;">
-    <div class="card mt-4 profile-form-container">
-        <h4 class="mb-4 text-primary">User Report Information</h4>
+
+
+<div class="card mt-4 profile-form-container">
+    <div id="report-section" style="display: none;">
+   <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="text-primary">User Report Information</h4>
+
+    <form action="{{ route('user-data.index') }}" method="GET" class="d-flex gap-2 align-items-center">
+        <div>
+            <label for="start_date" class="form-label mb-0 small">Start Date</label>
+            <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="form-control form-control-sm">
+        </div>
+        <div>
+            <label for="end_date" class="form-label mb-0 small">End Date</label>
+            <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="form-control form-control-sm">
+        </div>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-sm btn-primary">Search</button>
+        </div>
+    </form>
+</div>
 
         <div class="table-responsive">
             <table class="table table-striped table-bordered custom-report-table">
@@ -295,10 +313,15 @@
                     @endforelse
                 </tbody>
             </table>
+            <div class="pagination justify-content-center mt-3">
+                {{ $userData->links() }}
+            </div>
         </div>
 
     </div>
 </div>
+
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -355,5 +378,19 @@
     }
 </script>
 
+{{-- for js pagintaion --}}
+<script>
+    function showSection(sectionId) {
+        document.getElementById('form-section').style.display = 'none';
+        document.getElementById('report-section').style.display = 'none';
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    @if(session('redirect_to_report'))
+        showSection('report-section');
+    @else
+        showSection('form-section');
+    @endif
+</script>
 
 @endsection

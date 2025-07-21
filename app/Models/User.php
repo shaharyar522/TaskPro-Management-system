@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'last_name',
         'copy_id',
+        'project_name',
         'registration_date',
         'email',
         'password',

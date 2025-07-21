@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskMaster | Register</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-color: #4361ee;
@@ -18,7 +20,7 @@
             --white: #ffffff;
             --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
@@ -33,7 +35,7 @@
             margin: 0;
             padding: 20px;
         }
-        
+
         body::before {
             content: '';
             position: absolute;
@@ -44,13 +46,13 @@
             background: rgba(67, 97, 238, 0.85);
             z-index: 0;
         }
-        
+
         .register-wrapper {
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
         }
-        
+
         .register-container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
@@ -64,7 +66,7 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .register-header {
             text-align: center;
             margin-bottom: 20px;
@@ -72,7 +74,7 @@
             padding-bottom: 15px;
             flex-shrink: 0;
         }
-        
+
         .register-header::after {
             content: '';
             position: absolute;
@@ -84,14 +86,14 @@
             background: var(--primary-color);
             border-radius: 3px;
         }
-        
+
         .register-header h2 {
             font-weight: 700;
             color: var(--dark-color);
             margin-bottom: 10px;
             font-size: 1.6rem;
         }
-        
+
         .register-header i {
             font-size: 1.8rem;
             color: var(--primary-color);
@@ -104,33 +106,33 @@
             border-radius: 50%;
             text-align: center;
         }
-        
+
         .form-content {
             flex: 1;
             overflow-y: auto;
             padding-right: 5px;
             margin-bottom: 15px;
         }
-        
+
         /* Custom scrollbar */
         .form-content::-webkit-scrollbar {
             width: 5px;
         }
-        
+
         .form-content::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+
         .form-content::-webkit-scrollbar-thumb {
             background: rgba(67, 97, 238, 0.3);
             border-radius: 10px;
         }
-        
+
         .form-group {
             margin-bottom: 15px;
             position: relative;
         }
-        
+
         label {
             display: block;
             margin-bottom: 5px;
@@ -138,7 +140,7 @@
             color: var(--dark-color);
             font-size: 0.85rem;
         }
-        
+
         .form-control {
             height: 40px;
             border-radius: 8px;
@@ -148,12 +150,12 @@
             font-size: 0.85rem;
             width: 100%;
         }
-        
+
         .form-control:focus {
             box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
             border-color: var(--primary-color);
         }
-        
+
         .input-group-text {
             position: absolute;
             left: 12px;
@@ -165,7 +167,7 @@
             color: #a0a0a0;
             font-size: 0.9rem;
         }
-        
+
         .btn-register {
             background-color: var(--primary-color);
             color: var(--white);
@@ -178,13 +180,13 @@
             font-size: 0.9rem;
             margin-top: 10px;
         }
-        
+
         .btn-register:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
-        
+
         .login-link {
             color: var(--dark-color);
             transition: var(--transition);
@@ -193,12 +195,12 @@
             display: inline-flex;
             align-items: center;
         }
-        
+
         .login-link:hover {
             color: var(--primary-color);
             text-decoration: underline;
         }
-        
+
         .footer-links {
             display: flex;
             justify-content: center;
@@ -206,50 +208,51 @@
             border-top: 1px solid #eee;
             flex-shrink: 0;
         }
-        
+
         .text-danger {
             font-size: 0.75rem;
             margin-top: 0.2rem;
             display: block;
         }
-        
+
         .form-row {
             display: flex;
             gap: 15px;
             margin-bottom: 15px;
         }
-        
-        .form-row > div {
+
+        .form-row>div {
             flex: 1;
         }
-        
+
         @media (max-width: 576px) {
             .register-container {
                 padding: 20px;
             }
-            
+
             .form-row {
                 flex-direction: column;
                 gap: 15px;
             }
-            
+
             .register-header h2 {
                 font-size: 1.4rem;
             }
-            
+
             .register-header i {
                 width: 45px;
                 height: 45px;
                 line-height: 45px;
                 font-size: 1.5rem;
             }
-            
+
             body {
                 padding: 10px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="register-wrapper">
         <div class="register-container">
@@ -268,13 +271,11 @@
                             <label for="first_name">First Name</label>
                             <div class="position-relative">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input id="name" type="text"
-                                       class="form-control @error('name') is-invalid @enderror"
-                                       name="name" value="{{ old('name') }}" required autofocus
-                                       placeholder="First name">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" value="{{ old('name') }}" required autofocus placeholder="First name">
                             </div>
                             @error('name')
-                                <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
@@ -282,12 +283,11 @@
                             <div class="position-relative">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <input id="last_name" type="text"
-                                       class="form-control @error('last_name') is-invalid @enderror"
-                                       name="last_name" value="{{ old('last_name') }}" required
-                                       placeholder="Last name">
+                                    class="form-control @error('last_name') is-invalid @enderror" name="last_name"
+                                    value="{{ old('last_name') }}" required placeholder="Last name">
                             </div>
                             @error('last_name')
-                                <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -296,27 +296,43 @@
                         <label for="copy_id">Copy ID</label>
                         <div class="position-relative">
                             <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                            <input id="copy_id" type="text"
-                                   class="form-control @error('copy_id') is-invalid @enderror"
-                                   name="copy_id" value="{{ old('copy_id') }}" required
-                                   placeholder="Your copy ID">
+                            <input id="copy_id" type="text" class="form-control @error('copy_id') is-invalid @enderror"
+                                name="copy_id" value="{{ old('copy_id') }}" required placeholder="Your copy ID">
                         </div>
                         @error('copy_id')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <div class="form-group">
+                        <label for="project_name">Project Name</label>
+                        <div class="position-relative">
+                            <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                            <select id="project_name" name="project_name"
+                                class="form-control @error('project_name') is-invalid @enderror" required>
+                                <option value="">Select a project</option>
+                                <option value="Frontier" {{ old('project_name')=='Frontier' ? 'selected' : '' }}>
+                                    Frontier</option>
+                                <option value="CCI" {{ old('project_name')=='CCI' ? 'selected' : '' }}>CCI</option>
+                            </select>
+                        </div>
+                        @error('project_name')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
 
                     <div class="form-group">
                         <label for="registration_date">Registration Date</label>
                         <div class="position-relative">
                             <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                             <input id="registration_date" type="date"
-                                   class="form-control @error('registration_date') is-invalid @enderror"
-                                   name="registration_date" value="{{ old('registration_date', date('Y-m-d')) }}" required
-                                   placeholder="Registration date">
+                                class="form-control @error('registration_date') is-invalid @enderror"
+                                name="registration_date" value="{{ old('registration_date', date('Y-m-d')) }}" required
+                                placeholder="Registration date">
                         </div>
                         @error('registration_date')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -324,13 +340,11 @@
                         <label for="email">Email Address</label>
                         <div class="position-relative">
                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                            <input id="email" type="email"
-                                   class="form-control @error('email') is-invalid @enderror"
-                                   name="email" value="{{ old('email') }}" required
-                                   placeholder="Enter your email">
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                                name="email" value="{{ old('email') }}" required placeholder="Enter your email">
                         </div>
                         @error('email')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -340,22 +354,19 @@
                             <div class="position-relative">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                 <input id="password" type="password"
-                                       class="form-control @error('password') is-invalid @enderror"
-                                       name="password" required 
-                                       placeholder="Create password">
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    required placeholder="Create password">
                             </div>
                             @error('password')
-                                <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="password_confirmation">Confirm Password</label>
                             <div class="position-relative">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input id="password_confirmation" type="password"
-                                       class="form-control"
-                                       name="password_confirmation" required
-                                       placeholder="Confirm password">
+                                <input id="password_confirmation" type="password" class="form-control"
+                                    name="password_confirmation" required placeholder="Confirm password">
                             </div>
                         </div>
                     </div>
@@ -404,9 +415,9 @@
             text: '{{ session("success") }}'
         });
     </script>
-@endif
+    @endif
 
-@if(session('warning'))
+    @if(session('warning'))
     <script>
         Swal.fire({
             icon: 'warning',
@@ -414,7 +425,8 @@
             text: '{{ session("warning") }}'
         });
     </script>
-@endif
+    @endif
 
 </body>
+
 </html>

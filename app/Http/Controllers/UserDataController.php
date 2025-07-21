@@ -12,12 +12,39 @@ class UserDataController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // this controller for start date and end date 
+    public function index(Request $request)
+    {
+        $query = UserData::query();
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $userData = $query->paginate(10);
+
+        // Check if search was performed
+        if ($request->filled('start_date') || $request->filled('end_date')) {
+            return view('user.dashboard', compact('userData'))
+                ->with('redirect_to_report', true); // this enables showing report section
+        }
+
+        return view('user.dashboard', compact('userData'));
+    }
+
+
+
+
     public function dashboard()
     {
         $userId = Auth::id();
 
         // ✅ Get first record, not collection
-        $userData = UserData::where('user_id', $userId)->get();
+        $userData = UserData::where('user_id', $userId)->paginate(3);
 
         return view('user.dashboard', compact('userData'));
     }
@@ -169,16 +196,15 @@ class UserDataController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy($id)
-{
-    $userData = UserData::findOrFail($id);
-    $userData->delete();
+    public function destroy($id)
+    {
+        $userData = UserData::findOrFail($id);
+        $userData->delete();
 
-    return redirect()
-        ->route('user.dashboard')
-        ->with('redirect_to_report', true)
-        ->with('success_type', 'Deleted!')
-        ->with('success', 'User record deleted successfully.');
-}
-
+        return redirect()
+            ->route('user.dashboard')
+            ->with('redirect_to_report', true)
+            ->with('success_type', 'Deleted!')
+            ->with('success', 'User record deleted successfully.');
+    }
 }

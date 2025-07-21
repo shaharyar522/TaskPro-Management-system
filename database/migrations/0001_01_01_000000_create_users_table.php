@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('copy_id')->nullable();
+            $table->string('project_name')->nullable();
             $table->date('registration_date')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
