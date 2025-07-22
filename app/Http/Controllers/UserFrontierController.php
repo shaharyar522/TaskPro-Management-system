@@ -52,6 +52,8 @@ class UserFrontierController extends Controller
      */
     public function store(Request $request)
     {
+
+        
         // ✅ Validate the request (no return)
         // Validate input
         $request->validate([
@@ -123,7 +125,10 @@ class UserFrontierController extends Controller
 
     /**
      * Update the specified resource in storage.
-     */
+     */   
+
+
+
     public function update(Request $request, $id)
     {
         // ✅ Validate the request (no return)

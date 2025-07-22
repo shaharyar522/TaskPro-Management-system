@@ -296,7 +296,7 @@
                         <td>{{ $data->address }}</td>
                         <td>{{ $data->billing_TN }}</td>
                         <td>{{ $data->order_number }}</td>
-                        <td>{{ $data->install_T_T_Soc_TTC }}</td>
+                        <td>{{ $data->install_T_T_Soc_TTC }}</td> 
                         <td>{{ $data->ont_Ntd }}</td>
                         <td>{{ $data->comp_or_refer }}</td>
                         <td>{{ $data->billing_code }}</td>

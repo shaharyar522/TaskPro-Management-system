@@ -97,6 +97,8 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('approved.users')->with('success', 'User Approved updated successfully.');
+
+        
     }
 
 
