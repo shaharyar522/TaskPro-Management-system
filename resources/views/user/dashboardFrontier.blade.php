@@ -66,7 +66,7 @@
     <div class="card mt-4 profile-form-container">
         <h4 class="mb-4 text-primary">User Profile Information Frontier</h4>
 
-        <form method="POST" action="{{ route('userdata.store') }}" id="user-data-form">
+        <form method="POST" action="{{ route('userfrontier.store') }}" id="user-data-form">
             @csrf
 
             <!-- Hidden input for update mode -->
@@ -106,26 +106,48 @@
                 <div class="input-group">
                     <div class="input-field">
                         <label class="input-label">Install T.T. Soc TTC</label>
-                        <input type="text" name="install_T_T_Soc_TTC" id="install_T_T_Soc_TTC" class="form-control"
-                            placeholder="Enter Install T.T. Soc TTC" value="{{ old('install_T_T_Soc_TTC') }}">
+                        <select name="install_T_T_Soc_TTC" id="install_T_T_Soc_TTC" class="form-control">
+                            <option value="">-- Select Option --</option>
+                            <option value="SOC" {{ old('install_T_T_Soc_TTC')=='SOC' ? 'selected' : '' }}>SOC</option>
+                            <option value="TT" {{ old('install_T_T_Soc_TTC')=='TT' ? 'selected' : '' }}>TT</option>
+                        </select>
                         @error('install_T_T_Soc_TTC') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
                     <div class="input-field">
                         <label class="input-label">ONT NTD</label>
-                        <input type="text" name="ont_Ntd" id="ont_Ntd" class="form-control" placeholder="Enter ONT NTD"
-                            value="{{ old('ont_Ntd') }}">
+                        <select name="ont_Ntd" id="ont_Ntd" class="form-control">
+                            <option value="">-- Select Option --</option>
+                            <option value="YES" {{ old('ont_Ntd')=='YES' ? 'selected' : '' }}>YES</option>
+                            <option value="NO" {{ old('ont_Ntd')=='NO' ? 'selected' : '' }}>NO</option>
+                        </select>
                         @error('ont_Ntd') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
                     <div class="input-field">
                         <label class="input-label">Comp or Refer</label>
-                        <input type="text" name="comp_or_refer" id="comp_or_refer" class="form-control"
-                            placeholder="Enter Comp or Refer" value="{{ old('comp_or_refer') }}">
+                        <select name="comp_or_refer" id="comp_or_refer" class="form-control">
+                            <option value="">-- Select Option --</option>
+                            <option value="COMP" {{ old('comp_or_refer')=='COMP' ? 'selected' : '' }}>COMP</option>
+                            <option value="REFER" {{ old('comp_or_refer')=='REFER' ? 'selected' : '' }}>REFER</option>
+                        </select>
                         @error('comp_or_refer') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
+                    @php
+                    $codes = billingCodes();
+                    @endphp
+
                     <div class="input-field">
                         <label class="input-label">Billing Code</label>
-                        <input type="text" name="billing_code" id="billing_code" class="form-control"
-                            placeholder="Enter Billing Code" value="{{ old('billing_code') }}">
+                        <select name="billing_code" id="billing_code" class="form-control">
+                            <option value="">-- Select Billing Code --</option>
+                            @foreach($codes as $code => $data)
+                            <option value="{{ $code }}" {{ old('billing_code')==$code ? 'selected' : '' }}>
+                                {{ $code }}
+                            </option>
+                            @endforeach
+                        </select>
                         @error('billing_code') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
@@ -138,22 +160,23 @@
                             value="{{ old('qty') }}">
                         @error('qty') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
                     <div class="input-field">
                         <label class="input-label">Description</label>
                         <input type="text" name="description" id="description" class="form-control"
-                            placeholder="Enter Description" value="{{ old('description') }}">
+                            placeholder="Enter Description" value="{{ old('description') }}" readonly>
                         @error('description') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="input-field">
                         <label class="input-label">Rate</label>
                         <input type="text" name="rate" id="rate" class="form-control" placeholder="Enter Rate"
-                            value="{{ old('rate') }}">
+                            value="{{ old('rate') }}" readonly>
                         @error('rate') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="input-field">
                         <label class="input-label">Total Billed</label>
                         <input type="text" name="total_billed" id="total_billed" class="form-control"
-                            placeholder="Enter Total Billed" value="{{ old('total_billed') }}">
+                            placeholder="Enter Total Billed" value="{{ old('total_billed') }}" readonly>
                         @error('total_billed') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
@@ -216,31 +239,27 @@
 </div>
 
 {{-- end forom show --}}
-
-
-
-
-
-
 <div class="card mt-4 profile-form-container">
     <div id="report-section" style="display: none;">
-   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="text-primary">User Report Information</h4>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="text-primary">User Report Frontier Information</h4>
 
-    <form action="{{ route('user-data.index') }}" method="GET" class="d-flex gap-2 align-items-center">
-        <div>
-            <label for="start_date" class="form-label mb-0 small">Start Date</label>
-            <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="form-control form-control-sm">
+            <form action="{{ route('user.dashboardFrontier') }}" method="GET" class="d-flex gap-2 align-items-center">
+                <div>
+                    <label for="start_date" class="form-label mb-0 small">Start Date</label>
+                    <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}"
+                        class="form-control form-control-sm">
+                </div>
+                <div>
+                    <label for="end_date" class="form-label mb-0 small">End Date</label>
+                    <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}"
+                        class="form-control form-control-sm">
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                </div>
+            </form>
         </div>
-        <div>
-            <label for="end_date" class="form-label mb-0 small">End Date</label>
-            <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="form-control form-control-sm">
-        </div>
-        <div class="mt-4">
-            <button type="submit" class="btn btn-sm btn-primary">Search</button>
-        </div>
-    </form>
-</div>
 
         <div class="table-responsive">
             <table class="table table-striped table-bordered custom-report-table">
@@ -270,7 +289,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($userData as $data)
+                    @forelse($userfrontire as $data)
                     <tr>
                         <td>{{ $data->id }}</td>
                         <td>{{ $data->corp_id }}</td>
@@ -293,12 +312,12 @@
                         <td>{{ $data->hours }}</td>
                         <td>
                             <!-- Edit button -->
-                            <a href="{{ route('userdata.edit', $data->id) }}" class="btn btn-sm btn-warning">
+                            <a href="{{ route('userfrontier.edit', $data->id) }}" class="btn btn-sm btn-warning">
                                 Edit
                             </a>
 
                             <!-- Delete form -->
-                            <form action="{{ route('userdata.destroy', $data->id) }}" method="POST"
+                            <form action="{{ route('userfrontier.destroy', $data->id) }}" method="POST"
                                 style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
@@ -314,7 +333,7 @@
                 </tbody>
             </table>
             <div class="pagination justify-content-center mt-3">
-                {{ $userData->links() }}
+                {{ $userfrontire->links() }}
             </div>
         </div>
 
@@ -378,7 +397,7 @@
     }
 </script>
 
-{{-- for js pagintaion --}}
+{{-- for js pagintaion  start data and end data --}}
 <script>
     function showSection(sectionId) {
         document.getElementById('form-section').style.display = 'none';
@@ -386,11 +405,42 @@
         document.getElementById(sectionId).style.display = 'block';
     }
 
-    @if(session('redirect_to_report'))
-        showSection('report-section');
-    @else
-        showSection('form-section');
-    @endif
+    // Wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function () {
+        @if(request()->has('page') || request()->has('start_date') || request()->has('end_date'))
+            showSection('report-section');
+        @else
+            showSection('form-section');
+        @endif
+    });
 </script>
+{{-- for js pagintaion  start data and end data --}}
+
+{{-- autofill input field like descri rate totla_billed js --}}
+
+<script>
+    const billingData = @json(billingCodes());
+
+    document.getElementById('billing_code').addEventListener('change', function () {
+        const selected = this.value;
+        const data = billingData[selected];
+
+        if (data) {
+            document.getElementById('description').value = data.description;
+            document.getElementById('rate').value = data.rate;
+            document.getElementById('total_billed').value = data.rate;
+        } else {
+            document.getElementById('description').value = '';
+            document.getElementById('rate').value = '';
+            document.getElementById('total_billed').value = '';
+        }
+    });
+
+    // Trigger on load (if user selected something before error)
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('billing_code').dispatchEvent(new Event('change'));
+    });
+</script>
+
 
 @endsection

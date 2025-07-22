@@ -45,7 +45,7 @@ class AuthenticatedSessionController extends Controller
         // ✅ Role: user
         if ($user->hasRole('user')) {
             if ($user->project_name === 'Frontier') {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('user.dashboardFrontier');
             } elseif ($user->project_name === 'CCI') {
                 return redirect()->route('user.dashboardCCI');
             } else {

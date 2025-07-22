@@ -31,8 +31,16 @@ class User extends Authenticatable
         'blocked',
     ];
 
-    public function userData()
+    public function userfrontier()
     {
-        return $this->hasMany(UserData::class);
+        return $this->hasMany(UserFrontier::class);
     }
+
+    public function usercci()
+    {
+        return $this->hasMany(UserCCI::class);
+    }
+    
+
+
 }

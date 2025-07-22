@@ -149,11 +149,11 @@ class UserController extends Controller
 
     public function frontier()
     {
-        return view('user.dashboard');
+        return view('user.dashboardFrontier');
     }
 
     public function cci()
     {
-        return view('user.dashboardtwo');
+        return view('user.dashboardCCI');
     }
 }

@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserData extends Model
+class UserFrontier extends Model
 {
+     protected $table = 'userdata_frontier'; 
 
 protected $fillable = [
     'corp_id', 'address', 'billing_TN', 'order_number',
@@ -20,4 +21,5 @@ protected $fillable = [
     {
         return $this->belongsTo(User::class);
     }
+    
 }

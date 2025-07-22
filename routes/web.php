@@ -3,8 +3,9 @@
     use App\Http\Controllers\ApproveUsers;
     use App\Http\Controllers\PendingController;
     use App\Http\Controllers\ProfileController;
+    use App\Http\Controllers\UserCCIController;
     use App\Http\Controllers\UserController;
-    use App\Http\Controllers\UserDataController;
+    use App\Http\Controllers\UserFrontierController;
     use Illuminate\Support\Facades\Route;
     use Illuminate\Support\Facades\Auth;
     use Spatie\Permission\Traits\hasRole;
@@ -15,12 +16,19 @@
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             } elseif ($user->hasRole('user')) {
-                return redirect()->route('user.dashboard');
-                return redirect()->route('user.dashboardtwo');
+                if ($user->project_name === 'Frontier') {
+                    return redirect()->route('user.dashboardFrontier');
+                } elseif ($user->project_name === 'CCI') {
+                    return redirect()->route('user.dashboardCCI');
+                } else {
+                    Auth::logout();
+                    return redirect()->route('login')->with('warning', 'Invalid project selected.');
+                }
             }
         }
         return view('auth.login');
     });
+
 
     Route::get('/test-global-var', function () {
         return "This is a global variable";  // ✅ Should return "This is a global variable"
@@ -48,12 +56,6 @@
         Route::get('/BlockedUser', [UserController::class, 'blockedIndex'])->name('user.blocked');
         Route::post('/users/{id}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
         Route::put('/users/updateblock/{id}', [UserController::class, 'Blockupdate'])->name('usersblock.update');
-
-
-
-        //user Frontire and CCI 
-        Route::get('/dashboard/frontier', [UserController::class, 'frontier'])->name('dashboard.frontier');
-        Route::get('/dashboard/cci', [UserController::class, 'cci'])->name('dashboard.cci');
     });
 
 
@@ -62,30 +64,26 @@
 
     // Group for User only
     Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('user.dashboard'); // Your user dashboard view
-        })->name('user.dashboard');
-
-        Route::get('/dashboard-cci', function () {
-            return view('user.dashboardtwo'); // ✅ Make sure this view exists
-        })->name('user.dashboardtwo');
 
 
-        Route::post('/users-data/store', [UserDataController::class, 'store'])->name('userdata.store');
-        Route::get('/dashboard', [UserDataController::class, 'dashboard'])->name('user.dashboard');
-        Route::get('/dashboard/edit/{id}', [UserDataController::class, 'edit'])->name('userdata.edit');
-        Route::put('/Users/update/{id}', [UserDataController::class, 'update'])->name('userdata.update');
-        Route::delete('/user/userdata/delete/{id}', [UserDataController::class, 'destroy'])->name('userdata.destroy');
-        Route::get('/user-data', [UserDataController::class, 'index'])->name('user-data.index');
+        // ✅ FIXED: This route now uses the controller, which passes $userCCI to the view
+        Route::get('/dashboard', [UserFrontierController::class, 'index'])->name('user.dashboardFrontier');
+        Route::post('/users-data/store', [UserFrontierController::class, 'store'])->name('userfrontier.store');
+        Route::get('/dashboard/edit/{id}', [UserFrontierController::class, 'edit'])->name('userfrontier.edit');
+        Route::put('/Users/update/{id}', [UserFrontierController::class, 'update'])->name('userfrontier.update');
+        Route::delete('/user/userdata/delete/{id}', [UserFrontierController::class, 'destroy'])->name('userdata.destroy');
+
+
+        // Routes for UserCCIController
+        Route::get('/dashboard-cci', [UserCCIController::class, 'index'])->name('user.dashboardCCI');
+        Route::post('dashboard/cci', [UserCCIController::class, 'store'])->name('usercci.store');
+        Route::get('dashboard/cci/edit/{id}', [UserCCIController::class, 'edit'])->name('usercci.edit');
+        Route::put('update/{id}', [UserCCIController::class, 'update'])->name('usercci.update');
+        Route::delete('user/dashboard/delete/{id}', [UserCCIController::class, 'destroy'])->name('usercci.destroy');
     });
 
 
     //->middleware(['auth', 'verified'])
-
-
-
-
-
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserData;
+use App\Models\UserFrontier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class UserDataController extends Controller
+class UserFrontierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,9 @@ class UserDataController extends Controller
     // this controller for start date and end date 
     public function index(Request $request)
     {
-        $query = UserData::query();
+        $userId = Auth::id(); // Get current user's ID
+
+        $query = UserFrontier::where('user_id', $userId); // Filter only current user's data
 
         if ($request->filled('start_date')) {
             $query->whereDate('created_at', '>=', $request->start_date);
@@ -25,29 +27,17 @@ class UserDataController extends Controller
             $query->whereDate('created_at', '<=', $request->end_date);
         }
 
-        $userData = $query->paginate(10);
+        $userfrontire = $query->paginate(10); // You can change pagination size if needed
 
-        // Check if search was performed
+        // If search filters were used
         if ($request->filled('start_date') || $request->filled('end_date')) {
-            return view('user.dashboard', compact('userData'))
-                ->with('redirect_to_report', true); // this enables showing report section
+            return view('user.dashboardFrontier', compact('userfrontire'))
+                ->with('redirect_to_report', true); // This flag is for showing the report
         }
 
-        return view('user.dashboard', compact('userData'));
+        return view('user.dashboardFrontier', compact('userfrontire'));
     }
 
-
-
-
-    public function dashboard()
-    {
-        $userId = Auth::id();
-
-        // ✅ Get first record, not collection
-        $userData = UserData::where('user_id', $userId)->paginate(3);
-
-        return view('user.dashboard', compact('userData'));
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -63,6 +53,7 @@ class UserDataController extends Controller
     public function store(Request $request)
     {
         // ✅ Validate the request (no return)
+        // Validate input
         $request->validate([
             'corp_id' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
@@ -73,9 +64,6 @@ class UserDataController extends Controller
             'comp_or_refer' => 'nullable|string|max:255',
             'billing_code' => 'nullable|string|max:255',
             'qty' => 'nullable|integer',
-            'description' => 'nullable|string|max:255',
-            'rate' => 'nullable|string|max:255',
-            'total_billed' => 'nullable|string|max:255',
             'aerial_buried' => 'nullable|string|max:255',
             'fiber' => 'nullable|string|max:255',
             'closeout_notes' => 'nullable|string|max:255',
@@ -84,10 +72,13 @@ class UserDataController extends Controller
             'hours' => 'nullable|integer',
             'user_id' => 'required|exists:users,id',
         ]);
-        // ✅ Check if user already has a record
+        // Fetch billing code data from helper
+        $billingCodes = billingCodes();
+        $billingCode = $request->billing_code;
+
 
         // ✅ Store using $request->all() or specific fields
-        UserData::create([
+        UserFrontier::create([
             'corp_id' => $request->corp_id,
             'address' => $request->address,
             'billing_TN' => $request->billing_TN,
@@ -95,7 +86,7 @@ class UserDataController extends Controller
             'install_T_T_Soc_TTC' => $request->install_T_T_Soc_TTC,
             'ont_Ntd' => $request->ont_Ntd,
             'comp_or_refer' => $request->comp_or_refer,
-            'billing_code' => $request->billing_code,
+            'billing_code' => $billingCode,
             'qty' => $request->qty,
             'description' => $request->description,
             'rate' => $request->rate,
@@ -116,7 +107,7 @@ class UserDataController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserData $userData)
+    public function show(UserFrontier $userData)
     {
         //
     }
@@ -126,8 +117,8 @@ class UserDataController extends Controller
      */
     public function edit($id)
     {
-        $userdata = UserData::findOrFail($id);
-        return view('user.edit', compact('userdata'));
+        $userdata = UserFrontier::findOrFail($id);
+        return view('user.frontieredit_page', compact('userdata'));
     }
 
     /**
@@ -145,21 +136,21 @@ class UserDataController extends Controller
             'ont_Ntd' => 'nullable|string|max:255',
             'comp_or_refer' => 'nullable|string|max:255',
             'billing_code' => 'nullable|string|max:255',
-            'qty' => 'nullable|integer',
+            'qty' => 'nullable|numeric|nullable',
             'description' => 'nullable|string|max:255',
-            'rate' => 'nullable|string|max:255',
-            'total_billed' => 'nullable|string|max:255',
+            'rate' => 'nullable|numeric',
+            'total_billed' => 'nullable|numeric',
             'aerial_buried' => 'nullable|string|max:255',
             'fiber' => 'nullable|string|max:255',
             'closeout_notes' => 'nullable|string|max:255',
             'in' => 'nullable|string|max:255',
             'out' => 'nullable|string|max:255',
-            'hours' => 'nullable|integer',
-            'user_id' => 'required|exists:users,id',
+            'hours' => 'nullable|numeric',
         ]);
+        $billingCodes = billingCodes();
+        $billingCode = $request->billing_code;
 
-
-        $userData = UserData::findOrFail($id);
+        $userData = UserFrontier::findOrFail($id);
 
 
         // ✅ Store using $request->all() or specific fields
@@ -182,12 +173,12 @@ class UserDataController extends Controller
             'in' => $request->in,
             'out' => $request->out,
             'hours' => $request->hours,
-            'user_id' => $request->user_id,
+            'user_id' => Auth::id(),
         ]);
 
 
         return redirect()
-            ->route('user.dashboard')
+            ->route('user.dashboardFrontier')
             ->with('redirect_to_report', true)
             ->with('success_type', 'Updated!')
             ->with('success', 'User data updated successfully.');
@@ -198,11 +189,11 @@ class UserDataController extends Controller
      */
     public function destroy($id)
     {
-        $userData = UserData::findOrFail($id);
+        $userData = UserFrontier::findOrFail($id);
         $userData->delete();
 
         return redirect()
-            ->route('user.dashboard')
+            ->route('usercci.index')
             ->with('redirect_to_report', true)
             ->with('success_type', 'Deleted!')
             ->with('success', 'User record deleted successfully.');
