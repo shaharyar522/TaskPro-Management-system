@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\UserCCI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserCCIController extends Controller
 {
@@ -162,5 +163,16 @@ class UserCCIController extends Controller
             ->with('redirect_to_report', true)
             ->with('success_type', 'Deleted!')
             ->with('success', 'User record deleted successfully.');
+    }
+
+     public function exportPDF()
+    {
+        $userId = Auth::id();
+        $userCCI = UserCCI::where('user_id', $userId)->get();
+
+        $pdf = Pdf::loadView('user.pdf.user_cci_pdf', compact('userCCI'))
+            ->setPaper('A4', 'landscape'); // full width in landscape
+
+        return $pdf->download('user_cci_report.pdf');
     }
 }

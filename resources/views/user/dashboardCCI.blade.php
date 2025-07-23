@@ -26,6 +26,7 @@
 </style>
 
 
+
 @section('content')
 
 <header class="dashboard-header">
@@ -208,6 +209,18 @@
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                 </div>
             </form>
+            <div class="d-flex gap-2">
+                <a href="{{ route('usercci.export.excel') }}" class="btn btn-success">
+                    <i class="fas fa-file-excel"></i>📄 Download Excel File
+                </a>
+
+                <a href="{{ route('usercci.export.csv') }}" class="btn btn-secondary">
+                    <i class="fas fa-file-csv"></i> 📄 Download CSV File
+                </a>
+                <a href="{{ route('usercci.export.pdf') }}" class="btn btn-danger">
+                    📄 Download PDF File
+                </a>
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -230,9 +243,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($userCCI as $data)
+                    @foreach($userCCI as $data)
                     <tr>
-                        <td>{{ $data->id }}</td>
+                        <td>{{ $loop->iteration}}</td>
                         <td>{{ $data->address }}</td>
                         <td>{{ $data->phone }}</td>
                         <td>{{ $data->master_order }}</td>
@@ -251,24 +264,21 @@
                             </a>
 
                             <!-- Delete form -->
-                            <form action="{{route('usercci.destroy',$data->id)}}" method="POST" style="display:inline-block;">
+                            <form action="{{route('usercci.destroy',$data->id)}}" method="POST"
+                                style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger">Delete</button>
                             </form>
-                            
+
                         </td>
                     </tr>
-                    @empty
-                    <tr>
-                        <td colspan="20" class="text-center">No records found for this user.</td>
-                    </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
             <div class="pagination justify-content-center mt-3">
                 {{ $userCCI->links() }}
-            </div> 
+            </div>
         </div>
 
     </div>

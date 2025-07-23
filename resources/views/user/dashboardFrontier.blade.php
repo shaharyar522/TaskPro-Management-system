@@ -239,6 +239,7 @@
 </div>
 
 {{-- end forom show --}}
+
 <div class="card mt-4 profile-form-container">
     <div id="report-section" style="display: none;">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -259,8 +260,23 @@
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                 </div>
             </form>
-        </div>
 
+            <div class="d-flex gap-2">
+                <a href="{{ route('userfrontier.export.excel') }}" class="btn btn-success">
+                    <i class="fas fa-file-excel"></i>📄 Download Excel File
+                </a>
+
+                <a href="{{ route('userfrontier.export.csv') }}" class="btn btn-secondary">
+                    <i class="fas fa-file-csv"></i> 📄 Download CSV File
+                </a>
+
+                <a href="{{ route('userfrontier.export.pdf') }}" class="btn btn-danger">
+                    📄 Download PDF File
+                </a>
+            </div>
+
+
+        </div>
         <div class="table-responsive">
             <table class="table table-striped table-bordered custom-report-table">
                 <thead class="table-primary">
@@ -285,18 +301,17 @@
                         <th>Out</th>
                         <th>Hours</th>
                         <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($userfrontire as $data)
+                    @foreach($userfrontire as $data)
                     <tr>
-                        <td>{{ $data->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->corp_id }}</td>
                         <td>{{ $data->address }}</td>
                         <td>{{ $data->billing_TN }}</td>
                         <td>{{ $data->order_number }}</td>
-                        <td>{{ $data->install_T_T_Soc_TTC }}</td> 
+                        <td>{{ $data->install_T_T_Soc_TTC }}</td>
                         <td>{{ $data->ont_Ntd }}</td>
                         <td>{{ $data->comp_or_refer }}</td>
                         <td>{{ $data->billing_code }}</td>
@@ -311,34 +326,32 @@
                         <td>{{ $data->out }}</td>
                         <td>{{ $data->hours }}</td>
                         <td>
-                            <!-- Edit button -->
-                            <a href="{{ route('userfrontier.edit', $data->id) }}" class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
-
-                            <!-- Delete form -->
-                            <form action="{{ route('userfrontier.destroy', $data->id) }}" method="POST"
-                                style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            <div class="d-flex align-items-center gap-2">
+                                <!-- Edit button -->
+                                <a href="{{ route('userfrontier.edit', $data->id) }}" class="btn btn-sm btn-warning">
+                                    Edit
+                                </a>
+                                <!-- Delete form -->
+                                <form action="{{ route('userfrontier.destroy', $data->id) }}" method="POST" class="m-0">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
                         </td>
+
                     </tr>
-                    @empty
-                    <tr>
-                        <td colspan="20" class="text-center">No records found for this user.</td>
-                    </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
+
             <div class="pagination justify-content-center mt-3">
                 {{ $userfrontire->links() }}
             </div>
         </div>
-
     </div>
 </div>
+
 
 
 
@@ -397,7 +410,7 @@
     }
 </script>
 
-{{-- for js pagintaion  start data and end data --}}
+{{-- for js pagintaion start data and end data --}}
 <script>
     function showSection(sectionId) {
         document.getElementById('form-section').style.display = 'none';
@@ -414,7 +427,7 @@
         @endif
     });
 </script>
-{{-- for js pagintaion  start data and end data --}}
+{{-- for js pagintaion start data and end data --}}
 
 {{-- autofill input field like descri rate totla_billed js --}}
 

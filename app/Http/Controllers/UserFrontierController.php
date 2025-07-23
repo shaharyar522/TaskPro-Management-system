@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\UserFrontier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 
 class UserFrontierController extends Controller
@@ -53,7 +56,7 @@ class UserFrontierController extends Controller
     public function store(Request $request)
     {
 
-        
+
         // ✅ Validate the request (no return)
         // Validate input
         $request->validate([
@@ -125,7 +128,7 @@ class UserFrontierController extends Controller
 
     /**
      * Update the specified resource in storage.
-     */   
+     */
 
 
 
@@ -202,5 +205,15 @@ class UserFrontierController extends Controller
             ->with('redirect_to_report', true)
             ->with('success_type', 'Deleted!')
             ->with('success', 'User record deleted successfully.');
+    }
+    public function exportPDF()
+    {
+        $userId = Auth::id();
+        $userfrontire = UserFrontier::where('user_id', $userId)->get();
+
+        $pdf = Pdf::loadView('user.pdf.user_frontier_pdf', compact('userfrontire'))
+            ->setPaper('A4', 'landscape'); // full width in landscape
+
+        return $pdf->download('user_frontier_report.pdf');
     }
 }

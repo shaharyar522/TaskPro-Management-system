@@ -9,6 +9,10 @@
     use Illuminate\Support\Facades\Route;
     use Illuminate\Support\Facades\Auth;
     use Spatie\Permission\Traits\hasRole;
+    use App\Exports\UserFrontierExport;
+    use App\Exports\UserCCIExport;
+    use Maatwebsite\Excel\Facades\Excel;
+
 
     Route::get('/', function () {
         if (Auth::check()) {
@@ -71,7 +75,7 @@
         Route::post('/users-data/store', [UserFrontierController::class, 'store'])->name('userfrontier.store');
         Route::get('/dashboard/edit/{id}', [UserFrontierController::class, 'edit'])->name('userfrontier.edit');
         Route::put('/Users/update/{id}', [UserFrontierController::class, 'update'])->name('userfrontier.update');
-        Route::delete('/user/userdata/delete/{id}', [UserFrontierController::class, 'destroy'])->name('userdata.destroy');
+        Route::delete('/user/userdata/delete/{id}', [UserFrontierController::class, 'destroy'])->name('userfrontier.destroy');
 
 
         // Routes for UserCCIController
@@ -80,6 +84,32 @@
         Route::get('dashboard/cci/edit/{id}', [UserCCIController::class, 'edit'])->name('usercci.edit');
         Route::put('update/{id}', [UserCCIController::class, 'update'])->name('usercci.update');
         Route::delete('user/dashboard/delete/{id}', [UserCCIController::class, 'destroy'])->name('usercci.destroy');
+
+        /// for dowanload  user frontire excle and SCV file
+        //Excel frontire
+        Route::get('/export/frontier-excel', function () {
+            return Excel::download(new UserFrontierExport, 'user_data.xlsx');
+        })->name('userfrontier.export.excel');
+        //CSV frontire
+        Route::get('/export/frontier-csv', function () {
+            return Excel::download(new UserFrontierExport, 'user_data.csv', \Maatwebsite\Excel\Excel::CSV);
+        })->name('userfrontier.export.csv');
+        //PDF frontire
+        Route::get('/user-frontier/download-pdf', [UserFrontierController::class, 'exportPDF'])->name('userfrontier.export.pdf');
+
+
+
+        /// for dowanload user CCI  excle and SCV file
+        //Excel CCI
+        Route::get('/export/cci-excel', function () {
+            return Excel::download(new UserCCIExport, 'user_data.xlsx');
+        })->name('usercci.export.excel');
+        //CSV CCI
+        Route::get('/export/cci-csv', function () {
+            return Excel::download(new UserCCIExport, 'user_data.csv', \Maatwebsite\Excel\Excel::CSV);
+        })->name('usercci.export.csv');
+        //PDF CCI
+        Route::get('/user-cci/download-pdf', [UserCCIController::class, 'exportPDF'])->name('usercci.export.pdf');
     });
 
 
