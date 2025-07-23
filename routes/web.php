@@ -11,6 +11,7 @@
     use Spatie\Permission\Traits\hasRole;
     use App\Exports\UserFrontierExport;
     use App\Exports\UserCCIExport;
+    use App\Http\Controllers\MailController;
     use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -110,6 +111,8 @@
         })->name('usercci.export.csv');
         //PDF CCI
         Route::get('/user-cci/download-pdf', [UserCCIController::class, 'exportPDF'])->name('usercci.export.pdf');
+
+        Route::get('send-email', [MailController::class, 'sendEmail']);
     });
 
 

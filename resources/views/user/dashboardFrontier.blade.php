@@ -259,6 +259,9 @@
                 <div class="mt-4">
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                 </div>
+                 <div class="mt-4">
+                    <a href="{{ route('user.dashboardFrontier') }}" class="btn btn-sm btn-secondary">Reset Date</a>
+                </div>
             </form>
 
             <div class="d-flex gap-2">

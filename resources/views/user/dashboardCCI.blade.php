@@ -208,7 +208,12 @@
                 <div class="mt-4">
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                 </div>
+                <div class="mt-4">
+                    <a href="{{ route('user.dashboardCCI') }}" class="btn btn-sm btn-secondary">Reset Date</a>
+                </div>
             </form>
+            
+
             <div class="d-flex gap-2">
                 <a href="{{ route('usercci.export.excel') }}" class="btn btn-success">
                     <i class="fas fa-file-excel"></i>📄 Download Excel File
@@ -349,15 +354,16 @@
         document.getElementById(sectionId).style.display = 'block';
     }
 
-    // Wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', function () {
-        @if(request()->has('page') || request()->has('start_date') || request()->has('end_date'))
+        // Check if user manually searched
+        @if(request()->filled('start_date') || request()->filled('end_date'))
             showSection('report-section');
         @else
             showSection('form-section');
         @endif
     });
 </script>
+
 
 
 
