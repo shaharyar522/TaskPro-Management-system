@@ -40,14 +40,11 @@
     <div class="header-right">
         <div class="user-dropdown">
             <div class="user-profile">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-avatar">
-                <span class="user-name">John Doe</span>
+                <img src="https://media.istockphoto.com/id/1321387967/vector/concept-of-project-closure-project-managment-life-cycle-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZLW7FtbJVoEZMvgErFn4ALa8wXntkEtLqCmPSiydN6c=" alt="User" class="user-avatar">
+               
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-user"></i> Profile
-                </a>
                 <a href="#" class="dropdown-item"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -59,6 +56,7 @@
         </div>
     </div>
 </header>
+
 
 
 <div id="form-section">
@@ -259,7 +257,7 @@
                 <div class="mt-4">
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                 </div>
-                 <div class="mt-4">
+                <div class="mt-4">
                     <a href="{{ route('user.dashboardFrontier') }}" class="btn btn-sm btn-secondary">Reset Date</a>
                 </div>
             </form>

@@ -11,14 +11,12 @@
     <div class="header-right">
         <div class="user-dropdown">
             <div class="user-profile">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-avatar">
-                <span class="user-name">John Doe</span>
+                <img src="https://media.istockphoto.com/id/1321387967/vector/concept-of-project-closure-project-managment-life-cycle-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZLW7FtbJVoEZMvgErFn4ALa8wXntkEtLqCmPSiydN6c=" alt="User" class="user-avatar">
+             
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-user"></i> Profile
-                </a>
+               
                 <a href="#" class="dropdown-item"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -37,7 +35,7 @@
         <h4 class="mb-4 text-primary">User Profile Update Frontier Information </h4>
 
 
-        <form method="POST" action="{{ route('userfrontire.update', $userCCI->id) }}">
+        <form method="POST" action="{{ route('usercci.update', $userCCI->id) }}">
             @csrf
             @method('PUT')
 
@@ -66,9 +64,9 @@
                         value="{{ old('job_notes', $userCCI->job_notes) }}">
                 </div>
             </div>
-               @php
-                    $workTypes = WorkType(); // global helper
-                    @endphp
+            @php
+            $workTypes = WorkType(); // global helper
+            @endphp
 
             <div class="input-group">
                 <div class="input-field">
@@ -106,17 +104,19 @@
             <div class="input-group">
                 <div class="input-field">
                     <label class="input-label">In</label>
-                    <input type="text" name="in" class="form-control" value="{{ old('in', $userCCI->in) }}">
+                    <input type="time" name="in" id="in" class="form-control" value="{{ old('in') }}">
+                    @error('in') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
-
                 <div class="input-field">
                     <label class="input-label">Out</label>
-                    <input type="text" name="out" class="form-control" value="{{ old('out', $userCCI->out) }}">
+                    <input type="time" name="out" id="out" class="form-control" value="{{ old('out') }}">
+                    @error('out') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 <div class="input-field">
                     <label class="input-label">Hours</label>
-                    <input type="number" name="hours" class="form-control" value="{{ old('hours', $userCCI->hours) }}">
+                    <input type="number" name="hours" id="hours" class="form-control" step="0.1" readonly>
+                    @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 <input type="hidden" name="user_id" value="{{ $userCCI->user_id }}">
@@ -128,9 +128,6 @@
                 </button>
             </div>
         </form>
-
-
-
     </div>
 </div>
 
@@ -172,6 +169,49 @@
     window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('work_type').dispatchEvent(new Event('change'));
     });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const userDropdown = document.querySelector(".user-dropdown");
+
+        if (userDropdown) {
+            userDropdown.addEventListener("click", function (e) {
+                e.stopPropagation(); // Prevent clicking from bubbling
+                userDropdown.classList.toggle("active");
+            });
+
+            // Hide dropdown when clicking outside
+            document.addEventListener("click", function () {
+                userDropdown.classList.remove("active");
+            });
+        }
+    });
+</script>
+
+{{-- time in and out  --}}
+<script>
+    function calculateHours() {
+        const inTime = document.getElementById('in').value;
+        const outTime = document.getElementById('out').value;
+
+        if (inTime && outTime) {
+            const [inHours, inMinutes] = inTime.split(':').map(Number);
+            const [outHours, outMinutes] = outTime.split(':').map(Number);
+
+            const inDate = new Date(0, 0, 0, inHours, inMinutes);
+            const outDate = new Date(0, 0, 0, outHours, outMinutes);
+
+            let diff = (outDate - inDate) / (1000 * 60 * 60); // in hours
+
+            // Handle next day
+            if (diff < 0) diff += 24;
+
+            document.getElementById('hours').value = diff.toFixed(2);
+        }
+    }
+
+    document.getElementById('in').addEventListener('change', calculateHours);
+    document.getElementById('out').addEventListener('change', calculateHours);
 </script>
 
 @endsection

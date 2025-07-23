@@ -201,7 +201,7 @@ class UserFrontierController extends Controller
         $userData->delete();
 
         return redirect()
-            ->route('usercci.index')
+            ->route('user.dashboardFrontier')
             ->with('redirect_to_report', true)
             ->with('success_type', 'Deleted!')
             ->with('success', 'User record deleted successfully.');
@@ -210,10 +210,8 @@ class UserFrontierController extends Controller
     {
         $userId = Auth::id();
         $userfrontire = UserFrontier::where('user_id', $userId)->get();
-
         $pdf = Pdf::loadView('user.pdf.user_frontier_pdf', compact('userfrontire'))
             ->setPaper('A4', 'landscape'); // full width in landscape
-
         return $pdf->download('user_frontier_report.pdf');
     }
 }

@@ -41,8 +41,8 @@
     <div class="header-right">
         <div class="user-dropdown">
             <div class="user-profile">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-avatar">
-                <span class="user-name">John Doe</span>
+                <img src="https://media.istockphoto.com/id/1321387967/vector/concept-of-project-closure-project-managment-life-cycle-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZLW7FtbJVoEZMvgErFn4ALa8wXntkEtLqCmPSiydN6c=" alt="User" class="user-avatar">
+               
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-menu">
@@ -153,22 +153,19 @@
                 <div class="input-group">
                     <div class="input-field">
                         <label class="input-label">In</label>
-                        <input type="text" name="in" id="in" class="form-control" placeholder="Enter In Time"
-                            value="{{ old('in') }}">
+                        <input type="time" name="in" id="in" class="form-control" value="{{ old('in') }}">
                         @error('in') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
-
+                    
                     <div class="input-field">
                         <label class="input-label">Out</label>
-                        <input type="text" name="out" id="out" class="form-control" placeholder="Enter Out Time"
-                            value="{{ old('out') }}">
+                        <input type="time" name="out" id="out" class="form-control" value="{{ old('out') }}">
                         @error('out') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="input-field">
                         <label class="input-label">Hours</label>
-                        <input type="number" name="hours" id="hours" class="form-control"
-                            placeholder="Enter Total Hours" value="{{ old('hours') }}">
+                        <input type="number" name="hours" id="hours" class="form-control" step="0.1" readonly>
                         @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
@@ -212,7 +209,7 @@
                     <a href="{{ route('user.dashboardCCI') }}" class="btn btn-sm btn-secondary">Reset Date</a>
                 </div>
             </form>
-            
+
 
             <div class="d-flex gap-2">
                 <a href="{{ route('usercci.export.excel') }}" class="btn btn-success">
@@ -389,7 +386,30 @@
     });
 </script>
 
+<script>
+    function calculateHours() {
+        const inTime = document.getElementById('in').value;
+        const outTime = document.getElementById('out').value;
 
+        if (inTime && outTime) {
+            const [inHours, inMinutes] = inTime.split(':').map(Number);
+            const [outHours, outMinutes] = outTime.split(':').map(Number);
+
+            const inDate = new Date(0, 0, 0, inHours, inMinutes);
+            const outDate = new Date(0, 0, 0, outHours, outMinutes);
+
+            let diff = (outDate - inDate) / (1000 * 60 * 60); // in hours
+
+            // Handle next day
+            if (diff < 0) diff += 24;
+
+            document.getElementById('hours').value = diff.toFixed(2);
+        }
+    }
+
+    document.getElementById('in').addEventListener('change', calculateHours);
+    document.getElementById('out').addEventListener('change', calculateHours);
+</script>
 
 
 @endsection

@@ -159,7 +159,7 @@ class UserCCIController extends Controller
         $usercci->delete();
 
         return redirect()
-            ->route('usercci.index')
+            ->route('user.dashboardCCI')
             ->with('redirect_to_report', true)
             ->with('success_type', 'Deleted!')
             ->with('success', 'User record deleted successfully.');
