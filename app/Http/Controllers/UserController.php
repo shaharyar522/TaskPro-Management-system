@@ -16,7 +16,7 @@ class UserController extends Controller
                 $query->where('name', 'user');
             })->paginate(5);
 
-        return view('users_status.pending_user', compact('pendings'));
+        return view('admin_sidebar.pending_user', compact('pendings'));
     }
 
     // Show user details (AJAX) jo model use ky ahain 
@@ -35,7 +35,7 @@ class UserController extends Controller
                 $query->where('name', 'user');
             })->paginate(5);
 
-        return view('users_status.approve_user', compact('approved'));
+        return view('admin_sidebar.approve_user', compact('approved'));
     }
     // Approve user (set status = 1)
     public function approve(Request $request, $id)
@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         $blocked = User::where('blocked', 1)->paginate(5);;
 
-        return view('users_status.block_user', compact('blocked'));
+        return view('admin_sidebar.block_user', compact('blocked'));
     }
 
     public function unblock($id)

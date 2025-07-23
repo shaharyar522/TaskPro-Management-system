@@ -11,6 +11,8 @@
     use Spatie\Permission\Traits\hasRole;
     use App\Exports\UserFrontierExport;
     use App\Exports\UserCCIExport;
+    use App\Http\Controllers\AdminCCISidebrController;
+    use App\Http\Controllers\AdminFrontierSidebrController;
     use App\Http\Controllers\MailController;
     use Maatwebsite\Excel\Facades\Excel;
 
@@ -44,23 +46,44 @@
             return view('dashboard'); // Your admin dashboard view
         })->name('admin.dashboard');
 
+        // ========================================= start pending sidebar route =========================================
         // user pending k luey route  jin ka staus =0 and blocke= 0
         Route::get('/PendingUser', [UserController::class, 'pendingIndex'])->name('user.pending');
         Route::get('/pending-users/{id}', [UserController::class, 'show']);
         Route::post('/pending-users/{id}/approve', [UserController::class, 'approve']);
+        // ========================================= start pending sidebar route =========================================
 
-        // approved ka leuy route users ka  ji ka status =1 or block =0 hnga 
+
+
+        // ========================================= start approved sidebar codee =========================================
+        // condition  user approved k luey route  jin ka staus =1 and blocke= 0 then show hnga
         Route::get('/ApprovedUser', [UserController::class, 'approvedIndex'])->name('user.approve');
         Route::get('/approved-users', [UserController::class, 'approvedIndex'])->name('approved.users');
         Route::post('/users/block/{id}', [UserController::class, 'block'])->name('users.block');
         Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+        // ========================================= end approved sidebar codee =========================================
 
 
-
-        //blocked users 
+        // ======================================================== start blocked sidebar route =========================================
+        // condition  user blocked k luey route  jin ka staus =1 and blocke= 1 then show hnga
         Route::get('/BlockedUser', [UserController::class, 'blockedIndex'])->name('user.blocked');
         Route::post('/users/{id}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
         Route::put('/users/updateblock/{id}', [UserController::class, 'Blockupdate'])->name('usersblock.update');
+        // ======================================================== end blocked sidebar route ========================================================
+
+        // ======================================================== start frontier sidebar route =========================================
+        Route::get('/Frontier/user', [AdminFrontierSidebrController::class, 'index'])->name('user.frontier');
+        Route::get('/Frontier/user/{id}', [AdminFrontierSidebrController::class, 'show'])->name('frontier.show');
+
+       
+
+
+        // ======================================================== end frontier sidebar route ========================================================
+
+        // ======================================================== start CCi sidebar route =========================================
+        Route::get('/CCI/user', [AdminCCISidebrController::class, 'index'])->name('user.cci');
+
+        // ======================================================== end frontier sidebar route ========================================================
     });
 
 
@@ -70,23 +93,27 @@
     // Group for User only
     Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
 
-
-        // ✅ FIXED: This route now uses the controller, which passes $userCCI to the view
+        /// ================================start route Frontier  =========================================
         Route::get('/dashboard', [UserFrontierController::class, 'index'])->name('user.dashboardFrontier');
         Route::post('/users-data/store', [UserFrontierController::class, 'store'])->name('userfrontier.store');
         Route::get('/dashboard/edit/{id}', [UserFrontierController::class, 'edit'])->name('userfrontier.edit');
         Route::put('/Users/update/{id}', [UserFrontierController::class, 'update'])->name('userfrontier.update');
         Route::delete('/user/userdata/delete/{id}', [UserFrontierController::class, 'destroy'])->name('userfrontier.destroy');
+        /// ================================start route Frontier  =========================================
 
 
-        // Routes for UserCCIController
+
+        /// ================================start route CCI   =========================================
         Route::get('/dashboard-cci', [UserCCIController::class, 'index'])->name('user.dashboardCCI');
         Route::post('dashboard/cci', [UserCCIController::class, 'store'])->name('usercci.store');
         Route::get('dashboard/cci/edit/{id}', [UserCCIController::class, 'edit'])->name('usercci.edit');
         Route::put('update/{id}', [UserCCIController::class, 'update'])->name('usercci.update');
         Route::delete('user/dashboard/delete/{id}', [UserCCIController::class, 'destroy'])->name('usercci.destroy');
+        /// ================================start route CCI  =========================================
 
-        /// for dowanload  user frontire excle and SCV file
+
+
+        /// ================================start for dowanload  user frontire excle and SCV file  =========================================
         //Excel frontire
         Route::get('/export/frontier-excel', function () {
             return Excel::download(new UserFrontierExport, 'user_data.xlsx');
@@ -97,9 +124,12 @@
         })->name('userfrontier.export.csv');
         //PDF frontire
         Route::get('/user-frontier/download-pdf', [UserFrontierController::class, 'exportPDF'])->name('userfrontier.export.pdf');
+        /// ================================end for dowanload  user frontire excle and SCV file  =========================================
 
 
 
+
+        /// ================================start for dowanload  user CCI excle and SCV file  =========================================
         /// for dowanload user CCI  excle and SCV file
         //Excel CCI
         Route::get('/export/cci-excel', function () {
@@ -114,6 +144,9 @@
 
         Route::get('send-email', [MailController::class, 'sendEmail']);
     });
+    /// ================================start for dowanload  user CCI excle and SCV file  =========================================
+
+
 
 
     //->middleware(['auth', 'verified'])
