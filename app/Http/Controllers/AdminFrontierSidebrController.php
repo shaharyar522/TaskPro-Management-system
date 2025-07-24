@@ -14,27 +14,27 @@ class AdminFrontierSidebrController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index(Request $request)
-{
-    // Base query for all users with project_name = 'Frontier'
-    $query = User::where('project_name', 'Frontier');
+    public function index(Request $request)
+    {
+        // Base query for all users with project_name = 'Frontier'
+        $query = User::where('project_name', 'Frontier');
 
-    // If search filters are applied, filter by dates
-    if ($request->filled('start_date') || $request->filled('end_date')) {
-        if ($request->filled('start_date')) {
-            $query->whereDate('created_at', '>=', $request->start_date);
+        // If search filters are applied, filter by dates
+        if ($request->filled('start_date') || $request->filled('end_date')) {
+            if ($request->filled('start_date')) {
+                $query->whereDate('created_at', '>=', $request->start_date);
+            }
+            if ($request->filled('end_date')) {
+                $query->whereDate('created_at', '<=', $request->end_date);
+            }
         }
-        if ($request->filled('end_date')) {
-            $query->whereDate('created_at', '<=', $request->end_date);
-        }
+
+        // Paginate the results
+        $frontiers = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        // Return the view
+        return view('admin_sidebar.frontier_user', compact('frontiers'));
     }
-
-    // Paginate the results
-    $frontiers = $query->orderBy('created_at', 'desc')->paginate(10);
-
-    // Return the view
-    return view('admin_sidebar.frontier_user', compact('frontiers'));
-}
 
 
     /**
@@ -159,9 +159,9 @@ class AdminFrontierSidebrController extends Controller
     {
         $adminfrontire = UserFrontier::all();
 
-    $pdf = Pdf::loadView('admin_sidebar.pdf.admin_frontier_pdf', compact('adminfrontire'))
-        ->setPaper('A4', 'landscape');
+        $pdf = Pdf::loadView('admin_sidebar.pdf.admin_frontier_pdf', compact('adminfrontire'))
+            ->setPaper('A4', 'landscape');
 
-    return $pdf->download('admin_frontier_report.pdf');
+        return $pdf->download('admin_frontier_report.pdf');
     }
 }

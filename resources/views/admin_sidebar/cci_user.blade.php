@@ -26,7 +26,7 @@
                     <th class="date-col">Registration Date</th>
                     <th class="email-col">Email</th>
                     <th class="action-col">Actions</th>
-                </tr>
+                </tr> 
             </thead>
             <tbody>
                 @foreach($CCI as $user)
@@ -39,7 +39,7 @@
                     <td class="date-col">{{ $user->created_at->format('d M Y') }}</td>
                     <td class="email-col">{{ $user->email }}</td>
                     <td class="status-col">
-                        <a href=""
+                        <a href="{{route('cci.show',$user->id)}}"
                             class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 shadow-sm rounded-pill px-3 py-1">
                             <i class="fas fa-eye"></i> View Entries
                         </a>

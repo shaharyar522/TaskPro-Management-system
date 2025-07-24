@@ -1,6 +1,7 @@
     <?php
 
     use App\Exports\AdminUserFrontierExport;
+    use App\Exports\AdminUserCCIExport;
     use App\Http\Controllers\ApproveUsers;
     use App\Http\Controllers\PendingController;
     use App\Http\Controllers\ProfileController;
@@ -70,18 +71,22 @@
 
 
         // ======================================================== start blocked sidebar route =========================================
+        
         // condition  user blocked k luey route  jin ka staus =1 and blocke= 1 then show hnga
         Route::get('/BlockedUser', [UserController::class, 'blockedIndex'])->name('user.blocked');
         Route::post('/users/{id}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
         Route::put('/users/updateblock/{id}', [UserController::class, 'Blockupdate'])->name('usersblock.update');
+
         // ======================================================== end blocked sidebar route ========================================================
 
-        // ======================================================== start frontier sidebar route =========================================
+        // ======================================================== start Side bar frontier  route =========================================
+
         Route::get('/Frontier/user', [AdminFrontierSidebrController::class, 'index'])->name('user.frontier');
         Route::get('/Frontier/user/{id}', [AdminFrontierSidebrController::class, 'show'])->name('frontier.show');
         Route::get('user/{id}/edit', [AdminFrontierSidebrController::class, 'edit'])->name('admin.frontier.edit');
         Route::put('/Frontier/user/{id}/update', [AdminFrontierSidebrController::class, 'update'])->name('admin.frontier.update');
         Route::delete('/Frontier/user/{id}/destroy', [AdminFrontierSidebrController::class, 'destroy'])->name('admin.frontier.destroy');
+
         // ======================================================== end frontier sidebar route ========================================================
 
 
@@ -89,15 +94,19 @@
 
 
 
-        // ======================================================== start CCi sidebar route =========================================
+        // ======================================================== start Side bar CCI sidebar route =========================================
 
         Route::get('/CCI/user', [AdminCCISidebrController::class, 'index'])->name('user.cci');
+        Route::get('/CCI/user/{id}', [AdminCCISidebrController::class, 'show'])->name('cci.show');
+        Route::get('CCI/{id}/edit', [AdminCCISidebrController::class, 'edit'])->name('admin.cci.edit');
+        Route::put('/CCI/user/{id}/update', [AdminCCISidebrController::class, 'update'])->name('admin.cci.update');
+        Route::delete('/CCI/user/{id}/destroy', [AdminCCISidebrController::class, 'destroy'])->name('admin.cci.destroy');
 
         // ======================================================== end frontier sidebar route ========================================================
 
 
 
-        /// ================================start for dowanload  user frontire excle and SCV  and  pdf file  =========================================
+        /// ================================start for Admin dowanload  user frontire excle and SCV  and  pdf file  =========================================
 
         //Excel Frontier
         Route::get('/export/frontier-excel', function () {
@@ -109,14 +118,31 @@
             return Excel::download(new \App\Exports\AdminUserFrontierExport, 'user_data.csv', \Maatwebsite\Excel\Excel::CSV);
         })->name('adminfrontier.export.csv');
 
-        //PDF frontire
+        //PDF frontir
 
         Route::get('/admin-frontier/download-pdf', [AdminFrontierSidebrController::class, 'exportPDF'])->name('adminfrontier.export.pdf');
 
-
-
         /// ================================end for dowanload  user frontire excle and SCV file  =====================================
 
+
+
+        /// ================================start for Admin dowanload  user CCI excle and SCV  and  pdf file  =========================================
+
+        //Excel CCI
+        Route::get('/export/cci-excel', function () {
+            return Excel::download(new \App\Exports\AdminUserCCIExport, 'cci_users.xlsx');
+        })->name('admincci.export.excel');
+
+        //CSV CCI
+
+        Route::get('/export/cci-csv', function () {
+            return Excel::download(new \App\Exports\AdminUserCCIExport, 'cci_users.csv', \Maatwebsite\Excel\Excel::CSV);
+        })->name('admincci.export.csv');
+        //PDF frontir
+
+        Route::get('/admin-cci/download-pdf', [AdminCCISidebrController::class, 'exportPDF'])->name('admincci.export.pdf');
+
+        /// ================================end for dowanload  user CCI excle and SCV file  =====================================
     });
 
 
