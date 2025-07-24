@@ -1,5 +1,6 @@
     <?php
 
+    use App\Exports\AdminUserFrontierExport;
     use App\Http\Controllers\ApproveUsers;
     use App\Http\Controllers\PendingController;
     use App\Http\Controllers\ProfileController;
@@ -48,19 +49,23 @@
 
         // ========================================= start pending sidebar route =========================================
         // user pending k luey route  jin ka staus =0 and blocke= 0
+
         Route::get('/PendingUser', [UserController::class, 'pendingIndex'])->name('user.pending');
         Route::get('/pending-users/{id}', [UserController::class, 'show']);
         Route::post('/pending-users/{id}/approve', [UserController::class, 'approve']);
+
         // ========================================= start pending sidebar route =========================================
 
 
 
         // ========================================= start approved sidebar codee =========================================
         // condition  user approved k luey route  jin ka staus =1 and blocke= 0 then show hnga
+
         Route::get('/ApprovedUser', [UserController::class, 'approvedIndex'])->name('user.approve');
         Route::get('/approved-users', [UserController::class, 'approvedIndex'])->name('approved.users');
         Route::post('/users/block/{id}', [UserController::class, 'block'])->name('users.block');
         Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+
         // ========================================= end approved sidebar codee =========================================
 
 
@@ -74,16 +79,44 @@
         // ======================================================== start frontier sidebar route =========================================
         Route::get('/Frontier/user', [AdminFrontierSidebrController::class, 'index'])->name('user.frontier');
         Route::get('/Frontier/user/{id}', [AdminFrontierSidebrController::class, 'show'])->name('frontier.show');
-
-       
-
-
+        Route::get('user/{id}/edit', [AdminFrontierSidebrController::class, 'edit'])->name('admin.frontier.edit');
+        Route::put('/Frontier/user/{id}/update', [AdminFrontierSidebrController::class, 'update'])->name('admin.frontier.update');
+        Route::delete('/Frontier/user/{id}/destroy', [AdminFrontierSidebrController::class, 'destroy'])->name('admin.frontier.destroy');
         // ======================================================== end frontier sidebar route ========================================================
 
+
+
+
+
+
         // ======================================================== start CCi sidebar route =========================================
+
         Route::get('/CCI/user', [AdminCCISidebrController::class, 'index'])->name('user.cci');
 
         // ======================================================== end frontier sidebar route ========================================================
+
+
+
+        /// ================================start for dowanload  user frontire excle and SCV  and  pdf file  =========================================
+
+        //Excel Frontier
+        Route::get('/export/frontier-excel', function () {
+            return Excel::download(new \App\Exports\AdminUserFrontierExport, 'frontier_all_users.xlsx');
+        })->name('adminfrontier.export.excel');
+
+        //CSV Frontier
+        Route::get('/export/frontier-csv', function () {
+            return Excel::download(new \App\Exports\AdminUserFrontierExport, 'user_data.csv', \Maatwebsite\Excel\Excel::CSV);
+        })->name('adminfrontier.export.csv');
+
+        //PDF frontire
+
+        Route::get('/admin-frontier/download-pdf', [AdminFrontierSidebrController::class, 'exportPDF'])->name('adminfrontier.export.pdf');
+
+
+
+        /// ================================end for dowanload  user frontire excle and SCV file  =====================================
+
     });
 
 
@@ -113,17 +146,25 @@
 
 
 
-        /// ================================start for dowanload  user frontire excle and SCV file  =========================================
+        /// ================================start for dowanload  user frontire excle and SCV  and  pdf file  =========================================
+
+
         //Excel frontire
         Route::get('/export/frontier-excel', function () {
             return Excel::download(new UserFrontierExport, 'user_data.xlsx');
         })->name('userfrontier.export.excel');
+
+
+
         //CSV frontire
         Route::get('/export/frontier-csv', function () {
             return Excel::download(new UserFrontierExport, 'user_data.csv', \Maatwebsite\Excel\Excel::CSV);
         })->name('userfrontier.export.csv');
+
+
         //PDF frontire
         Route::get('/user-frontier/download-pdf', [UserFrontierController::class, 'exportPDF'])->name('userfrontier.export.pdf');
+
         /// ================================end for dowanload  user frontire excle and SCV file  =========================================
 
 

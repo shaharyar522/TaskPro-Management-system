@@ -39,13 +39,10 @@
                     <td class="date-col">{{ $user->created_at->format('d M Y') }}</td>
                     <td class="email-col">{{ $user->email }}</td>
                     <td class="status-col">
-                        <span class="badge bg-warning text-dark">Pending</span>
-                    </td>
-                    <td class="action-col">
-                        <button class="btn-action btn-view" data-id="{{ $user->id }}" data-bs-toggle="modal"
-                            data-bs-target="#userViewModal" title="View">
-                            <i class="fas fa-eye"></i>
-                        </button>
+                        <a href=""
+                            class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 shadow-sm rounded-pill px-3 py-1">
+                            <i class="fas fa-eye"></i> View Entries
+                        </a>
                     </td>
                 </tr>
                 @endforeach

@@ -11,9 +11,7 @@
             </div>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
+               
                 <li>
                     <a class="dropdown-item" href="#"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

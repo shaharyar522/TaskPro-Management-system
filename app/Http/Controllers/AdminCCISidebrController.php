@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+
 class AdminCCISidebrController extends Controller
 {
     /**
@@ -11,9 +12,29 @@ class AdminCCISidebrController extends Controller
      */
     public function index()
     {
-         $CCI = User::where('project_name', 'CCI')->get();
+        $frontiers = User::where('project_name', 'Frontier')->paginate(10);
+        $showSearch = false; // Default: no search bar
 
-        return view('admin_sidebar.cci_user', compact('CCI'));
+        return view('admin_sidebar.frontier_user', compact('frontiers', 'showSearch'));
+    }
+    public function search(Request $request)
+    {
+        $query = User::where('project_name', 'Frontier');
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $frontiers = $query->paginate(10);
+        $showSearch = true; // Show search bar only when search happens
+
+        return view('admin_sidebar.frontier_user', compact('frontiers', 'showSearch'))
+            ->with('start_date', $request->start_date)
+            ->with('end_date', $request->end_date);
     }
 
     /**

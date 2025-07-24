@@ -37,6 +37,7 @@
                     <td class="project-col">{{ $user->project_name }}</td>
                     <td class="date-col">{{ $user->created_at->format('d M Y') }}</td>
                     <td class="email-col">{{ $user->email }}</td>
+                    
                     <td class="status-col">
                         <a href="{{route('frontier.show',$user->id)}}"
                             class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 shadow-sm rounded-pill px-3 py-1">

@@ -61,7 +61,6 @@
 
 
 </div>
-
 <!-- User View Modal -->
 <div class="modal fade" id="userViewModal" tabindex="-1" aria-labelledby="userViewModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -90,7 +89,7 @@
               <th>Copy ID</th>
               <td id="view-copyid"></td>
             </tr>
-            
+
             <tr>
               <th>Project Name</th>
               <td>

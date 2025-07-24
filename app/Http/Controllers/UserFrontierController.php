@@ -74,7 +74,7 @@ class UserFrontierController extends Controller
             'closeout_notes' => 'nullable|string|max:255',
             'in' => 'nullable|string|max:255',
             'out' => 'nullable|string|max:255',
-            'hours' => 'nullable|integer',
+            'hours' => 'nullable|numeric',
             'user_id' => 'required|exists:users,id',
         ]);
         // Fetch billing code data from helper

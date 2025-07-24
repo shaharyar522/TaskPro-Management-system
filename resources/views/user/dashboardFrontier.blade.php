@@ -40,8 +40,9 @@
     <div class="header-right">
         <div class="user-dropdown">
             <div class="user-profile">
-                <img src="https://media.istockphoto.com/id/1321387967/vector/concept-of-project-closure-project-managment-life-cycle-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZLW7FtbJVoEZMvgErFn4ALa8wXntkEtLqCmPSiydN6c=" alt="User" class="user-avatar">
-               
+                <img src="https://media.istockphoto.com/id/1321387967/vector/concept-of-project-closure-project-managment-life-cycle-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZLW7FtbJVoEZMvgErFn4ALa8wXntkEtLqCmPSiydN6c="
+                    alt="User" class="user-avatar">
+
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-menu">
@@ -200,43 +201,40 @@
                         @error('closeout_notes') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="input-field">
-                        <label class="input-label">In Time</label>
-                        <input type="text" name="in" id="in" class="form-control" placeholder="Enter In Time"
-                            value="{{ old('in') }}">
+                        <label class="input-label">In</label>
+                        <input type="time" name="in" id="in" class="form-control" value="{{ old('in') }}">
                         @error('in') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
-                </div>
 
+                </div>
                 <!-- Fifth Group (remaining fields) -->
                 <div class="input-group">
+
                     <div class="input-field">
-                        <label class="input-label">Out Time</label>
-                        <input type="text" name="out" id="out" class="form-control" placeholder="Enter Out Time"
-                            value="{{ old('out') }}">
+                        <label class="input-label">Out</label>
+                        <input type="time" name="out" id="out" class="form-control" value="{{ old('out') }}">
                         @error('out') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="input-field">
-                        <label class="input-label">Total Hours</label>
-                        <input type="number" name="hours" id="hours" class="form-control"
-                            placeholder="Enter Total Hours" value="{{ old('hours') }}">
+                        <label class="input-label">Hours</label>
+                        <input type="number" name="hours" id="hours" class="form-control" step="0.1" readonly>
                         @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                 </div>
             </div>
-
             <div class="form-submit">
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save me-2"></i> <span id="form-button-text">Save Information</span>
                 </button>
             </div>
         </form>
-
     </div>
-
 </div>
-
 {{-- end forom show --}}
+
+
 
 <div class="card mt-4 profile-form-container">
     <div id="report-section" style="display: none;">
@@ -278,6 +276,7 @@
 
 
         </div>
+
         <div class="table-responsive">
             <table class="table table-striped table-bordered custom-report-table">
                 <thead class="table-primary">
@@ -340,12 +339,10 @@
                                 </form>
                             </div>
                         </td>
-
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-
             <div class="pagination justify-content-center mt-3">
                 {{ $userfrontire->links() }}
             </div>
@@ -428,10 +425,10 @@
         @endif
     });
 </script>
+
+
 {{-- for js pagintaion start data and end data --}}
-
 {{-- autofill input field like descri rate totla_billed js --}}
-
 <script>
     const billingData = @json(billingCodes());
 
@@ -456,5 +453,28 @@
     });
 </script>
 
+<script>
+    function calculateHours() {
+        const inTime = document.getElementById('in').value;
+        const outTime = document.getElementById('out').value;
+
+        if (inTime && outTime) {
+            const [inHours, inMinutes] = inTime.split(':').map(Number);
+            const [outHours, outMinutes] = outTime.split(':').map(Number);
+
+            const inDate = new Date(0, 0, 0, inHours, inMinutes);
+            const outDate = new Date(0, 0, 0, outHours, outMinutes);
+
+            let diff = (outDate - inDate) / (1000 * 60 * 60); // in hours
+
+            // Handle next day
+            if (diff < 0) diff += 24;
+
+            document.getElementById('hours').value = diff.toFixed(2);
+        }
+    }
+    document.getElementById('in').addEventListener('change', calculateHours);
+    document.getElementById('out').addEventListener('change', calculateHours);
+</script>
 
 @endsection
