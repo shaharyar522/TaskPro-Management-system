@@ -76,7 +76,7 @@
     .input-field {
         margin-bottom: 0;
     }
-
+ 
     .input-label {
         display: block;
         margin-bottom: 8px;
@@ -170,7 +170,7 @@
     }
 </style>
 @section('content')
-@include('layouts.header')
+@include('layouts.header') 
 
 
 <div>

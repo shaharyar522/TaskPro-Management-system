@@ -18,7 +18,6 @@
             border-collapse: collapse;
             font-size: 9px;
             table-layout: fixed;
-            /* Fix column widths */
             word-wrap: break-word;
         }
 
@@ -33,7 +32,6 @@
             background-color: #eee;
         }
     </style>
-
 </head>
 
 <body>
@@ -41,7 +39,10 @@
     <table>
         <thead>
             <tr>
-                <th style="width: 50px;">ID</th>
+                <th style="width: 40px;">S.No</th>
+                <th style="width: 80px;">Date</th>
+                <th style="width: 100px;">First Name</th>
+                <th style="width: 100px;">Last Name</th>
                 <th style="width: 80px;">Corp ID</th>
                 <th style="width: 150px;">Address</th>
                 <th style="width: 80px;">Billing TN</th>
@@ -60,15 +61,15 @@
                 <th style="width: 40px;">In</th>
                 <th style="width: 40px;">Out</th>
                 <th style="width: 40px;">Hours</th>
-                <th style="width: 100px;">Created At</th>
-                <th style="width: 100px;">Updated At</th>
-
             </tr>
         </thead>
         <tbody>
             @foreach($adminfrontire as $data)
             <tr>
-                <td>{{ $data->id }}</td>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $data->created_at ? $data->created_at->format('m/d/Y') : '' }}</td>
+                <td>{{ $data->user->name ?? 'N/A' }}</td>
+                <td>{{ $data->user->last_name ?? 'N/A' }}</td>
                 <td>{{ $data->corp_id }}</td>
                 <td>{{ $data->address }}</td>
                 <td>{{ $data->billing_TN }}</td>
@@ -87,12 +88,9 @@
                 <td>{{ $data->in }}</td>
                 <td>{{ $data->out }}</td>
                 <td>{{ $data->hours }}</td>
-                <td>{{ $data->created_at }}</td>
-                <td>{{ $data->updated_at }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
 </body>
-
 </html>

@@ -36,7 +36,7 @@
             </a>
         </li>
         <li>
-            <a href="{{route('user.frontier')}}" class="nav-link" id="blocked-link">
+             <a href="{{route('user.frontier')}}" class="nav-link" id="blocked-link">
                 <i class="fas fa-user"></i>
                 <span>Frontier Users</span>
             </a>
@@ -49,7 +49,6 @@
         </li>
     </ul>
     @endrole
-
     
     @role('user')
     <div class="sidebar-header">

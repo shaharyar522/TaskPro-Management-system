@@ -71,7 +71,7 @@
 
 
         // ======================================================== start blocked sidebar route =========================================
-        
+
         // condition  user blocked k luey route  jin ka staus =1 and blocke= 1 then show hnga
         Route::get('/BlockedUser', [UserController::class, 'blockedIndex'])->name('user.blocked');
         Route::post('/users/{id}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
@@ -122,6 +122,9 @@
 
         Route::get('/admin-frontier/download-pdf', [AdminFrontierSidebrController::class, 'exportPDF'])->name('adminfrontier.export.pdf');
 
+        Route::get('/frontier-and-email-admin', [AdminFrontierSidebrController::class, 'exportAndSendExcel'])->name('admin.frontier.export.email');
+        Route::get('/cci-and-admin-email', [AdminCCISidebrController::class, 'exportAndSendExcel'])->name('user.cci.export.email');
+
         /// ================================end for dowanload  user frontire excle and SCV file  =====================================
 
 
@@ -143,6 +146,8 @@
         Route::get('/admin-cci/download-pdf', [AdminCCISidebrController::class, 'exportPDF'])->name('admincci.export.pdf');
 
         /// ================================end for dowanload  user CCI excle and SCV file  =====================================
+
+
     });
 
 
@@ -193,7 +198,7 @@
 
         /// ================================end for dowanload  user frontire excle and SCV file  =========================================
 
-
+        
 
 
         /// ================================start for dowanload  user CCI excle and SCV file  =========================================
@@ -209,7 +214,9 @@
         //PDF CCI
         Route::get('/user-cci/download-pdf', [UserCCIController::class, 'exportPDF'])->name('usercci.export.pdf');
 
-        Route::get('send-email', [MailController::class, 'sendEmail']);
+
+        Route::get('/export-and-email', [UserFrontierController::class, 'exportAndSendExcel'])->name('userfrontier.export.email');
+        Route::get('/cci-and-email', [UserCCIController::class, 'exportAndSendExcel'])->name('usercci.export.email');
     });
     /// ================================start for dowanload  user CCI excle and SCV file  =========================================
 

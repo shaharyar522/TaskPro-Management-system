@@ -71,24 +71,88 @@
     </div>
 
     <div class="filter-section">
-        
-       
+
+        <!-- User Filter Section -->
+        <!-- User Dropdown Filter -->
+        <div class="mb-3">
+            <label for="user_filter" class="form-label fw-bold">Select User:</label>
+            <select id="user_filter" class="form-select w-auto" onchange="redirectToUser(this)">
+                <!-- All Users Option -->
+                <option value="{{ route('user.frontier') }}" {{ !isset($user) ? 'selected' : '' }}>
+                    All Users
+                </option>
+                @foreach($users as $u)
+                <option value="{{ route('frontier.show', $u->id) }}" {{ isset($user) && $user->id == $u->id ? 'selected'
+                    : '' }}>
+                    {{ $u->name }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+
+
+        <script>
+            function redirectToUser(select) {
+        const url = select.value;
+        if (url) window.location.href = url;
+    }
+        </script>
+
+{{-- =================================Start Searching start the and ending Date ================================= --}}
+     <form action="{{ isset($user) ? route('frontier.show', $user->id) : route('user.frontier') }}" method="GET" class="d-flex gap-3 align-items-end flex-wrap">
+    <div>
+        <label for="start_date" class="form-label mb-0 small">Start Date</label>
+        <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="form-control form-control-sm">
+    </div>
+    <div>
+        <label for="end_date" class="form-label mb-0 small">End Date</label>
+        <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="form-control form-control-sm">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-sm btn-primary mt-2">🔍 Search</button>
+    </div>
+    <div>
+        <a href="{{ isset($user) ? route('frontier.show', $user->id) : route('user.frontier') }}" class="btn btn-sm btn-secondary mt-2">Reset Date</a>
+    </div>
+</form>
+{{-- ================================= End Start Searching start the and ending Date ================================= --}}
+
+
 
         <!-- Download Buttons -->
-        <div class="download-buttons">
-            <a href="{{ route('adminfrontier.export.excel') }}" class="btn btn-success">
-                <i class="fas fa-file-excel"></i>📄 Download Excel File
-            </a>
+   
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdown"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-download"></i> Download Records
+            </button>
 
-            <a href="{{ route('adminfrontier.export.csv') }}" class="btn btn-secondary">
-                <i class="fas fa-file-csv"></i> 📄 Download CSV File
-            </a>
-
-            <a href="{{ route('adminfrontier.export.pdf') }}" class="btn btn-danger">
-                <i class="fas fa-file-pdf"></i> 📄 Download PDF File
-            </a>
+            <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
+                <li>
+                    <a class="dropdown-item"
+                        href="{{ route('adminfrontier.export.excel', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
+                        <i class="fas fa-file-excel text-success"></i> Excel File
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                        href="{{ route('adminfrontier.export.csv', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
+                        <i class="fas fa-file-csv text-secondary"></i> CSV File
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                        href="{{ route('adminfrontier.export.pdf', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
+                        <i class="fas fa-file-pdf text-danger"></i> PDF File
+                    </a>
+                </li>
+            </ul>
         </div>
+
+
     </div>
+
+
 
 
     <div class="table-responsive">
@@ -96,6 +160,9 @@
             <thead class="table-primary">
                 <tr>
                     <th>ID</th>
+                    <th>Date</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Corp ID</th>
                     <th>Address</th>
                     <th>Billing TN</th>
@@ -121,6 +188,9 @@
                 @foreach($frontiers as $data)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
+                    <td>{{ $data->created_at->format('m/d/Y') }}</td>
+                    <td>{{ $data->user->name ?? 'N/A' }}</td>
+                    <td>{{ $data->user->last_name ?? 'N/A' }}</td>
                     <td>{{ $data->corp_id }}</td>
                     <td>{{ $data->address }}</td>
                     <td>{{ $data->billing_TN }}</td>
@@ -141,11 +211,7 @@
                     <td>{{ $data->hours }}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
-                            <!-- Edit button -->
-                            <a href="{{route('admin.frontier.edit',$data->id)}}" class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
-                            <!-- Delete form -->
+                            <a href="{{route('admin.frontier.edit',$data->id)}}" class="btn btn-sm btn-warning">Edit</a>
                             <form action="{{route('admin.frontier.destroy',$data->id)}}" method="POST" class="m-0">
                                 @csrf
                                 @method('DELETE')
@@ -206,4 +272,71 @@
     });
 </script>
 
+<script>
+    function calculateHours() {
+        const inTime = document.getElementById('in').value;
+        const outTime = document.getElementById('out').value;
+
+        if (inTime && outTime) {
+            const [inHours, inMinutes] = inTime.split(':').map(Number);
+            const [outHours, outMinutes] = outTime.split(':').map(Number);
+
+            const inDate = new Date(0, 0, 0, inHours, inMinutes);
+            const outDate = new Date(0, 0, 0, outHours, outMinutes);
+
+            let diff = (outDate - inDate) / (1000 * 60 * 60); // in hours
+
+            // Handle next day
+            if (diff < 0) diff += 24;
+
+            document.getElementById('hours').value = diff.toFixed(2);
+        }
+    }
+    document.getElementById('in').addEventListener('change', calculateHours);
+    document.getElementById('out').addEventListener('change', calculateHours);
+</script>
+
+@if(session('success'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}',
+        timer: 3000,
+        showConfirmButton: false
+    });
+</script>
+@endif
+
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}',
+        timer: 3000,
+        showConfirmButton: false
+    });
+</script>
+@endif
+
+
+
+@if(session('message'))
+<script>
+    Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('message') }}',
+            confirmButtonColor: '#3085d6'
+        });
+</script>
+@endif
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@push('script')
+    <script src="{{asset('js/header.js')}}"></script>
+@endpush
 @endsection

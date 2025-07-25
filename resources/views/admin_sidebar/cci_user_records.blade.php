@@ -62,7 +62,7 @@
 </style>
 @section('content')
 @include('layouts.header')
-
+ 
 <div class="dashboard-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="section-title">
@@ -102,7 +102,9 @@
             <a href="{{route('admincci.export.csv')}}" class="btn btn-secondary">
                 <i class="fas fa-file-csv"></i> 📄 Download CSV File
             </a>
-
+ <a href="{{route('user.cci.export.email')}}" class="btn btn-secondary">
+                <i class="fas fa-file-csv"></i> Send Email
+            </a>
             <a href="{{route('admincci.export.pdf')}}" class="btn btn-danger">
                 <i class="fas fa-file-pdf"></i> 📄 Download PDF File
             </a>
@@ -191,5 +193,30 @@
     });
 </script>
 @endif
+
+
+<script>
+    function calculateHours() {
+        const inTime = document.getElementById('in').value;
+        const outTime = document.getElementById('out').value;
+
+        if (inTime && outTime) {
+            const [inHours, inMinutes] = inTime.split(':').map(Number);
+            const [outHours, outMinutes] = outTime.split(':').map(Number);
+
+            const inDate = new Date(0, 0, 0, inHours, inMinutes);
+            const outDate = new Date(0, 0, 0, outHours, outMinutes);
+
+            let diff = (outDate - inDate) / (1000 * 60 * 60); // in hours
+
+            // Handle next day
+            if (diff < 0) diff += 24;
+
+            document.getElementById('hours').value = diff.toFixed(2);
+        }
+    }
+    document.getElementById('in').addEventListener('change', calculateHours);
+    document.getElementById('out').addEventListener('change', calculateHours);
+</script>
 
 @endsection

@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AdminUserFrontierExport;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserFrontier;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
+use App\Mail\ExcelEmail;
 
 class AdminFrontierSidebrController extends Controller
 {
@@ -16,25 +22,32 @@ class AdminFrontierSidebrController extends Controller
      */
     public function index(Request $request)
     {
-        // Base query for all users with project_name = 'Frontier'
-        $query = User::where('project_name', 'Frontier');
+        // Fetch all users for the dropdown
+        $users = User::where('project_name', 'Frontier')->orderBy('name')->get();
 
-        // If search filters are applied, filter by dates
-        if ($request->filled('start_date') || $request->filled('end_date')) {
-            if ($request->filled('start_date')) {
-                $query->whereDate('created_at', '>=', $request->start_date);
-            }
-            if ($request->filled('end_date')) {
-                $query->whereDate('created_at', '<=', $request->end_date);
-            }
+        // Fetch UserFrontier records with user data
+        $query = UserFrontier::with('user');
+
+        // Date filtering (based on UserFrontier created_at)
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
         }
 
-        // Paginate the results
+        // Get all records
         $frontiers = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        // Return the view
-        return view('admin_sidebar.frontier_user', compact('frontiers'));
+        // Return view (All Users selected by default)
+        return view('admin_sidebar.frontier_user_records', [
+            'frontiers' => $frontiers,
+            'users' => $users,
+            'user' => null // No specific user selected
+        ]);
     }
+
+
 
 
     /**
@@ -55,19 +68,29 @@ class AdminFrontierSidebrController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        // Get the user with project_name = Frontier
         $user = User::where('id', $id)
             ->where('project_name', 'Frontier')
             ->firstOrFail();
 
-        // Get all UserFrontier records for this user
-        $frontiers = UserFrontier::where('user_id', $id)->paginate(10);
+        $users = User::where('project_name', 'Frontier')->orderBy('name')->get();
 
-        // Return the new view
-        return view('admin_sidebar.frontier_user_records', compact('user', 'frontiers'));
+        // Apply date filtering for this user's records
+        $query = UserFrontier::where('user_id', $id);
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $frontiers = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin_sidebar.frontier_user_records', compact('user', 'users', 'frontiers'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -84,6 +107,9 @@ class AdminFrontierSidebrController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'created_at' => 'nullable|date',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'corp_id' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'billing_TN' => 'nullable|string|max:255',
@@ -128,8 +154,17 @@ class AdminFrontierSidebrController extends Controller
             'in' => $request->in,
             'out' => $request->out,
             'hours' => $request->hours,
-            'user_id' => $userData->user_id,
+            'created_at' => $request->created_at ?? $userData->created_at,
         ]);
+
+        if ($userData->user) {
+            $userData->user->update([
+                'name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ]);
+        }
+
+
 
 
         return redirect()
@@ -150,18 +185,71 @@ class AdminFrontierSidebrController extends Controller
 
         // Redirect back to the show page with success message
         return redirect()
-            ->route('frontier.show', $userId)
+            ->route('user.frontier', $userId)
             ->with('success', 'Record deleted successfully.');
     }
 
-
     public function exportPDF()
     {
-        $adminfrontire = UserFrontier::all();
+        $query = UserFrontier::with('user'); // include user relation
 
-        $pdf = Pdf::loadView('admin_sidebar.pdf.admin_frontier_pdf', compact('adminfrontire'))
+        if (request()->has('user_id') && request()->user_id != '') {
+            $query->where('user_id', request()->user_id);
+        }
+
+        if (request()->has('start_date') && request()->start_date != '') {
+            $query->whereDate('created_at', '>=', request()->start_date);
+        }
+
+        if (request()->has('end_date') && request()->end_date != '') {
+            $query->whereDate('created_at', '<=', request()->end_date);
+        }
+
+        $adminfrontire = $query->get();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin_sidebar.pdf.admin_frontier_pdf', compact('adminfrontire'))
             ->setPaper('A4', 'landscape');
 
         return $pdf->download('admin_frontier_report.pdf');
+    }
+
+
+
+
+
+
+
+
+
+    //for email 
+
+
+    public function exportAndSendExcel()
+    {
+        $export = new AdminUserFrontierExport();
+
+        $fileName = 'user_frontier_export.xlsx'; // always same name
+        $relativePath = 'exports/' . $fileName;
+        $filePath = public_path($relativePath);
+
+        // Ensure public/exports directory exists
+        if (!File::exists(public_path('exports'))) {
+            File::makeDirectory(public_path('exports'), 0755, true);
+        }
+
+        // Save the Excel file to storage/app/public
+        Excel::store($export, $fileName, 'public');
+
+        // Copy it to public/exports
+        copy(storage_path('app/public/' . $fileName), $filePath);
+
+        // Send email with attachment
+        $to = adminEmail();
+        $subject = 'User Frontier Excel Export';
+        $msg = 'User Frontier Excel file.';
+
+        Mail::to($to)->send(new \App\Mail\ExcelEmail($msg, $subject, $filePath));
+
+        return redirect()->route('user.frontier')->with('message', 'Email send Successfully');
     }
 }

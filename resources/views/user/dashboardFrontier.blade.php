@@ -237,6 +237,7 @@
 
 
 <div class="card mt-4 profile-form-container">
+    
     <div id="report-section" style="display: none;">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="text-primary">User Report Frontier Information</h4>

@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserCCIExport;
 use App\Models\UserCCI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ExcelEmail;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserCCIController extends Controller
 {
@@ -34,8 +40,7 @@ class UserCCIController extends Controller
                 ->with('redirect_to_report', true); // This flag is for showing the report
         }
 
-         return view('user.dashboardCCI', compact('userCCI'));
-     
+        return view('user.dashboardCCI', compact('userCCI'));
     }
 
     /**
@@ -165,7 +170,7 @@ class UserCCIController extends Controller
             ->with('success', 'User record deleted successfully.');
     }
 
-     public function exportPDF()
+    public function exportPDF()
     {
         $userId = Auth::id();
         $userCCI = UserCCI::where('user_id', $userId)->get();
@@ -174,5 +179,34 @@ class UserCCIController extends Controller
             ->setPaper('A4', 'landscape'); // full width in landscape
 
         return $pdf->download('user_cci_report.pdf');
+    }
+
+    public function exportAndSendExcel()
+    {
+        $export = new UserCCIExport();
+
+        $fileName = 'user_frontier_export.xlsx'; // always same name
+        $relativePath = 'exports/' . $fileName;
+        $filePath = public_path($relativePath);
+
+        // Ensure public/exports directory exists
+        if (!File::exists(public_path('exports'))) {
+            File::makeDirectory(public_path('exports'), 0755, true);
+        }
+
+        // Save the Excel file to storage/app/public
+        Excel::store($export, $fileName, 'public');
+
+        // Copy it to public/exports
+        copy(storage_path('app/public/' . $fileName), $filePath);
+
+        // Send email with attachment
+        $to = 'aatifshehzad668@gmail.com';
+        $subject = 'User CCi Excel Export';
+        $msg = 'Attached is the exported Excel file.';
+
+        Mail::to($to)->send(new \App\Mail\ExcelEmail($msg, $subject, $filePath));
+
+        return redirect()->route('user.dashboardCCI')->with('message', 'Email send Successfully');
     }
 }

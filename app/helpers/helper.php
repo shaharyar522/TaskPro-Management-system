@@ -48,7 +48,14 @@ if (!function_exists('billingCodes')) {
 }
 
 
- function WorkType()
+if (!function_exists('adminEmail')) {
+    function adminEmail()
+    {
+        return 'aatifshehzad668@gmail.com';
+    }
+}
+
+function WorkType()
 {
     return [
         'Install Broadband + Service Line + All Connections'           => ['unit' => 'F100', 'w2' => 218.00],
@@ -81,4 +88,3 @@ if (!function_exists('billingCodes')) {
         'Lunch'                                                        => ['unit' => '0', 'w2' => 0.00],
     ];
 }
-

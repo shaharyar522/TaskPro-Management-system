@@ -176,13 +176,35 @@
 <div>
     <div class="card mt-4 profile-form-container">
         <h4 class="mb-4 text-primary">User Profile Update Frontier Information </h4>
-        
+
         <form method="POST" action="{{ route('admin.frontier.update', $userdata->id) }}">
             @csrf
             @method('PUT')
             <div class="form-group-vertical">
                 <!-- First Group of 4 Inputs -->
                 <div class="input-group">
+                    <!-- New Fields -->
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label class="input-label">Created Date</label>
+                            <input type="date" name="created_at" class="form-control"
+                                value="{{ old('created_at', $userdata->created_at ? $userdata->created_at->format('Y-m-d') : '') }}">
+                            @error('created_at') <small class="text-danger">{{ $message }}</small> @enderror
+                        </div>
+
+                      <div class="input-field">
+            <label class="input-label">First Name</label>
+            <input type="text" name="first_name" class="form-control"
+                   value="{{ old('first_name', $userdata->user->name ?? '') }}">
+        </div>
+
+        <div class="input-field">
+            <label class="input-label">Last Name</label>
+            <input type="text" name="last_name" class="form-control"
+                   value="{{ old('last_name', $userdata->user->last_name ?? '') }}">
+        </div>
+                    </div>
+
                     <div class="input-field">
                         <label class="input-label">Corp ID</label>
                         <input type="text" name="corp_id" class="form-control" placeholder="Enter Corp ID"
