@@ -1,15 +1,12 @@
 <?php
 
-
 namespace App\Http\Controllers;
+
 use App\Exports\AdminUserCCIExport;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\UserCCI;
-
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
@@ -20,60 +17,70 @@ class AdminCCISidebrController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $CCI = User::where('project_name', 'CCI')->get();
+        // Fetch all users for dropdown (CCI project)
+        $users = User::where('project_name', 'CCI')->orderBy('name')->get();
 
-        return view('admin_sidebar.cci_user', compact('CCI'));
+        // Query CCI records
+        $query = UserCCI::with('user');
+
+        // Apply date filtering
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        // Paginate results
+        $CCI = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin_sidebar.cci_user_records', [
+            'CCI' => $CCI,
+            'users' => $users,
+            'user' => null
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the specified user CCI records.
      */
-    public function create()
+    public function show(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // Get the user with project_name = CCI
         $user = User::where('id', $id)
             ->where('project_name', 'CCI')
             ->firstOrFail();
 
-        // Get all UserFrontier records for this user
-        $CCI = UserCCI::where('user_id', $id)->paginate(10);
-     
+        $users = User::where('project_name', 'CCI')->orderBy('name')->get();
 
-        return view('admin_sidebar.cci_user_records', compact('user', 'CCI'));
+        $query = UserCCI::where('user_id', $id);
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $CCI = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin_sidebar.cci_user_records', compact('user', 'users', 'CCI'));
     }
 
-
     /**
-     * Show the form for editing the specified resource.
+     * Edit CCI Record.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-         $userCCI = UserCCI::findOrFail($id);
+        $userCCI = UserCCI::findOrFail($id);
         return view('admin_sidebar.edit_cci_user_records', compact('userCCI'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update CCI Record.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'phone' => 'required|string|max:20',
@@ -87,10 +94,8 @@ class AdminCCISidebrController extends Controller
             'in' => 'nullable|string',
             'out' => 'nullable|string',
             'hours' => 'nullable|numeric',
-            'user_id' => 'required|exists:users,id',
         ]);
 
-        
         $userCCI = UserCCI::findOrFail($id);
 
         $userCCI->update([
@@ -105,66 +110,77 @@ class AdminCCISidebrController extends Controller
             'in'            => $request->in,
             'out'           => $request->out,
             'hours'         => $request->hours,
-            'user_id'         => $userCCI->user_id,
         ]);
 
         return redirect()
-            ->route('cci.show',$userCCI->user_id)
+            ->route('cci.show', $userCCI->user_id)
             ->with('success', 'User CCI data updated successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete CCI Record.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $CCIData = UserCCI::findOrFail($id);
-        $userId =  $CCIData->user_id; // Save user_id for redirect
-
-        // Delete the record
+        $userId = $CCIData->user_id;
         $CCIData->delete();
 
-        // Redirect back to the show page with success message
         return redirect()
             ->route('cci.show', $userId)
             ->with('success', 'Record deleted successfully.');
     }
-     public function exportPDF()
-    {
-        $admincci = UserCCI::all();
 
-        $pdf = Pdf::loadView('admin_sidebar.pdf.admin_cci_pdf', compact('admincci'))
-            ->setPaper('A4', 'landscape');
+    /**
+     * Export PDF.
+     */
+  public function exportPDF(Request $request)
+{
+    $query = UserCCI::with('user'); // include user relation
 
-        return $pdf->download('admin_cci_report.pdf');
+    // Filter by user_id if available
+    if ($request->has('user_id') && $request->user_id != '') {
+        $query->where('user_id', $request->user_id);
     }
 
-      public function exportAndSendExcel()
+    // Filter by date range
+    if ($request->has('start_date') && $request->start_date != '') {
+        $query->whereDate('created_at', '>=', $request->start_date);
+    }
+    if ($request->has('end_date') && $request->end_date != '') {
+        $query->whereDate('created_at', '<=', $request->end_date);
+    }
+
+    $admincci = $query->get();
+
+    // Generate PDF
+    $pdf = Pdf::loadView('admin_sidebar.pdf.admin_cci_pdf', compact('admincci'))
+        ->setPaper('A4', 'landscape');
+
+    return $pdf->download('admin_cci_report.pdf');
+}
+
+
+    /**
+     * Export Excel & Send Email.
+     */
+    public function exportAndSendExcel()
     {
         $export = new AdminUserCCIExport();
-
-        $fileName = 'user_frontier_export.xlsx'; // always same name
+        $fileName = 'user_cci_export.xlsx';
         $relativePath = 'exports/' . $fileName;
         $filePath = public_path($relativePath);
 
-        // Ensure public/exports directory exists
         if (!File::exists(public_path('exports'))) {
             File::makeDirectory(public_path('exports'), 0755, true);
         }
 
-        // Save the Excel file to storage/app/public
         Excel::store($export, $fileName, 'public');
-
-        // Copy it to public/exports
         copy(storage_path('app/public/' . $fileName), $filePath);
 
-        // Send email with attachment
         $to = 'aatifshehzad668@gmail.com';
-        $subject = 'User CCI Excel Export';
-        $msg = 'Attached is the exported Excel file.';
+        Mail::to($to)->send(new \App\Mail\ExcelEmail('Attached is the exported Excel file.', 'User CCI Excel Export', $filePath));
 
-        Mail::to($to)->send(new \App\Mail\ExcelEmail($msg, $subject, $filePath));
-
-        return redirect()->route('user.cci')->with('message', 'Email send Successfully');
+        return redirect()->route('user.cci')->with('message', 'Email sent successfully.');
     }
 }

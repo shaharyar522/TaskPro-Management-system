@@ -62,7 +62,7 @@
 </style>
 @section('content')
 @include('layouts.header')
- 
+
 <div class="dashboard-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="section-title">
@@ -71,8 +71,35 @@
     </div>
 
     <div class="filter-section">
-        
-        <form action="" method="GET" class="d-flex gap-3 align-items-end flex-wrap">
+
+
+        <!-- User Dropdown Filter -->
+        <div class="mb-3">
+            <label for="user_filter" class="form-label fw-bold">Select User:</label>
+            <select id="user_filter" class="form-select w-auto" onchange="redirectToUser(this)">
+                <!-- All Users Option -->
+                <option value="{{ route('user.cci') }}" {{ !isset($user) ? 'selected' : '' }}>
+                    All Users
+                </option>
+                @foreach($users as $u)
+                <option value="{{ route('cci.show', $u->id) }}" {{ isset($user) && $user->id == $u->id ? 'selected' : ''
+                    }}>
+                    {{ $u->name }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+
+        <script>
+            function redirectToUser(select) {
+        const url = select.value;
+        if (url) window.location.href = url;
+    }
+        </script>
+
+        {{-- ================================= Start Date Filtering ================================= --}}
+        <form action="{{ isset($user) ? route('cci.show', $user->id) : route('user.cci') }}" method="GET"
+            class="d-flex gap-3 align-items-end flex-wrap">
             <div>
                 <label for="start_date" class="form-label mb-0 small">Start Date</label>
                 <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}"
@@ -84,31 +111,53 @@
                     class="form-control form-control-sm">
             </div>
             <div>
-                <button type="submit" class="btn btn-sm btn-primary mt-2">
-                    🔍 Search
-                </button>
+                <button type="submit" class="btn btn-sm btn-primary mt-2">🔍 Search</button>
             </div>
             <div>
-                <a href="" class="btn btn-sm btn-secondary mt-2">Reset Date</a>
+                <a href="{{ isset($user) ? route('cci.show', $user->id) : route('user.cci') }}"
+                    class="btn btn-sm btn-secondary mt-2">Reset Date</a>
             </div>
         </form>
 
-        <!-- Download Buttons -->
-        <div class="download-buttons">
-            <a href="{{route('admincci.export.excel')}}" class="btn btn-success">
-                <i class="fas fa-file-excel"></i>📄 Download Excel File
-            </a>
 
-            <a href="{{route('admincci.export.csv')}}" class="btn btn-secondary">
-                <i class="fas fa-file-csv"></i> 📄 Download CSV File
-            </a>
- <a href="{{route('user.cci.export.email')}}" class="btn btn-secondary">
-                <i class="fas fa-file-csv"></i> Send Email
-            </a>
-            <a href="{{route('admincci.export.pdf')}}" class="btn btn-danger">
-                <i class="fas fa-file-pdf"></i> 📄 Download PDF File
-            </a>
+        {{-- ================================= End Date Filtering ================================= --}}
+
+
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdownCCI"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-download"></i> Download Records
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="downloadDropdownCCI">
+                <li>
+                    <a class="dropdown-item"
+                        href="{{ route('admincci.export.excel', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
+                        <i class="fas fa-file-excel text-success"></i> Excel File
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                        href="{{ route('admincci.export.csv', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
+                        <i class="fas fa-file-csv text-info"></i> CSV File
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                        href="{{ route('admincci.export.pdf', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
+                        <i class="fas fa-file-pdf text-danger"></i> PDF File
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                        href="{{ route('user.cci.export.email', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
+                        <i class="fas fa-envelope text-primary"></i> Send Email
+                    </a>
+                </li>
+            </ul>
         </div>
+
+
+
     </div>
 
 
@@ -117,6 +166,9 @@
             <thead class="table-primary">
                 <tr>
                     <th>ID</th>
+                    <th>Date</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Master Order</th>
@@ -135,6 +187,9 @@
                 @foreach($CCI as $data)
                 <tr>
                     <td>{{ $loop->iteration}}</td>
+                    <td>{{ $data->created_at->format('m/d/Y') }}</td>
+                    <td>{{ $data->user->name ?? 'N/A' }}</td>
+                    <td>{{ $data->user->last_name ?? 'N/A' }}</td>
                     <td>{{ $data->address }}</td>
                     <td>{{ $data->phone }}</td>
                     <td>{{ $data->master_order }}</td>
@@ -152,20 +207,20 @@
                             Edit
                         </a>
                         <!-- Delete form -->
-                        <form action="{{route('admin.cci.destroy',$data->id)}}" method="POST" style="display:inline-block;">
+                        <form action="{{route('admin.cci.destroy',$data->id)}}" method="POST"
+                            style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Delete</button>
                         </form>
-
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-         <div class="pagination justify-content-center mt-3">
-                {{ $CCI->links() }}
-            </div>
+        <div class="pagination justify-content-center mt-3">
+            {{ $CCI->links() }}
+        </div>
     </div>
 </div>
 
@@ -218,5 +273,9 @@
     document.getElementById('in').addEventListener('change', calculateHours);
     document.getElementById('out').addEventListener('change', calculateHours);
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@push('script')
+<script src="{{asset('js/header.js')}}"></script>
+@endpush
 
 @endsection

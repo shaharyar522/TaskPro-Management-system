@@ -72,7 +72,7 @@
 
     <div class="filter-section">
 
-        <!-- User Filter Section -->
+
         <!-- User Dropdown Filter -->
         <div class="mb-3">
             <label for="user_filter" class="form-label fw-bold">Select User:</label>
@@ -98,29 +98,35 @@
     }
         </script>
 
-{{-- =================================Start Searching start the and ending Date ================================= --}}
-     <form action="{{ isset($user) ? route('frontier.show', $user->id) : route('user.frontier') }}" method="GET" class="d-flex gap-3 align-items-end flex-wrap">
-    <div>
-        <label for="start_date" class="form-label mb-0 small">Start Date</label>
-        <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="form-control form-control-sm">
-    </div>
-    <div>
-        <label for="end_date" class="form-label mb-0 small">End Date</label>
-        <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="form-control form-control-sm">
-    </div>
-    <div>
-        <button type="submit" class="btn btn-sm btn-primary mt-2">🔍 Search</button>
-    </div>
-    <div>
-        <a href="{{ isset($user) ? route('frontier.show', $user->id) : route('user.frontier') }}" class="btn btn-sm btn-secondary mt-2">Reset Date</a>
-    </div>
-</form>
-{{-- ================================= End Start Searching start the and ending Date ================================= --}}
+        {{-- =================================Start Searching start the and ending Date
+        ================================= --}}
+        <form action="{{ isset($user) ? route('frontier.show', $user->id) : route('user.frontier') }}" method="GET"
+            class="d-flex gap-3 align-items-end flex-wrap">
+            <div>
+                <label for="start_date" class="form-label mb-0 small">Start Date</label>
+                <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}"
+                    class="form-control form-control-sm">
+            </div>
+            <div>
+                <label for="end_date" class="form-label mb-0 small">End Date</label>
+                <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}"
+                    class="form-control form-control-sm">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-sm btn-primary mt-2">🔍 Search</button>
+            </div>
+            <div>
+                <a href="{{ isset($user) ? route('frontier.show', $user->id) : route('user.frontier') }}"
+                    class="btn btn-sm btn-secondary mt-2">Reset Date</a>
+            </div>
+        </form>
+        {{-- ================================= End Start Searching start the and ending Date
+        ================================= --}}
 
 
 
         <!-- Download Buttons -->
-   
+
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdown"
                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -337,6 +343,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @push('script')
-    <script src="{{asset('js/header.js')}}"></script>
+<script src="{{asset('js/header.js')}}"></script>
 @endpush
 @endsection

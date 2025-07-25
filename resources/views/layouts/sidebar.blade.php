@@ -38,13 +38,13 @@
         <li>
              <a href="{{route('user.frontier')}}" class="nav-link" id="blocked-link">
                 <i class="fas fa-user"></i>
-                <span>Frontier Users</span>
+                <span>Frontier</span>
             </a>
         </li>
         <li>
             <a href="{{route('user.cci')}}" class="nav-link" id="blocked-link">
                 <i class="fas fa-user"></i>
-                <span>CCI Users</span>
+                <span>CCI </span>
             </a>
         </li>
     </ul>

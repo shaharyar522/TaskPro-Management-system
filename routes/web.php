@@ -83,7 +83,7 @@
 
         Route::get('/Frontier/user', [AdminFrontierSidebrController::class, 'index'])->name('user.frontier');
         Route::get('/Frontier/user/{id}', [AdminFrontierSidebrController::class, 'show'])->name('frontier.show');
-        Route::get('user/{id}/edit', [AdminFrontierSidebrController::class, 'edit'])->name('admin.frontier.edit');
+        Route::get('/Frontier/{id}/edit', [AdminFrontierSidebrController::class, 'edit'])->name('admin.frontier.edit');
         Route::put('/Frontier/user/{id}/update', [AdminFrontierSidebrController::class, 'update'])->name('admin.frontier.update');
         Route::delete('/Frontier/user/{id}/destroy', [AdminFrontierSidebrController::class, 'destroy'])->name('admin.frontier.destroy');
 

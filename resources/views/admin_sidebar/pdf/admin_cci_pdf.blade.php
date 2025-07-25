@@ -39,7 +39,10 @@
     <table>
         <thead>
             <tr>
-                <th style="width: 40px;">ID</th>
+                <th style="width: 40px;">Sno</th>
+                <th style="width: 40px;">Date</th>
+                <th style="width: 40px;">First Name</th>
+                <th style="width: 40px;">Last Name</th>
                 <th style="width: 150px;">Address</th>
                 <th style="width: 80px;">Phone</th>
                 <th style="width: 100px;">Master Order</th>
@@ -51,14 +54,15 @@
                 <th style="width: 40px;">In</th>
                 <th style="width: 40px;">Out</th>
                 <th style="width: 40px;">Hours</th>
-                <th style="width: 80px;">Created At</th>
-                <th style="width: 80px;">Updated At</th>
             </tr>
         </thead>
         <tbody>
             @foreach($admincci as $data)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ $loop->iteration}}</td>
+                <td>{{ $data->created_at->format('m/d/Y') }}</td>
+                <td>{{ $data->user->name ?? 'N/A' }}</td>
+                <td>{{ $data->user->last_name ?? 'N/A' }}</td>
                 <td>{{ $data->address }}</td>
                 <td>{{ $data->phone }}</td>
                 <td>{{ $data->master_order }}</td>
@@ -70,8 +74,6 @@
                 <td>{{ $data->in }}</td>
                 <td>{{ $data->out }}</td>
                 <td>{{ $data->hours }}</td>
-                <td>{{ $data->created_at }}</td>
-                <td>{{ $data->updated_at }}</td>
             </tr>
             @endforeach
         </tbody>
