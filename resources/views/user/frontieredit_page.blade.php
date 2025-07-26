@@ -1,18 +1,23 @@
 @extends('user.layouts.layoutsUser')
+
+
+@section('content')
 <header class="dashboard-header">
     <div class="header-left">
         <div class="menu-toggle">
             <i class="fas fa-bars"></i>
         </div>
-        <h1 class="header-title" onclick="showSection('form-section')">Dashboard</h1>
-        <h1 class="header-title" onclick="showSection('report-section')">Report</h1>
+        <h1 class="header-title">
+            <a href="{{ route('user.dashboardFrontier') }}" style="text-decoration:none; color:inherit;">Dashboard</a>
+        </h1>
 
+        <h1> </h1>
     </div>
     <div class="header-right">
         <div class="user-dropdown">
             <div class="user-profile">
-                <img src="https://plus.unsplash.com/premium_photo-1681487870238-4a2dfddc6bcb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dG8lMjBkbyUyMGxpc3R8ZW58MHx8MHx8fDA%3D" alt="User" class="user-avatar">
-             
+                <img src="https://plus.unsplash.com/premium_photo-1681487870238-4a2dfddc6bcb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dG8lMjBkbyUyMGxpc3R8ZW58MHx8MHx8fDA%3D"
+                    alt="User" class="user-avatar">
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-menu">
@@ -27,11 +32,11 @@
         </div>
     </div>
 </header>
-@section('content')
 
 <div>
+
     <div class="card mt-4 profile-form-container">
-        <h4 class="mb-4 text-primary">User Profile Update Frontier Information  </h4>
+        <h4 class="mb-4 text-primary">User Profile Update Frontier Information </h4>
 
         <form method="POST" action="{{ route('userfrontier.update', $userdata->id) }}">
             @csrf
@@ -70,23 +75,40 @@
                 <div class="input-group">
                     <div class="input-field">
                         <label class="input-label">Install T.T. Soc TTC</label>
-                        <input type="text" name="install_T_T_Soc_TTC" class="form-control"
-                            placeholder="Enter Install T.T. Soc TTC"
-                            value="{{ old('install_T_T_Soc_TTC', $userdata->install_T_T_Soc_TTC) }}">
+                        <select name="install_T_T_Soc_TTC" id="install_T_T_Soc_TTC" class="form-control">
+                            <option value="">-- Select Option --</option>
+                            <option value="SOC" {{ old('install_T_T_Soc_TTC',$userdata->install_T_T_Soc_TTC)=='SOC' ?
+                                'selected' : '' }}>SOC</option>
+                            <option value="TT" {{ old('install_T_T_Soc_TTC',$userdata->install_T_T_Soc_TTC)=='TT' ?
+                                'selected' : '' }}>TT</option>
+                        </select>
                         @error('install_T_T_Soc_TTC') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
                     <div class="input-field">
                         <label class="input-label">ONT NTD</label>
-                        <input type="text" name="ont_Ntd" class="form-control" placeholder="Enter ONT NTD"
-                            value="{{ old('ont_Ntd', $userdata->ont_Ntd) }}">
+                        <select name="ont_Ntd" id="ont_Ntd" class="form-control">
+                            <option value="">-- Select Option --</option>
+                            <option value="YES" {{ old('ont_Ntd',$userdata->ont_Ntd)=='YES' ? 'selected' : '' }}>YES
+                            </option>
+                            <option value="NO" {{ old('ont_Ntd',$userdata->ont_Ntd)=='NO' ? 'selected' : '' }}>NO
+                            </option>
+                        </select>
                         @error('ont_Ntd') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
                     <div class="input-field">
                         <label class="input-label">Comp or Refer</label>
-                        <input type="text" name="comp_or_refer" class="form-control" placeholder="Enter Comp or Refer"
-                            value="{{ old('comp_or_refer', $userdata->comp_or_refer) }}">
+                        <select name="comp_or_refer" id="comp_or_refer" class="form-control">
+                            <option value="">-- Select Option --</option>
+                            <option value="COMP" {{ old('comp_or_refer', $userdata->comp_or_refer)=='COMP' ? 'selected'
+                                : '' }}>COMP</option>
+                            <option value="REFER" {{ old('comp_or_refer',$userdata->comp_or_refer)=='REFER' ? 'selected'
+                                : '' }}>REFER</option>
+                        </select>
                         @error('comp_or_refer') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
+
                     @php
                     $codes = billingCodes();
                     @endphp
@@ -96,7 +118,8 @@
                         <select name="billing_code" id="billing_code" class="form-control">
                             <option value="">-- Select Billing Code --</option>
                             @foreach($codes as $code => $data)
-                            <option value="{{ $code }}" {{ old('billing_code')==$code ? 'selected' : '' }}>
+                            <option value="{{ $code }}" {{ old('billing_code', $userdata->billing_code)==$code ?
+                                'selected' : '' }}>
                                 {{ $code }}
                             </option>
                             @endforeach
@@ -154,7 +177,7 @@
                             value="{{ old('closeout_notes', $userdata->closeout_notes) }}">
                         @error('closeout_notes') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
-                     <div class="input-field">
+                    <div class="input-field">
                         <label class="input-label">In</label>
                         <input type="time" name="in" id="in" class="form-control" value="{{ old('in',$userdata->in) }}">
                         @error('in') <small class="text-danger">{{ $message }}</small> @enderror
@@ -166,12 +189,14 @@
 
                     <div class="input-field">
                         <label class="input-label">Out</label>
-                        <input type="time" name="out" id="out" class="form-control" value="{{ old('out',$userdata->out) }}">
+                        <input type="time" name="out" id="out" class="form-control"
+                            value="{{ old('out',$userdata->out) }}">
                         @error('out') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="input-field">
                         <label class="input-label">Hours</label>
-                        <input type="number" name="hours" id="hours" value="{{ old('out',$userdata->hours) }}" class="form-control" step="0.1" readonly>
+                        <input type="number" name="hours" id="hours" value="{{ old('out',$userdata->hours) }}"
+                            class="form-control" step="0.1" readonly>
                         @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
@@ -184,6 +209,8 @@
                 </button>
             </div>
         </form>
+
+
     </div>
 
 </div>
@@ -253,4 +280,36 @@
     document.getElementById('in').addEventListener('change', calculateHours);
     document.getElementById('out').addEventListener('change', calculateHours);
 </script>
+
+
+
+@push('script')
+<script>
+    function showSection(sectionId) {
+       document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+       document.getElementById(sectionId).style.display = 'block';
+   }
+</script>
+@endpush
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const userProfile = document.querySelector('.user-profile');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    if (userProfile) {
+        userProfile.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+    }
+
+    // Close dropdown if clicked outside
+    document.addEventListener('click', function () {
+        if (dropdownMenu) dropdownMenu.classList.remove('show');
+    });
+});
+
+</script>
+
 @endsection

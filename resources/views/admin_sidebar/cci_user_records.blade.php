@@ -98,8 +98,10 @@
         </script>
 
         {{-- ================================= Start Date Filtering ================================= --}}
+
         <form action="{{ isset($user) ? route('cci.show', $user->id) : route('user.cci') }}" method="GET"
             class="d-flex gap-3 align-items-end flex-wrap">
+
             <div>
                 <label for="start_date" class="form-label mb-0 small">Start Date</label>
                 <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}"
@@ -117,43 +119,53 @@
                 <a href="{{ isset($user) ? route('cci.show', $user->id) : route('user.cci') }}"
                     class="btn btn-sm btn-secondary mt-2">Reset Date</a>
             </div>
+
         </form>
 
         {{-- ================================= End Date Filtering ================================= --}}
 
         <div class="dropdown">
+
             <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdownCCI"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-download"></i> Download Records
             </button>
+
             <ul class="dropdown-menu" aria-labelledby="downloadDropdownCCI">
+
                 <li>
                     <a class="dropdown-item"
                         href="{{ route('admincci.export.excel', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
                         <i class="fas fa-file-excel text-success"></i> Excel File
                     </a>
                 </li>
+
                 <li>
                     <a class="dropdown-item"
                         href="{{ route('admincci.export.csv', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
                         <i class="fas fa-file-csv text-info"></i> CSV File
                     </a>
                 </li>
+
                 <li>
                     <a class="dropdown-item"
                         href="{{ route('admincci.export.pdf', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
                         <i class="fas fa-file-pdf text-danger"></i> PDF File
                     </a>
                 </li>
+
                 <li>
                     <a class="dropdown-item"
                         href="{{ route('user.cci.export.email', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
                         <i class="fas fa-envelope text-primary"></i> Send Email
                     </a>
                 </li>
+                
             </ul>
         </div>
     </div>
+
+
 
 
     <div class="table-responsive">
@@ -247,10 +259,12 @@
 
 <script>
     function calculateHours() {
+
         const inTime = document.getElementById('in').value;
         const outTime = document.getElementById('out').value;
 
         if (inTime && outTime) {
+            
             const [inHours, inMinutes] = inTime.split(':').map(Number);
             const [outHours, outMinutes] = outTime.split(':').map(Number);
 
@@ -263,14 +277,21 @@
             if (diff < 0) diff += 24;
 
             document.getElementById('hours').value = diff.toFixed(2);
+
         }
     }
+
     document.getElementById('in').addEventListener('change', calculateHours);
     document.getElementById('out').addEventListener('change', calculateHours);
+
 </script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @push('script')
 <script src="{{asset('js/header.js')}}"></script>
-@endpush
 
+
+
+@endpush
 @endsection

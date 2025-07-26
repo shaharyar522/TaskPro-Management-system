@@ -225,7 +225,10 @@ class AdminFrontierSidebrController extends Controller
 
 
     public function exportAndSendExcel()
+
     {
+
+
         $export = new AdminUserFrontierExport();
 
         $fileName = 'user_frontier_export.xlsx'; // always same name
@@ -251,5 +254,10 @@ class AdminFrontierSidebrController extends Controller
         Mail::to($to)->send(new \App\Mail\ExcelEmail($msg, $subject, $filePath));
 
         return redirect()->route('user.frontier')->with('message', 'Email send Successfully');
+
+        
     }
+
+
+
 }

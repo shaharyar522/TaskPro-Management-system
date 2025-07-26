@@ -123,7 +123,7 @@
                         @error('ont_Ntd') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
-                    <div class="input-field">
+                    <div class="input-field"> 
                         <label class="input-label">Comp or Refer</label>
                         <select name="comp_or_refer" id="comp_or_refer" class="form-control">
                             <option value="">-- Select Option --</option>

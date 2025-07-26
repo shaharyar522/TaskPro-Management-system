@@ -3,131 +3,139 @@
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
 <link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
 <style>
-    /* Custom spacing for report table columns */
-    .custom-report-table th,
-    .custom-report-table td {
-        padding: 12px 20px;
-        /* Increase horizontal and vertical spacing */
-        white-space: nowrap;
-        /* Prevent line breaks */
-    }
-
-    /* Optional: Make sure table is responsive and looks nice */
-    .custom-report-table {
-        font-size: 14px;
-    }
-
-    @media (max-width: 768px) {
-
-        .custom-report-table th,
-        .custom-report-table td {
-            padding: 10px;
-            font-size: 12px;
-        }
-    }
-</style>
-<style>
-    /* Main container styling */
-    .profile-form-container {
+    /* Main Form Container */
+    #cci-form-container {
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         padding: 30px;
-        margin-bottom: 30px;
+        margin: 20px auto;
+        border: 1px solid #e0e6ed;
+        max-width: 1200px;
     }
 
-    /* Form header styling */
-    .profile-form-container h4 {
+    /* Form Title */
+    .form-main-title {
         color: #2c3e50;
-        font-weight: 600;
-        border-bottom: 2px solid #3498db;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 30px;
         padding-bottom: 15px;
-        margin-bottom: 25px;
+        border-bottom: 2px solid #3498db;
+        position: relative;
+        text-align: center;
     }
 
-    /* Input group container */
-    .form-group-vertical {
+    /* Form Group Layout */
+    .form-vertical-group {
         display: flex;
         flex-direction: column;
         gap: 25px;
     }
 
-    /* Each row of inputs */
-    .input-group {
+    /* Input Groups - 4 columns */
+    .form-input-row {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 20px;
+        align-items: start;
     }
 
-    /* Responsive adjustment for smaller screens */
-    @media (max-width: 1200px) {
-        .input-group {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .input-group {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* Input field styling */
+    /* Individual Input Fields */
+    .form-field,
     .input-field {
         margin-bottom: 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
     }
 
+    .form-field-label,
     .input-label {
         display: block;
         margin-bottom: 8px;
-        font-weight: 500;
-        color: #34495e;
+        font-weight: 600;
+        color: #2c3e50;
         font-size: 14px;
     }
 
+    /* Form Controls - Equal width for all inputs */
     .form-control {
         width: 100%;
         padding: 12px 15px;
-        border: 1px solid #dfe6e9;
+        border: 1px solid #e0e6ed;
         border-radius: 6px;
-        background-color: #f8f9fa;
+        background-color: #f8fafc;
         transition: all 0.3s ease;
         font-size: 14px;
+        color: #3c4858;
+        height: 42px;
+        box-sizing: border-box;
     }
 
+    /* Special styling for date inputs */
+    input[type="date"].form-control {
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    /* Special styling for time inputs */
+    input[type="time"].form-control {
+        appearance: none;
+        -webkit-appearance: none;
+    }
+    
     .form-control:focus {
         border-color: #3498db;
         box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         background-color: #ffffff;
+        outline: none;
     }
 
-    /* Readonly fields styling */
-    .form-control[readonly] {
-        background-color: #ecf0f1;
-        color: #7f8c8d;
+    /* Readonly Fields */
+    .form-readonly {
+        background-color: #f1f5f9;
+        color: #64748b;
+        cursor: not-allowed;
     }
 
-    /* Error message styling */
+    /* Select Dropdowns */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 12px;
+    }
+
+    /* Error Messages */
     .text-danger {
         font-size: 12px;
+        color: #ef4444;
         margin-top: 5px;
         display: block;
+        font-weight: 500;
     }
 
-    /* Submit button styling */
+    /* Submit Button */
     .form-submit {
         margin-top: 30px;
-        text-align: right;
+        text-align: center;
     }
 
     .btn-primary {
         background-color: #3498db;
+        color: white;
         border: none;
         padding: 12px 25px;
         border-radius: 6px;
-        font-weight: 500;
-        letter-spacing: 0.5px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
         transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .btn-primary:hover {
@@ -140,179 +148,193 @@
         transform: translateY(0);
     }
 
-    /* Select dropdown styling */
-    select.form-control {
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 15px center;
-        background-size: 12px;
-    }
-
-    /* Custom spacing for report table columns */
-    .custom-report-table th,
-    .custom-report-table td {
-        padding: 12px 20px;
-        white-space: nowrap;
-    }
-
-    .custom-report-table {
+    .btn-icon {
+        margin-right: 8px;
         font-size: 14px;
     }
 
-    @media (max-width: 768px) {
+    /* Make address and job notes span 2 columns */
+    #address-field,
+    #job-notes-field {
+        grid-column: span 2;
+    }
 
-        .custom-report-table th,
-        .custom-report-table td {
-            padding: 10px;
-            font-size: 12px;
+    /* Responsive Adjustments */
+    @media (max-width: 1200px) {
+        .form-input-row {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        
+        #address-field,
+        #job-notes-field {
+            grid-column: span 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .form-input-row {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        #cci-form-container {
+            padding: 20px;
+        }
+
+        .form-main-title {
+            font-size: 1.3rem;
         }
     }
 </style>
+
 @section('content')
+
 @include('layouts.header')
 
+<div id="cci-form-container">
+    <h4 class="form-main-title">User Profile Update CCI Information</h4>
 
-<div>
-    <div class="card mt-4 profile-form-container">
-        <h4 class="mb-4 text-primary">User Profile Update CCI Information </h4>
+    <form method="POST" action="{{ route('admin.cci.update', $userCCI->id) }}" class="form-vertical-group">
+        @csrf
+        @method('PUT')
 
-        <form method="POST" action="{{ route('admin.cci.update', $userCCI->id) }}">
-            @csrf
-            @method('PUT')
-
-
-
-
-
-
-            <div class="input-group">
-                <div class="input-field">
-                    <label class="input-label">Created Date</label>
-                    <input type="date" name="created_at" class="form-control"
-                        value="{{ old('created_at', $userCCI->created_at ? $userCCI->created_at->format('Y-m-d') : '') }}">
-                    @error('created_at') <small class="text-danger">{{ $message }}</small> @enderror
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">First Name</label>
-                    <input type="text" name="first_name" class="form-control"
-                        value="{{ old('first_name', $userCCI->user->name ?? '') }}">
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">Last Name</label>
-                    <input type="text" name="last_name" class="form-control"
-                        value="{{ old('last_name', $userCCI->user->last_name ?? '') }}">
-                </div>
-                <div class="input-field">
-                    <label class="input-label">Phone</label>
-                    <input type="text" name="phone" id="phone" class="form-control"
-                        value="{{ old('phone', $userCCI->phone) }}">
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">Address</label>
-                    <input type="text" name="address" id="address" class="form-control"
-                        value="{{ old('address', $userCCI->address) }}">
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">Master Order</label>
-                    <input type="text" name="master_order" class="form-control"
-                        value="{{ old('master_order', $userCCI->master_order) }}">
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">Job Notes</label>
-                    <input type="text" name="job_notes" class="form-control"
-                        value="{{ old('job_notes', $userCCI->job_notes) }}">
-                </div>
+        <!-- Personal Information Section -->
+        <div class="form-input-row">
+            <div class="form-field">
+                <label for="created_at" class="form-field-label">Created Date</label>
+                <input type="date" id="created_at" name="created_at" class="form-control form-date-input"
+                    value="{{ old('created_at', $userCCI->created_at ? $userCCI->created_at->format('Y-m-d') : '') }}">
+                @error('created_at') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
-            @php
-            $workTypes = WorkType(); // global helper
-            @endphp
-
-            <div class="input-group">
-                <div class="input-field">
-                    <label class="input-label">Work Type</label>
-                    <select name="work_type" id="work_type" class="form-control">
-                        <option value="">-- Select Work Type --</option>
-                        @foreach($workTypes as $code => $data)
-                        <option value="{{ $code }}" data-unit="{{ $data['unit'] ?? '' }}"
-                            data-w2="{{ $data['w2'] ?? '' }}" {{ old('work_type', $userCCI->work_type) == $code ?
-                            'selected' : '' }}>
-                            {{ $code }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">Unit</label>
-                    <input type="text" name="unit" id="unit" class="form-control"
-                        value="{{ old('unit', $userCCI->unit) }}" readonly>
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">Qty</label>
-                    <input type="number" name="qty" class="form-control" value="{{ old('qty', $userCCI->qty) }}">
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">W2</label>
-                    <input type="text" name="w2" id="w2" class="form-control" value="{{ old('w2', $userCCI->w2) }}"
-                        readonly>
-                </div>
+            <div class="form-field">
+                <label for="first_name" class="form-field-label">First Name</label>
+                <input type="text" id="first_name" name="first_name" class="form-control"
+                    value="{{ old('first_name', $userCCI->user->name ?? '') }}">
             </div>
 
-            <div class="input-group">
-                <div class="input-field">
-                    <label class="input-label">In</label>
-                    <input type="time" name="in" id="in" class="form-control" value="{{ old('in', $userCCI->in) }}">
-                    @error('in') <small class="text-danger">{{ $message }}</small> @enderror
-                </div>
-                <div class="input-field">
-                    <label class="input-label">Out</label>
-                    <input type="time" name="out" id="out" class="form-control" value="{{ old('out',$userCCI->out) }}">
-                    @error('out') <small class="text-danger">{{ $message }}</small> @enderror
-                </div>
-
-                <div class="input-field">
-                    <label class="input-label">Hours</label>
-                    <input type="number" name="hours" id="hours" value="{{ old('out',$userCCI->hours) }}" class="form-control" step="0.1" readonly>
-                    @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
-                </div>
-
-                <input type="hidden" name="user_id" value="{{ $userCCI->user_id }}">
+            <div class="form-field">
+                <label for="last_name" class="form-field-label">Last Name</label>
+                <input type="text" id="last_name" name="last_name" class="form-control"
+                    value="{{ old('last_name', $userCCI->user->last_name ?? '') }}">
             </div>
 
-            <div class="form-submit">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i> Update Information
-                </button>
+            <div class="form-field">
+                <label for="phone" class="form-field-label">Phone</label>
+                <input type="text" id="phone" name="phone" class="form-control"
+                    value="{{ old('phone', $userCCI->phone) }}">
             </div>
-        </form>
-    </div>
+        </div>
 
+        <!-- Address and Job Information Section -->
+        <div class="form-input-row">
+            <div class="form-field">
+                <label for="address" class="form-field-label">Address</label>
+                <input type="text" id="address" name="address" class="form-control"
+                    value="{{ old('address', $userCCI->address) }}">
+            </div>
+
+            <div class="form-field">
+                <label for="master_order" class="form-field-label">Master Order</label>
+                <input type="text" id="master_order" name="master_order" class="form-control"
+                    value="{{ old('master_order', $userCCI->master_order) }}">
+            </div>
+
+            <div class="form-field">
+                <label for="job_notes" class="form-field-label">Job Notes</label>
+                <input type="text" id="job_notes" name="job_notes" class="form-control"
+                    value="{{ old('job_notes', $userCCI->job_notes) }}">
+            </div>
+              @php
+        $workTypes = WorkType(); // global helper
+        @endphp
+              <div class="form-field">
+                <label for="work_type" class="form-field-label">Work Type</label>
+                <select id="work_type" name="work_type" class="form-control form-select-control">
+                    <option value="">-- Select Work Type --</option>
+                    @foreach($workTypes as $code => $data)
+                    <option value="{{ $code }}" data-unit="{{ $data['unit'] ?? '' }}"
+                        data-w2="{{ $data['w2'] ?? '' }}" {{ old('work_type', $userCCI->work_type) == $code ?
+                        'selected' : '' }}>
+                        {{ $code }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+      
+
+        <!-- Work Information Section -->
+        <div class="form-input-row">
+            <div class="form-field">
+                <label for="unit" class="form-field-label">Unit</label>
+                <input type="text" id="unit" name="unit" class="form-control form-readonly"
+                    value="{{ old('unit', $userCCI->unit) }}" readonly>
+            </div>
+
+            <div class="form-field">
+                <label for="qty" class="form-field-label">Qty</label>
+                <input type="number" id="qty" name="qty" class="form-control"
+                    value="{{ old('qty', $userCCI->qty) }}">
+            </div>
+
+            <div class="form-field">
+                <label for="w2" class="form-field-label">W2</label>
+                <input type="text" id="w2" name="w2" class="form-control form-readonly"
+                    value="{{ old('w2', $userCCI->w2) }}" readonly>
+            </div>
+            <div class="form-field">
+                <label for="in" class="form-field-label">In</label>
+                <input type="time" id="in" name="in" class="form-control form-time-input"
+                    value="{{ old('in', $userCCI->in) }}">
+                @error('in') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+        </div>
+
+        <!-- Time Tracking Section -->
+        <div class="form-input-row">
+            
+
+            <div class="form-field">
+                <label for="out" class="form-field-label">Out</label>
+                <input type="time" id="out" name="out" class="form-control form-time-input"
+                    value="{{ old('out',$userCCI->out) }}">
+                @error('out') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+
+            <div class="form-field">
+                <label for="hours" class="form-field-label">Hours</label>
+                <input type="number" id="hours" name="hours" class="form-control form-readonly"
+                    value="{{ old('out',$userCCI->hours) }}" step="0.1" readonly>
+                @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+
+            <input type="hidden" id="user_id" name="user_id" value="{{ $userCCI->user_id }}">
+        </div>
+
+        <div class="form-submit">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save btn-icon"></i> Update Information
+            </button>
+        </div>
+    </form>
 </div>
 
 @if(session('redirect_to_report'))
 <script>
     window.onload = function () {
-            // 👇 this line is same as if you clicked the Report tab manually
-            showSection('report-section');
+        // 👇 this line is same as if you clicked the Report tab manually
+        showSection('report-section');
 
-            // ✅ Show SweetAlert
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: '{{ session('update_success') }}',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK'
-            });
-        };
+        // ✅ Show SweetAlert
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('update_success') }}',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+    };
 </script>
 @endif
 
@@ -336,9 +358,7 @@
     window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('work_type').dispatchEvent(new Event('change'));
     });
-</script>
 
-<script>
     function calculateHours() {
         const inTime = document.getElementById('in').value;
         const outTime = document.getElementById('out').value;
@@ -362,4 +382,5 @@
     document.getElementById('in').addEventListener('change', calculateHours);
     document.getElementById('out').addEventListener('change', calculateHours);
 </script>
+
 @endsection

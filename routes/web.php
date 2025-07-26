@@ -69,25 +69,25 @@
 
         // ========================================= end approved sidebar codee =========================================
 
+        
 
         // ======================================================== start blocked sidebar route =========================================
-
         // condition  user blocked k luey route  jin ka staus =1 and blocke= 1 then show hnga
         Route::get('/BlockedUser', [UserController::class, 'blockedIndex'])->name('user.blocked');
         Route::post('/users/{id}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
         Route::put('/users/updateblock/{id}', [UserController::class, 'Blockupdate'])->name('usersblock.update');
-
         // ======================================================== end blocked sidebar route ========================================================
 
-        // ======================================================== start Side bar frontier  route =========================================
 
+
+        // ======================================================== start Side bar frontier  route =========================================
         Route::get('/Frontier/user', [AdminFrontierSidebrController::class, 'index'])->name('user.frontier');
         Route::get('/Frontier/user/{id}', [AdminFrontierSidebrController::class, 'show'])->name('frontier.show');
         Route::get('/Frontier/{id}/edit', [AdminFrontierSidebrController::class, 'edit'])->name('admin.frontier.edit');
         Route::put('/Frontier/user/{id}/update', [AdminFrontierSidebrController::class, 'update'])->name('admin.frontier.update');
         Route::delete('/Frontier/user/{id}/destroy', [AdminFrontierSidebrController::class, 'destroy'])->name('admin.frontier.destroy');
-
         // ======================================================== end frontier sidebar route ========================================================
+
 
 
 
@@ -198,7 +198,7 @@
 
         /// ================================end for dowanload  user frontire excle and SCV file  =========================================
 
-        
+
 
 
         /// ================================start for dowanload  user CCI excle and SCV file  =========================================
