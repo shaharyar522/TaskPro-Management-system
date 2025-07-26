@@ -76,7 +76,7 @@
     .input-field {
         margin-bottom: 0;
     }
- 
+
     .input-label {
         display: block;
         margin-bottom: 8px;
@@ -170,18 +170,41 @@
     }
 </style>
 @section('content')
-@include('layouts.header') 
+@include('layouts.header')
 
 
 <div>
     <div class="card mt-4 profile-form-container">
         <h4 class="mb-4 text-primary">User Profile Update CCI Information </h4>
-        
-          <form method="POST" action="{{ route('admin.cci.update', $userCCI->id) }}">
+
+        <form method="POST" action="{{ route('admin.cci.update', $userCCI->id) }}">
             @csrf
             @method('PUT')
 
+
+
+
+
+
             <div class="input-group">
+                <div class="input-field">
+                    <label class="input-label">Created Date</label>
+                    <input type="date" name="created_at" class="form-control"
+                        value="{{ old('created_at', $userCCI->created_at ? $userCCI->created_at->format('Y-m-d') : '') }}">
+                    @error('created_at') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <div class="input-field">
+                    <label class="input-label">First Name</label>
+                    <input type="text" name="first_name" class="form-control"
+                        value="{{ old('first_name', $userCCI->user->name ?? '') }}">
+                </div>
+
+                <div class="input-field">
+                    <label class="input-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-control"
+                        value="{{ old('last_name', $userCCI->user->last_name ?? '') }}">
+                </div>
                 <div class="input-field">
                     <label class="input-label">Phone</label>
                     <input type="text" name="phone" id="phone" class="form-control"
@@ -206,6 +229,7 @@
                         value="{{ old('job_notes', $userCCI->job_notes) }}">
                 </div>
             </div>
+
             @php
             $workTypes = WorkType(); // global helper
             @endphp
@@ -246,18 +270,18 @@
             <div class="input-group">
                 <div class="input-field">
                     <label class="input-label">In</label>
-                    <input type="time" name="in" id="in" class="form-control" value="{{ old('in') }}">
+                    <input type="time" name="in" id="in" class="form-control" value="{{ old('in', $userCCI->in) }}">
                     @error('in') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
                 <div class="input-field">
                     <label class="input-label">Out</label>
-                    <input type="time" name="out" id="out" class="form-control" value="{{ old('out') }}">
+                    <input type="time" name="out" id="out" class="form-control" value="{{ old('out',$userCCI->out) }}">
                     @error('out') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 <div class="input-field">
                     <label class="input-label">Hours</label>
-                    <input type="number" name="hours" id="hours" class="form-control" step="0.1" readonly>
+                    <input type="number" name="hours" id="hours" value="{{ old('out',$userCCI->hours) }}" class="form-control" step="0.1" readonly>
                     @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 

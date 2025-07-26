@@ -83,6 +83,9 @@ class AdminCCISidebrController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'created_at' => 'nullable|date',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string',
             'master_order' => 'nullable|string',
@@ -110,7 +113,16 @@ class AdminCCISidebrController extends Controller
             'in'            => $request->in,
             'out'           => $request->out,
             'hours'         => $request->hours,
+            'created_at' => $request->created_at ?? $userCCI->created_at,
         ]);
+
+        
+        if ($userCCI->user) {
+            $userCCI->user->update([
+                'name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ]);
+        }
 
         return redirect()
             ->route('cci.show', $userCCI->user_id)
@@ -134,31 +146,31 @@ class AdminCCISidebrController extends Controller
     /**
      * Export PDF.
      */
-  public function exportPDF(Request $request)
-{
-    $query = UserCCI::with('user'); // include user relation
+    public function exportPDF(Request $request)
+    {
+        $query = UserCCI::with('user'); // include user relation
 
-    // Filter by user_id if available
-    if ($request->has('user_id') && $request->user_id != '') {
-        $query->where('user_id', $request->user_id);
+        // Filter by user_id if available
+        if ($request->has('user_id') && $request->user_id != '') {
+            $query->where('user_id', $request->user_id);
+        }
+
+        // Filter by date range
+        if ($request->has('start_date') && $request->start_date != '') {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+        if ($request->has('end_date') && $request->end_date != '') {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $admincci = $query->get();
+
+        // Generate PDF
+        $pdf = Pdf::loadView('admin_sidebar.pdf.admin_cci_pdf', compact('admincci'))
+            ->setPaper('A4', 'landscape');
+
+        return $pdf->download('admin_cci_report.pdf');
     }
-
-    // Filter by date range
-    if ($request->has('start_date') && $request->start_date != '') {
-        $query->whereDate('created_at', '>=', $request->start_date);
-    }
-    if ($request->has('end_date') && $request->end_date != '') {
-        $query->whereDate('created_at', '<=', $request->end_date);
-    }
-
-    $admincci = $query->get();
-
-    // Generate PDF
-    $pdf = Pdf::loadView('admin_sidebar.pdf.admin_cci_pdf', compact('admincci'))
-        ->setPaper('A4', 'landscape');
-
-    return $pdf->download('admin_cci_report.pdf');
-}
 
 
     /**

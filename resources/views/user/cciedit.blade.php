@@ -102,20 +102,22 @@
             </div>
 
             <div class="input-group">
+                
                 <div class="input-field">
                     <label class="input-label">In</label>
-                    <input type="time" name="in" id="in" class="form-control" value="{{ old('in') }}">
+                    <input type="time" name="in" id="in" class="form-control" value="{{ old('in',$userCCI->in) }}">
                     @error('in') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
+
                 <div class="input-field">
                     <label class="input-label">Out</label>
-                    <input type="time" name="out" id="out" class="form-control" value="{{ old('out') }}">
+                    <input type="time" name="out" id="out" class="form-control" value="{{ old('out',$userCCI->out) }}">
                     @error('out') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 <div class="input-field">
                     <label class="input-label">Hours</label>
-                    <input type="number" name="hours" id="hours" class="form-control" step="0.1" readonly>
+                    <input type="number" name="hours" id="hours" value="{{ old('out',$userCCI->hours) }}" class="form-control" step="0.1" readonly>
                     @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 

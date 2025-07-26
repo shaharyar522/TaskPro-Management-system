@@ -154,8 +154,6 @@
                 </li>
             </ul>
         </div>
-
-
     </div>
 
 
@@ -193,7 +191,7 @@
             <tbody>
                 @foreach($frontiers as $data)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $frontiers->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $data->created_at->format('m/d/Y') }}</td>
                     <td>{{ $data->user->name ?? 'N/A' }}</td>
                     <td>{{ $data->user->last_name ?? 'N/A' }}</td>

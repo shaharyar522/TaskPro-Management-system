@@ -119,9 +119,7 @@
             </div>
         </form>
 
-
         {{-- ================================= End Date Filtering ================================= --}}
-
 
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdownCCI"
@@ -155,9 +153,6 @@
                 </li>
             </ul>
         </div>
-
-
-
     </div>
 
 
@@ -186,7 +181,7 @@
             <tbody>
                 @foreach($CCI as $data)
                 <tr>
-                    <td>{{ $loop->iteration}}</td>
+                    <td>{{ $CCI->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $data->created_at->format('m/d/Y') }}</td>
                     <td>{{ $data->user->name ?? 'N/A' }}</td>
                     <td>{{ $data->user->last_name ?? 'N/A' }}</td>

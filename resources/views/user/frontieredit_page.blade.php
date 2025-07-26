@@ -156,7 +156,7 @@
                     </div>
                      <div class="input-field">
                         <label class="input-label">In</label>
-                        <input type="time" name="in" id="in" class="form-control" value="{{ old('in') }}">
+                        <input type="time" name="in" id="in" class="form-control" value="{{ old('in',$userdata->in) }}">
                         @error('in') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
@@ -166,12 +166,12 @@
 
                     <div class="input-field">
                         <label class="input-label">Out</label>
-                        <input type="time" name="out" id="out" class="form-control" value="{{ old('out') }}">
+                        <input type="time" name="out" id="out" class="form-control" value="{{ old('out',$userdata->out) }}">
                         @error('out') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="input-field">
                         <label class="input-label">Hours</label>
-                        <input type="number" name="hours" id="hours" class="form-control" step="0.1" readonly>
+                        <input type="number" name="hours" id="hours" value="{{ old('out',$userdata->hours) }}" class="form-control" step="0.1" readonly>
                         @error('hours') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
