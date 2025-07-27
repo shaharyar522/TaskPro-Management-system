@@ -15,7 +15,8 @@
     use App\Exports\UserCCIExport;
     use App\Http\Controllers\AdminCCISidebrController;
     use App\Http\Controllers\AdminFrontierSidebrController;
-    use App\Http\Controllers\MailController;
+use App\Http\Controllers\ExcelFrontierMailController;
+use App\Http\Controllers\MailController;
     use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -105,6 +106,7 @@
         // ======================================================== end frontier sidebar route ========================================================
 
 
+Route::post('/frontier/send-mail', [ExcelFrontierMailController::class, 'sendMail'])->name('frontier.sendMail');
 
         /// ================================start for Admin dowanload  user frontire excle and SCV  and  pdf file  =========================================
 
@@ -121,13 +123,15 @@
         //PDF frontir
 
         Route::get('/admin-frontier/download-pdf', [AdminFrontierSidebrController::class, 'exportPDF'])->name('adminfrontier.export.pdf');
-
-        Route::get('/frontier-and-email-admin', [AdminFrontierSidebrController::class, 'exportAndSendExcel'])->name('admin.frontier.export.email');
-        Route::get('/cci-and-admin-email', [AdminCCISidebrController::class, 'exportAndSendExcel'])->name('user.cci.export.email');
-
-        /// ================================end for dowanload  user frontire excle and SCV file  =====================================
+        /// ================================end for dowanload  user frontire excle and SCV file  =====================================  
 
 
+
+      /// ================================start for Send Mail  admin Frontier and CCI   excle and SCV  =========================================
+   
+      /// ================================start for Send Mail  admin Frontier and CCI   excle and SCV  =========================================
+
+ 
 
         /// ================================start for Admin dowanload  user CCI excle and SCV  and  pdf file  =========================================
 

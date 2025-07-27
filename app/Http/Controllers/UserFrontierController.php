@@ -219,32 +219,5 @@ class UserFrontierController extends Controller
         return $pdf->download('user_frontier_report.pdf');
     }
 
-    public function exportAndSendExcel()
-    {
-        $export = new UserFrontierExport();
-
-        $fileName = 'user_frontier_export.xlsx'; // always same name
-        $relativePath = 'exports/' . $fileName;
-        $filePath = public_path($relativePath);
-
-        // Ensure public/exports directory exists
-        if (!File::exists(public_path('exports'))) {
-            File::makeDirectory(public_path('exports'), 0755, true);
-        }
-
-        // Save the Excel file to storage/app/public
-        Excel::store($export, $fileName, 'public');
-
-        // Copy it to public/exports
-        copy(storage_path('app/public/' . $fileName), $filePath);
-
-        // Send email with attachment
-        $to = 'aatifshehzad668@gmail.com';
-        $subject = 'User Frontier Excel File';
-        $msg = 'Attached is the exported Frontier Excel file.';
-
-        Mail::to($to)->send(new \App\Mail\ExcelEmail($msg, $subject, $filePath));
-
-        return redirect()->route('user.dashboardFrontier')->with('message','Email send Successfully');
-    }
+   
 }

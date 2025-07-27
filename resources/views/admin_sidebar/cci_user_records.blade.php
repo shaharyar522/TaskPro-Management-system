@@ -2,64 +2,8 @@
 @include('layouts.sidebar')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
 <link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
-<style>
-    /* Custom spacing for report table columns */
-    .custom-report-table th,
-    .custom-report-table td {
-        padding: 12px 20px;
-        /* Increase horizontal and vertical spacing */
-        white-space: nowrap;
-        /* Prevent line breaks */
-    }
+<link rel="stylesheet" href="{{asset('css/SidebarCCI/table.css')}}">
 
-    /* Optional: Make sure table is responsive and looks nice */
-    .custom-report-table {
-        font-size: 14px;
-    }
-
-    @media (max-width: 768px) {
-
-        .custom-report-table th,
-        .custom-report-table td {
-            padding: 10px;
-            font-size: 12px;
-        }
-    }
-</style>
-<style>
-    .filter-section {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 15px;
-    }
-
-    .filter-section .form-label {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #333;
-    }
-
-    .filter-section .form-control {
-        min-width: 180px;
-    }
-
-    .download-buttons a {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        font-size: 0.9rem;
-        border-radius: 6px;
-    }
-
-    .download-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 10px;
-    }
-</style>
 @section('content')
 @include('layouts.header')
 
@@ -155,10 +99,10 @@
                 </li>
 
                 <li>
-                    <a class="dropdown-item"
+                    {{-- <a class="dropdown-item"
                         href="{{ route('user.cci.export.email', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
                         <i class="fas fa-envelope text-primary"></i> Send Email
-                    </a>
+                    </a> --}}
                 </li>
                 
             </ul>
