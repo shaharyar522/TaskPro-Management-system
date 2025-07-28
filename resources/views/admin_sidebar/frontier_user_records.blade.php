@@ -4,9 +4,10 @@
 <link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
 <link rel="stylesheet" href="{{asset('css/SidebarFrontier/table.css')}}">
 
+
 @section('content')
 @include('layouts.header')
-
+<link rel="stylesheet" href="{{asset('css/SidebarFrontier/button.css')}}">
 <div class="dashboard-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="section-title">
@@ -34,7 +35,7 @@
             </select>
         </div>
 
-
+        
         <script>
             function redirectToUser(select) {
         const url = select.value;
@@ -57,19 +58,29 @@
                     class="form-control form-control-sm">
             </div>
             <div>
-                <button type="submit" class="btn btn-sm btn-primary mt-2">🔍 Search</button>
+                <button type="submit" class="btn btn-sm btn-search mt-2">
+                    <i class="fas fa-search"></i> Search
+                </button>
             </div>
             <div>
                 <a href="{{ isset($user) ? route('frontier.show', $user->id) : route('user.frontier') }}"
-                    class="btn btn-sm btn-secondary mt-2">Reset Date</a>
+                    class="btn btn-sm btn-reset mt-2">
+                    <i class="fas fa-undo"></i> Reset Date
+                </a>
             </div>
         </form>
+
+
         <form action="{{ route('frontier.sendMail') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-success">
-                <i class="fa fa-envelope"></i> Send Mail
+            <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
+            <button type="submit" class="btn btn-send-mail">
+                <i class="fas fa-envelope"></i> Send Mail
             </button>
         </form>
+
+
+
 
         {{-- ================================= End Start Searching start the and ending Date
         ================================= --}}
@@ -105,6 +116,7 @@
                 </li>
             </ul>
         </div>
+
     </div>
 
 

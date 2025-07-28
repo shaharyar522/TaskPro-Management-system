@@ -25,7 +25,7 @@
     }
 </style>
 
-
+<link rel="stylesheet" href="{{asset('css/userdashbord/button.css')}}">
 
 @section('content')
 
@@ -47,9 +47,6 @@
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-user"></i> Profile
-                </a>
                 <a href="#" class="dropdown-item"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -188,10 +185,23 @@
 {{-- end forom show --}}
 <div class="card mt-4 profile-form-container">
     <div id="report-section" style="display: none;">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        {{-- <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="text-primary">User Report CCI Information</h4>
 
+
+
+
+            </form>
+
+
+
+        </div> --}}
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="text-primary">User Report Frontier Information</h4>
+
             <form action="{{route('user.dashboardCCI')}}" method="GET" class="d-flex gap-2 align-items-center">
+
                 <div>
                     <label for="start_date" class="form-label mb-0 small">Start Date</label>
                     <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}"
@@ -205,25 +215,41 @@
                 <div class="mt-4">
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                 </div>
+                
                 <div class="mt-4">
-                    <a href="{{ route('user.dashboardCCI') }}" class="btn btn-sm btn-secondary">Reset Date</a>
+                    <a href="{{ route('user.dashboardCCI') }}" class="btn btn-sm"
+                        style="background-color: #bb2d3b; color: white; border: none;"
+                        onmouseover="this.style.backgroundColor='#a12733'"
+                        onmouseout="this.style.backgroundColor='#bb2d3b'">
+                        Reset Date
+                    </a>
                 </div>
+
             </form>
 
-
             <div class="d-flex gap-2">
+                <form action="" method="POST">
+                    @csrf
+                    <input type="hidden" name="user_id" value="">
+                    <button type="submit" class="btn-send-mail">
+                        <i class="fas fa-envelope"></i> Send Mail
+                    </button>
+                </form>
                 <a href="{{ route('usercci.export.excel') }}" class="btn btn-success">
-                    <i class="fas fa-file-excel"></i>📄 Download Excel File
+                    </i> Download Excel File
                 </a>
 
                 <a href="{{ route('usercci.export.csv') }}" class="btn btn-secondary">
-                    <i class="fas fa-file-csv"></i> 📄 Download CSV File
+                    </i> Download CSV File
                 </a>
-                <a href="{{ route('usercci.export.pdf') }}" class="btn btn-danger">
-                    📄 Download PDF File
+
+                <a href="" class="btn btn-danger">
+                    Download PDF File
                 </a>
             </div>
         </div>
+
+
 
         <div class="table-responsive">
             <table class="table table-striped table-bordered custom-report-table">

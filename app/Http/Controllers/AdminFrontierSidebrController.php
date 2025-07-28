@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\File;
-use App\Mail\ExcelEmail;
-
 class AdminFrontierSidebrController extends Controller
 {
     /**
@@ -223,5 +218,4 @@ class AdminFrontierSidebrController extends Controller
 
     //for email 
     
-
 }

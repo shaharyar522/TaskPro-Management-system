@@ -1,0 +1,113 @@
+/* Date Filter and Download Buttons Container */
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Date Filter Form */
+    .d-flex.justify-content-between.align-items-center.mb-4 form {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Date Input Fields */
+    .d-flex.justify-content-between.align-items-center.mb-4 .form-control-sm {
+        height: 32px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: 140px;
+    }
+
+    /* Filter Buttons */
+    .d-flex.justify-content-between.align-items-center.mb-4 .btn-sm {
+        height: 32px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    /* Download Buttons */
+    .d-flex.justify-content-between.align-items-center.mb-4 .btn {
+        height: 32px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    /* Button Icons */
+    .d-flex.justify-content-between.align-items-center.mb-4 .btn i {
+        font-size: 0.8rem;
+        margin-right: 0.25rem;
+    }
+    
+
+    .btn-send-mail {
+        background: #42ab47;
+        color: white;
+        padding: 0.4rem 1.25rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+        cursor: pointer;
+     
+        box-shadow: 0 2px 4px rgba(255, 107, 107, 0.2);
+    }
+
+    .btn-send-mail:hover {
+        background: #69bc82;
+        /* Darker coral on hover */
+
+        box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+    }
+
+    .btn-send-mail:active {
+
+        box-shadow: 0 2px 4px rgba(255, 107, 107, 0.2);
+    }
+
+    /* Icon styling */
+    .btn-send-mail i {
+        font-size: 0.95rem;
+        transition: transform 0.2s ease;
+    }
+
+    .btn-send-mail:hover i {
+        transform: scale(1.1);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .d-flex.justify-content-between.align-items-center.mb-4 {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.75rem;
+        }
+
+        .d-flex.justify-content-between.align-items-center.mb-4 form,
+        .d-flex.justify-content-between.align-items-center.mb-4 .d-flex.gap-2{
+            width: 100%;
+        }
+
+        .d-flex.justify-content-between.align-items-center.mb-4 .form-control-sm {
+            width: 100%;
+        }
+    }

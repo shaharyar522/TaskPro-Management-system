@@ -6,7 +6,7 @@
 
 @section('content')
 @include('layouts.header')
-
+<link rel="stylesheet" href="{{asset('css/SidebarFrontier/button.css')}}">
 <div class="dashboard-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="section-title">
@@ -57,13 +57,23 @@
                     class="form-control form-control-sm">
             </div>
             <div>
-                <button type="submit" class="btn btn-sm btn-primary mt-2">🔍 Search</button>
+                <button type="submit" class="btn btn-sm btn-search mt-2">
+                    <i class="fas fa-search"></i> Search
+                </button>
             </div>
             <div>
                 <a href="{{ isset($user) ? route('cci.show', $user->id) : route('user.cci') }}"
-                    class="btn btn-sm btn-secondary mt-2">Reset Date</a>
+                    class="btn btn-sm btn-reset mt-2"> <i class="fas fa-undo"></i> Reset Date</a>
             </div>
+        </form>
 
+
+        <form action="{{ route('cci.sendMail') }}" method="POST">
+            @csrf
+            <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
+            <button type="submit" class="btn btn-send-mail">
+                <i class="fas fa-envelope"></i> Send Mail
+            </button>
         </form>
 
         {{-- ================================= End Date Filtering ================================= --}}
@@ -98,13 +108,6 @@
                     </a>
                 </li>
 
-                <li>
-                    {{-- <a class="dropdown-item"
-                        href="{{ route('user.cci.export.email', array_merge(request()->all(), ['user_id' => isset($user) ? $user->id : null])) }}">
-                        <i class="fas fa-envelope text-primary"></i> Send Email
-                    </a> --}}
-                </li>
-                
             </ul>
         </div>
     </div>

@@ -8,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
+
 
     <link rel="stylesheet" href="{{asset('css/userdashbord/dashboard.css')}}">
     <link rel="stylesheet" href="{{asset('css/userdashbord/userform.css')}}">
@@ -109,15 +114,15 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-     
 
 
 
 
 
-       @if(session('redirect_to_report') && session('success_type') && session('success'))
-    <script>
-        window.onload = function () {
+
+        @if(session('redirect_to_report') && session('success_type') && session('success'))
+        <script>
+            window.onload = function () {
             // Show the Report tab
             showSection('report-section');
 
@@ -135,10 +140,11 @@
                 }
             });
         };
-    </script>
-@endif
+        </script>
+        @endif
 
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

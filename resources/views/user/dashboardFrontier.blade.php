@@ -25,6 +25,7 @@
     }
 </style>
 
+<link rel="stylesheet" href="{{asset('css/userdashbord/button.css')}}">
 
 @section('content')
 
@@ -123,7 +124,7 @@
                         @error('ont_Ntd') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
-                    <div class="input-field"> 
+                    <div class="input-field">
                         <label class="input-label">Comp or Refer</label>
                         <select name="comp_or_refer" id="comp_or_refer" class="form-control">
                             <option value="">-- Select Option --</option>
@@ -237,7 +238,7 @@
 
 
 <div class="card mt-4 profile-form-container">
-    
+
     <div id="report-section" style="display: none;">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="text-primary">User Report Frontier Information</h4>
@@ -257,24 +258,38 @@
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                 </div>
                 <div class="mt-4">
-                    <a href="{{ route('user.dashboardFrontier') }}" class="btn btn-sm btn-secondary">Reset Date</a>
+                    <a href="{{ route('user.dashboardFrontier') }}" class="btn btn-sm"
+                        style="background-color: #bb2d3b; color: white; border: none;"
+                        onmouseover="this.style.backgroundColor='#a12733'"
+                        onmouseout="this.style.backgroundColor='#bb2d3b'">
+                        Reset Date
+                    </a>
                 </div>
             </form>
 
             <div class="d-flex gap-2">
+
+                <form action="{{route('user.frontier.send.excel')}}" method="POST">
+
+                    @csrf
+                    <button type="submit" class="btn-send-mail">
+                        <i class="fas fa-envelope"></i> Send Mail
+                    </button>
+
+                </form>
+
                 <a href="{{ route('userfrontier.export.excel') }}" class="btn btn-success">
-                    <i class="fas fa-file-excel"></i>📄 Download Excel File
+                    </i> Download Excel File
                 </a>
 
                 <a href="{{ route('userfrontier.export.csv') }}" class="btn btn-secondary">
-                    <i class="fas fa-file-csv"></i> 📄 Download CSV File
+                    </i> Download CSV File
                 </a>
 
                 <a href="{{ route('userfrontier.export.pdf') }}" class="btn btn-danger">
-                    📄 Download PDF File
+                    Download PDF File
                 </a>
             </div>
-
 
         </div>
 

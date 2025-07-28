@@ -15,8 +15,11 @@
     use App\Exports\UserCCIExport;
     use App\Http\Controllers\AdminCCISidebrController;
     use App\Http\Controllers\AdminFrontierSidebrController;
-use App\Http\Controllers\ExcelFrontierMailController;
-use App\Http\Controllers\MailController;
+    use App\Http\Controllers\ExcelFrontierMailController;
+    use App\Http\Controllers\MailAdminExcelCCIController;
+    use App\Http\Controllers\MailAdminExcelFrontierController;
+    use App\Http\Controllers\MailController;
+    use App\Http\Controllers\UserMailExcelFrontierController;
     use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -70,7 +73,7 @@ use App\Http\Controllers\MailController;
 
         // ========================================= end approved sidebar codee =========================================
 
-        
+
 
         // ======================================================== start blocked sidebar route =========================================
         // condition  user blocked k luey route  jin ka staus =1 and blocke= 1 then show hnga
@@ -103,12 +106,13 @@ use App\Http\Controllers\MailController;
         Route::put('/CCI/user/{id}/update', [AdminCCISidebrController::class, 'update'])->name('admin.cci.update');
         Route::delete('/CCI/user/{id}/destroy', [AdminCCISidebrController::class, 'destroy'])->name('admin.cci.destroy');
 
-        // ======================================================== end frontier sidebar route ========================================================
+        // ======================================================== Start Send Mail Fronteri and CCI sidebar route ========================================================
 
 
-Route::post('/frontier/send-mail', [ExcelFrontierMailController::class, 'sendMail'])->name('frontier.sendMail');
+        Route::post('/Frontier/Send-mail', [MailAdminExcelFrontierController::class, 'sendMail'])->name('frontier.sendMail');
+        Route::post('/CCI/Send-mail', [MailAdminExcelCCIController::class, 'sendMail'])->name('cci.sendMail');
 
-        /// ================================start for Admin dowanload  user frontire excle and SCV  and  pdf file  =========================================
+        /// ================================ End Send Mail Fronteri and CCI sidebar route   ========================================================
 
         //Excel Frontier
         Route::get('/export/frontier-excel', function () {
@@ -125,13 +129,6 @@ Route::post('/frontier/send-mail', [ExcelFrontierMailController::class, 'sendMai
         Route::get('/admin-frontier/download-pdf', [AdminFrontierSidebrController::class, 'exportPDF'])->name('adminfrontier.export.pdf');
         /// ================================end for dowanload  user frontire excle and SCV file  =====================================  
 
-
-
-      /// ================================start for Send Mail  admin Frontier and CCI   excle and SCV  =========================================
-   
-      /// ================================start for Send Mail  admin Frontier and CCI   excle and SCV  =========================================
-
- 
 
         /// ================================start for Admin dowanload  user CCI excle and SCV  and  pdf file  =========================================
 
@@ -150,8 +147,6 @@ Route::post('/frontier/send-mail', [ExcelFrontierMailController::class, 'sendMai
         Route::get('/admin-cci/download-pdf', [AdminCCISidebrController::class, 'exportPDF'])->name('admincci.export.pdf');
 
         /// ================================end for dowanload  user CCI excle and SCV file  =====================================
-
-
     });
 
 
@@ -221,12 +216,23 @@ Route::post('/frontier/send-mail', [ExcelFrontierMailController::class, 'sendMai
 
         Route::get('/export-and-email', [UserFrontierController::class, 'exportAndSendExcel'])->name('userfrontier.export.email');
         Route::get('/cci-and-email', [UserCCIController::class, 'exportAndSendExcel'])->name('usercci.export.email');
-    });
+
+
+
+
+        // ======================================================== Start Send Mail Fronteri and CCI  user  ========================================================
+
+
+        Route::post('/send-excel', [UserMailExcelFrontierController::class, 'sendExcel'])->name('user.frontier.send.excel');
+        // Route::post('/CCI/Send-mail', [MailAdminExcelCCIController::class, 'sendMail'])->name('cci.sendMail');
+
+        /// ================================ end Send Mail Fronteri and CCI  user   ========================================================
+
+
+
+
     /// ================================start for dowanload  user CCI excle and SCV file  =========================================
-
-
-
-
+    });
     //->middleware(['auth', 'verified'])
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

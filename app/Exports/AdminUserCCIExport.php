@@ -55,7 +55,7 @@ class AdminUserCCIExport implements FromCollection, WithHeadings, WithMapping
 
     public function headings(): array
     {
-        return [
+        return [ 
             'S.No',
             'Date',
             'First Name',

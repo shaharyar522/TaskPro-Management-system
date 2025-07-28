@@ -1,0 +1,231 @@
+.filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.filter-section>* {
+    margin-bottom: 0 !important;
+}
+
+.filter-section .form-label {
+    font-size: 0.85rem;
+    color: #495057;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.filter-section .form-select,
+.filter-section .form-control {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.filter-section .form-select:focus,
+.filter-section .form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.filter-section .form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+.filter-section .btn {
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.filter-section .btn-primary {
+    background-color: #0b264bc0;
+    border-color: #0d6efd;
+}
+
+.filter-section .btn-primary {
+    background-color: #0b264bc0;
+    border-color: #0d6efd;
+}
+
+/* Send Mail Button - Coral/Pink */
+.btn-send-mail {
+    background: #42ab47;
+    /* Coral color */
+    color: white;
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.2);
+}
+
+.btn-send-mail:hover {
+    background: #69bc82;
+    /* Darker coral on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+}
+
+.btn-send-mail:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.2);
+}
+
+
+/* Search Button - Teal Color Scheme */
+.btn-search {
+    background: #187fbb;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+    background: #1688f2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
+}
+
+.btn-search:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Search icon styling */
+.btn-search i {
+    margin-right: 5px;
+    transition: transform 0.2s ease;
+}
+
+.btn-search:hover i {
+    transform: scale(1.1);
+}
+
+/* Reset Button - Red Color Scheme */
+.btn-reset {
+    background-color: #ef4444;
+    /* Modern red */
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-reset:hover {
+    background-color: #dc2626;
+    /* Darker red on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-reset:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Reset icon styling */
+.btn-reset i {
+    margin-right: 5px;
+    transition: transform 0.2s ease;
+}
+
+.btn-reset:hover i {
+    transform: rotate(-30deg);
+    /* Adds a slight rotation effect */
+}
+
+/* Icon styling */
+.btn-send-mail i {
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+}
+
+.btn-send-mail:hover i {
+    transform: scale(1.1);
+}
+
+.filter-section .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.filter-section .btn-secondary {
+    background-color: #0a4496;
+    border-color: #6c757d;
+}
+
+.filter-section .btn-secondary:hover {
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+
+.filter-section .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.filter-section .dropdown-menu {
+    border-radius: 4px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.filter-section .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: #212529;
+}
+
+.filter-section .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+
+.filter-section .dropdown-toggle::after {
+    margin-left: 0.5em;
+    vertical-align: 0.15em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-section>div {
+        width: 100%;
+    }
+
+    .filter-section .form-select,
+    .filter-section .form-control {
+        width: 100%;
+    }
+}

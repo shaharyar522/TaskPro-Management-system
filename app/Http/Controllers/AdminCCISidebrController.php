@@ -1,16 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Exports\AdminUserCCIExport;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserCCI;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\File;
-use App\Mail\ExcelEmail;
+
 
 class AdminCCISidebrController extends Controller
 {
@@ -173,26 +168,5 @@ class AdminCCISidebrController extends Controller
     }
 
 
-    /**
-     * Export Excel & Send Email.
-     */
-    public function exportAndSendExcel()
-    {
-        $export = new AdminUserCCIExport();
-        $fileName = 'user_cci_export.xlsx';
-        $relativePath = 'exports/' . $fileName;
-        $filePath = public_path($relativePath);
-
-        if (!File::exists(public_path('exports'))) {
-            File::makeDirectory(public_path('exports'), 0755, true);
-        }
-
-        Excel::store($export, $fileName, 'public');
-        copy(storage_path('app/public/' . $fileName), $filePath);
-
-        $to = 'aatifshehzad668@gmail.com';
-        Mail::to($to)->send(new \App\Mail\ExcelEmail('Attached is the exported Excel file.', 'User CCI Excel Export', $filePath));
-
-        return redirect()->route('user.cci')->with('message', 'Email sent successfully.');
-    }
+   
 }
