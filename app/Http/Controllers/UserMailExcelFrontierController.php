@@ -17,7 +17,6 @@ class UserMailExcelFrontierController extends Controller
     {
         try {
             $user = Auth::user();
-            $to  = "webdevelopment185@gmail.com";
             $username = $user->name;
 
             $fileName = 'user_frontier_' . $user->id . '_' . now()->timestamp . '.xlsx';
@@ -33,13 +32,19 @@ class UserMailExcelFrontierController extends Controller
             // Save Excel file to public directory using custom disk
             Excel::store(new UserFrontierExport, $relativePath, 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
 
+            // Log the file path after saving
+            Log::info("Excel file stored at: $fullPath");
+
             // Email subject
-            $subject = 'User Export from Frontier Dashboard - ' . $username;
+            $subject = 'Frontier Dashboard User Record - Submitted by ' . $username;
 
             // Send email with attachment
-            Mail::to($to)->send(
+            Mail::to(adminMail())->send(
                 new UserMailExcelFrontier($fullPath, $subject, 'Please check the attached file.', $username)
             );
+
+            // Log email sent
+            Log::info("Email sent to: " . adminMail());
 
             // Delete file after sending
             if (File::exists($fullPath)) {

@@ -226,9 +226,9 @@
                 </div>
 
             </form>
-
+ 
             <div class="d-flex gap-2">
-                <form action="" method="POST">
+                <form action="{{route('user.cci.send.excel')}}" method="POST">
                     @csrf
                     <input type="hidden" name="user_id" value="">
                     <button type="submit" class="btn-send-mail">

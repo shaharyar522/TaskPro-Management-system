@@ -16,11 +16,11 @@ class UserMailExcelFrontier extends Mailable
     public $message;
 
 
-    public function __construct($filePath, $username,$message,$messageBody)
+    public function __construct($filePath, $username, $message, $messageBody)
     {
         $this->filePath = $filePath;
         $this->username = $username;
-            $this->message = $message;
+        $this->message = $message;
         $this->messageBody = $messageBody;
     }
 

@@ -88,3 +88,12 @@ function WorkType()
         'Lunch'                                                        => ['unit' => '0', 'w2' => 0.00],
     ];
 }
+
+// this is my gobalai email 
+
+if (!function_exists('adminMail')) {
+    function adminMail()
+    {
+        return 'webdevelopment185@gmail.com';
+    }
+}

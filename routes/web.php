@@ -19,7 +19,8 @@
     use App\Http\Controllers\MailAdminExcelCCIController;
     use App\Http\Controllers\MailAdminExcelFrontierController;
     use App\Http\Controllers\MailController;
-    use App\Http\Controllers\UserMailExcelFrontierController;
+use App\Http\Controllers\UserMailExcelCCIController;
+use App\Http\Controllers\UserMailExcelFrontierController;
     use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -223,16 +224,17 @@
         // ======================================================== Start Send Mail Fronteri and CCI  user  ========================================================
 
 
-        Route::post('/send-excel', [UserMailExcelFrontierController::class, 'sendExcel'])->name('user.frontier.send.excel');
+        Route::post('/send-excel/frontier', [UserMailExcelFrontierController::class, 'sendExcel'])->name('user.frontier.send.excel');
+        Route::post('/send-excel/cci', [UserMailExcelCCIController::class, 'sendExcel'])->name('user.cci.send.excel');
         // Route::post('/CCI/Send-mail', [MailAdminExcelCCIController::class, 'sendMail'])->name('cci.sendMail');
 
         /// ================================ end Send Mail Fronteri and CCI  user   ========================================================
 
 
+});
 
-
-    /// ================================start for dowanload  user CCI excle and SCV file  =========================================
-    });
+    /// ================
+    
     //->middleware(['auth', 'verified'])
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
