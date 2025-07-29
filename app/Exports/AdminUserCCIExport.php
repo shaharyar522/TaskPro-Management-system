@@ -6,8 +6,9 @@ use App\Models\UserCCI;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class AdminUserCCIExport implements FromCollection, WithHeadings, WithMapping
+class AdminUserCCIExport implements FromCollection, WithHeadings, WithMapping ,ShouldAutoSize
 {
     private $counter = 0;
 

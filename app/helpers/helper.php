@@ -48,12 +48,7 @@ if (!function_exists('billingCodes')) {
 }
 
 
-if (!function_exists('adminEmail')) {
-    function adminEmail()
-    {
-        return 'aatifshehzad668@gmail.com';
-    }
-}
+
 
 function WorkType()
 {

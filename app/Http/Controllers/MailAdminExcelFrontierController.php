@@ -23,7 +23,7 @@ class MailAdminExcelFrontierController extends Controller
         // Custom subject and message
 
         $subject = $userId
-            ? "Frontier Excel Report : " . User::find($userId)->name 
+            ? "Frontier Excel Report : " . User::find($userId)->name
             : "Frontier Excel All Users Report";
 
         $msg = $userId
@@ -35,15 +35,15 @@ class MailAdminExcelFrontierController extends Controller
         $filePath = public_path('Uploads/excel_mail/' . $fileName);
 
         // Generate Excel with filters
-        
+
         Excel::store(
             new AdminUserFrontierExport($userId, $startDate, $endDate),
             'Uploads/excel_mail/' . $fileName,
             'public_uploads'
         );
 
-        // Send mail
-        Mail::to($to)->send(new MailAdminExcelFrontier($filePath, $subject, $msg));
+        // Send mail // in this  adminmail this is a gloablad varialbe already email add in helpers.php
+        Mail::to(adminMail())->send(new MailAdminExcelFrontier($filePath, $subject, $msg));
 
         // Remove file
         if (file_exists($filePath)) {

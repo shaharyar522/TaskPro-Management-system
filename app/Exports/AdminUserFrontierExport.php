@@ -6,40 +6,36 @@ use App\Models\UserFrontier;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class AdminUserFrontierExport implements FromCollection, WithHeadings, WithMapping
+class AdminUserFrontierExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
-    private $counter = 0; // For loop iteration
+    private $counter = 0;
 
     public function collection()
     {
-        $query = UserFrontier::with('user'); // Load user relation
+        $query = UserFrontier::with('user');
 
-        // Filter by user_id if available
-        if (request()->has('user_id') && request()->user_id != '') {
+        if (request()->filled('user_id')) {
             $query->where('user_id', request()->user_id);
         }
 
-        // Filter by date range
-        if (request()->has('start_date') && request()->start_date != '') {
+        if (request()->filled('start_date')) {
             $query->whereDate('created_at', '>=', request()->start_date);
         }
 
-        if (request()->has('end_date') && request()->end_date != '') {
+        if (request()->filled('end_date')) {
             $query->whereDate('created_at', '<=', request()->end_date);
         }
 
         return $query->get();
     }
 
-    /**
-     * Map each record for export
-     */
     public function map($data): array
     {
         return [
-            ++$this->counter, // Loop iteration instead of ID
-            $data->created_at ? $data->created_at->format('m/d/Y') : '',
+            ++$this->counter,
+            optional($data->created_at)->format('m/d/Y'),
             $data->user->name ?? 'N/A',
             $data->user->last_name ?? 'N/A',
             $data->corp_id,
@@ -63,13 +59,10 @@ class AdminUserFrontierExport implements FromCollection, WithHeadings, WithMappi
         ];
     }
 
-    /**
-     * Excel headings
-     */
     public function headings(): array
     {
         return [
-            'S.No',  // Serial number instead of ID
+            'S.No',
             'Date',
             'First Name',
             'Last Name',

@@ -38,7 +38,7 @@ class UserMailExcelFrontierController extends Controller
             // Email subject
             $subject = 'Frontier Dashboard User Record - Submitted by ' . $username;
 
-            // Send email with attachment
+             // in this  adminmail this is a gloablad varialbe already email add in helpers.php
             Mail::to(adminMail())->send(
                 new UserMailExcelFrontier($fullPath, $subject, 'Please check the attached file.', $username)
             );

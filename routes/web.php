@@ -19,8 +19,8 @@
     use App\Http\Controllers\MailAdminExcelCCIController;
     use App\Http\Controllers\MailAdminExcelFrontierController;
     use App\Http\Controllers\MailController;
-use App\Http\Controllers\UserMailExcelCCIController;
-use App\Http\Controllers\UserMailExcelFrontierController;
+    use App\Http\Controllers\UserMailExcelCCIController;
+    use App\Http\Controllers\UserMailExcelFrontierController;
     use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -231,10 +231,10 @@ use App\Http\Controllers\UserMailExcelFrontierController;
         /// ================================ end Send Mail Fronteri and CCI  user   ========================================================
 
 
-});
+    });
 
     /// ================
-    
+
     //->middleware(['auth', 'verified'])
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

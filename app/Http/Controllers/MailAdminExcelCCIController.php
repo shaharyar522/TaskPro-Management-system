@@ -49,7 +49,8 @@ class MailAdminExcelCCIController extends Controller
 
         // Send mail
         try {
-            Mail::to($to)->send(new MailAdminExcelCCI($filePath, $subject, $msg));
+            // in this  adminmail this is a gloablad varialbe already email add in helpers.php
+            Mail::to(adminMail())->send(new MailAdminExcelCCI($filePath, $subject, $msg));
         } catch (\Exception $e) {
             return back()->with('error', 'Error sending email: ' . $e->getMessage());
         }
