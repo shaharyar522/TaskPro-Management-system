@@ -1,54 +1,414 @@
 /* Custom spacing for report table columns */
+.custom-report-table th,
+.custom-report-table td {
+    padding: 12px 20px;
+    /* Increase horizontal and vertical spacing */
+    white-space: nowrap;
+    /* Prevent line breaks */
+    vertical-align: middle;
+}
+
+/* Optional: Make sure table is responsive and looks nice */
+.custom-report-table {
+    font-size: 14px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.custom-report-table thead {
+    background: linear-gradient(135deg, #4361ee, #3f37c9);
+    color: white;
+}
+
+.custom-report-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.custom-report-table tbody tr:hover {
+    background-color: rgba(67, 97, 238, 0.03);
+}
+
+.custom-report-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Filter Section */
+.filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.filter-section .form-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0;
+    min-width: 80px;
+}
+
+.filter-section .form-control {
+    min-width: 180px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.filter-section .form-control:focus {
+    border-color: #4361ee;
+    box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+    outline: none;
+}
+
+/* Download Buttons */
+.download-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.download-buttons a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-height: 36px;
+}
+
+.download-buttons a.btn-primary {
+    background: linear-gradient(135deg, #4361ee, #3f37c9);
+    color: white;
+    border: none;
+}
+
+.download-buttons a.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    color: white;
+}
+
+.download-buttons a.btn-secondary {
+    background: white;
+    color: #4361ee;
+    border: 1px solid #4361ee;
+}
+
+.download-buttons a.btn-secondary:hover {
+    background: rgba(67, 97, 238, 0.05);
+    transform: translateY(-2px);
+    color: #4361ee;
+}
+
+.download-buttons a i {
+    font-size: 1rem;
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1200px) {
     .custom-report-table th,
     .custom-report-table td {
-        padding: 12px 20px;
-        /* Increase horizontal and vertical spacing */
-        white-space: nowrap;
-        /* Prevent line breaks */
+        padding: 10px 15px;
     }
-
-    /* Optional: Make sure table is responsive and looks nice */
-    .custom-report-table {
-        font-size: 14px;
+    
+    .filter-section {
+        padding: 15px;
+        gap: 12px;
     }
-
-    @media (max-width: 768px) {
-
-        .custom-report-table th,
-        .custom-report-table td {
-            padding: 10px;
-            font-size: 12px;
-        }
-    }
-     .filter-section {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 15px;
-    }
-
-    .filter-section .form-label {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #333;
-    }
-
+    
     .filter-section .form-control {
-        min-width: 180px;
+        min-width: 150px;
     }
+}
 
-    .download-buttons a {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        font-size: 0.9rem;
-        border-radius: 6px;
+@media (max-width: 992px) {
+    .custom-report-table {
+        font-size: 13px;
     }
-
-    .download-buttons {
-        display: flex;
+    
+    .custom-report-table th,
+    .custom-report-table td {
+        padding: 8px 12px;
+    }
+    
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
         gap: 10px;
-        margin-top: 10px;
+        padding: 15px;
     }
+    
+    .filter-section .form-label {
+        min-width: auto;
+        margin-bottom: 5px;
+    }
+    
+    .filter-section .form-control {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .download-buttons {
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .download-buttons a {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        min-height: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-report-table {
+        font-size: 12px;
+    }
+    
+    .custom-report-table th,
+    .custom-report-table td {
+        padding: 6px 8px;
+        white-space: normal;
+        word-wrap: break-word;
+        max-width: 120px;
+    }
+    
+    .custom-report-table th {
+        font-size: 0.7rem;
+        padding: 8px 6px;
+    }
+    
+    .filter-section {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .filter-section .form-label {
+        font-size: 0.8rem;
+    }
+    
+    .filter-section .form-control {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+    
+    .download-buttons {
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .download-buttons a {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .download-buttons a i {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .custom-report-table {
+        font-size: 11px;
+    }
+    
+    .custom-report-table th,
+    .custom-report-table td {
+        padding: 4px 6px;
+        max-width: 100px;
+    }
+    
+    .custom-report-table th {
+        font-size: 0.65rem;
+        padding: 6px 4px;
+    }
+    
+    .filter-section {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .filter-section .form-label {
+        font-size: 0.75rem;
+    }
+    
+    .filter-section .form-control {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    
+    .download-buttons a {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        min-height: 28px;
+    }
+    
+    .download-buttons a i {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-report-table {
+        font-size: 10px;
+    }
+    
+    .custom-report-table th,
+    .custom-report-table td {
+        padding: 3px 4px;
+        max-width: 80px;
+    }
+    
+    .custom-report-table th {
+        font-size: 0.6rem;
+        padding: 4px 3px;
+    }
+    
+    .filter-section {
+        padding: 8px;
+    }
+    
+    .filter-section .form-label {
+        font-size: 0.7rem;
+    }
+    
+    .filter-section .form-control {
+        font-size: 0.75rem;
+        padding: 4px 6px;
+    }
+    
+    .download-buttons a {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+        min-height: 26px;
+    }
+    
+    .download-buttons a i {
+        font-size: 0.75rem;
+    }
+}
+
+/* Landscape orientation for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .filter-section {
+        padding: 8px 12px;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .filter-section .form-control {
+        min-width: 120px;
+    }
+    
+    .download-buttons {
+        flex-direction: row;
+        gap: 6px;
+    }
+    
+    .download-buttons a {
+        width: auto;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .custom-report-table,
+    .filter-section,
+    .table-container {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* Print styles */
+@media print {
+    .custom-report-table {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .filter-section,
+    .download-buttons {
+        display: none;
+    }
+    
+    .table-responsive {
+        overflow: visible;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .custom-report-table tbody tr,
+    .download-buttons a {
+        transition: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .custom-report-table {
+        background: #2d3748;
+        color: white;
+    }
+    
+    .custom-report-table tbody tr:hover {
+        background-color: rgba(67, 97, 238, 0.1);
+    }
+    
+    .filter-section {
+        background: #2d3748;
+        color: white;
+    }
+    
+    .filter-section .form-control {
+        background: #4a5568;
+        border-color: #718096;
+        color: white;
+    }
+    
+    .table-container {
+        background: #2d3748;
+    }
+}

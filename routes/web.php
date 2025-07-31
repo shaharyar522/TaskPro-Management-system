@@ -45,8 +45,12 @@
 
 
     Route::get('/test-global-var', function () {
-        return "This is a global variable";  // ✅ Should return "This is a global variable"
-    });
+    return "This is a global variable";  // ✅ Should return "This is a global variable"
+});
+
+Route::get('/mobile-test', function () {
+    return view('mobile-test');
+})->name('mobile.test');
 
     Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', function () {

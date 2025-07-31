@@ -1,11 +1,54 @@
 @extends('layouts.app')
-@include('layouts.sidebar')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
 <link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
+<style>
+  /* Default styling for the button */
+.btn-action {
+    font-size: 1.2rem; /* Adjust icon size */
+    padding: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4361ee;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
 
+/* Add hover effect for better visibility */
+.btn-action:hover {
+    background-color: #3a56d4;
+    cursor: pointer;
+}
+
+/* Responsive Media Query for Mobile */
+@media (max-width: 576px) {
+    .btn-action {
+        font-size: 1rem; /* Adjust size on mobile */
+        width: 35px;
+        height: 35px;
+    }
+
+    /* Make sure icons inside buttons are responsive */
+    .btn-action i {
+        font-size: 1.1rem; /* Slightly smaller icon on mobile */
+    }
+}
+
+/* Optional: You can tweak the action button's placement */
+@media (max-width: 576px) {
+    .action-col {
+        text-align: center;
+    }
+}
+
+</style>
 @section('content')
-@include('layouts.header')
 
+@include('layouts.header')
 
 <div class="dashboard-content">
   <div class="d-flex justify-content-between align-items-center mb-4">

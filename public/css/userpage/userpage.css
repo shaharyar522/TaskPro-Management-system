@@ -1,4 +1,4 @@
- /* Table Styles */
+/* Table Styles */
 .user-approval-table {
     width: 100%;
     border-collapse: separate;
@@ -23,6 +23,9 @@
     font-size: 0.75rem;
     letter-spacing: 0.5px;
     border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .user-approval-table td {
@@ -30,6 +33,7 @@
     vertical-align: middle;
     border-bottom: 1px solid #f0f0f0;
     font-size: 0.9rem;
+    line-height: 1.4;
 }
 
 .user-approval-table tbody tr:last-child td {
@@ -82,6 +86,9 @@
     font-size: 0.75em;
     font-weight: 600;
     border-radius: 0.25rem;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .bg-warning {
@@ -102,11 +109,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .btn-action:hover {
     background-color: rgba(67, 97, 238, 0.1);
     color: var(--primary-color);
+    transform: scale(1.1);
 }
 
 .btn-action i {
@@ -116,6 +125,10 @@
 /* Pagination Styles */
 .pagination {
     margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .page-item .page-link {
@@ -124,6 +137,13 @@
     margin: 0 3px;
     border-radius: 5px !important;
     transition: all 0.2s;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
 }
 
 .page-item.active .page-link {
@@ -134,22 +154,27 @@
 
 .page-item.disabled .page-link {
     color: #6c757d;
+    cursor: not-allowed;
 }
 
 .page-link:hover:not(.active) {
     background-color: rgba(67, 97, 238, 0.1);
+    text-decoration: none;
 }
 
 /* Modal Styles */
 .modal-header {
     padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
 }
 
 .modal-title {
     display: flex;
     align-items: center;
     gap: 10px;
+    font-weight: 600;
 }
 
 .modal-title i {
@@ -164,41 +189,383 @@
     border: none;
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Table in Modal */
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
 
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 
-/* Responsive Table */
+/* Horizontal icon-text button style */
+.action-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+    padding: 6px 4px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.action-btn i {
+    font-size: 16px;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Enhanced Responsive Table */
+@media (max-width: 1200px) {
+    .user-approval-table th,
+    .user-approval-table td {
+        padding: 10px 8px;
+    }
+    
+    .email-col {
+        min-width: 150px;
+    }
+    
+    .date-col {
+        min-width: 100px;
+    }
+}
+
 @media (max-width: 992px) {
     .user-approval-table {
         display: block;
         overflow-x: auto;
-    }
-    
-    .user-approval-table th, 
-    .user-approval-table td {
-        white-space: nowrap;
-    }
-}
-
-@media (max-width: 768px) {
-    .section-title {
-        font-size: 1.2rem;
+        font-size: 0.85rem;
     }
     
     .user-approval-table th,
     .user-approval-table td {
-        padding: 10px 8px;
-        font-size: 0.85rem;
+        white-space: nowrap;
+        padding: 8px 6px;
+    }
+    
+    .user-approval-table th {
+        font-size: 0.7rem;
+    }
+    
+    .user-approval-table td {
+        font-size: 0.8rem;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
     }
     
     .modal-dialog {
         margin: 0.5rem;
+        max-width: 95%;
     }
     
     .modal-body {
         padding: 1rem;
+    }
+    
+    .action-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 10px;
+        padding: 4px 2px;
+    }
+    
+    .action-btn i {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-approval-table {
+        font-size: 0.8rem;
+    }
+    
+    .user-approval-table th,
+    .user-approval-table td {
+        padding: 6px 4px;
+        font-size: 0.75rem;
+    }
+    
+    .user-approval-table th {
+        font-size: 0.65rem;
+        padding: 8px 4px;
+    }
+    
+    .id-col {
+        width: 40px;
+    }
+    
+    .name-col {
+        min-width: 80px;
+    }
+    
+    .email-col {
+        min-width: 120px;
+    }
+    
+    .date-col {
+        min-width: 80px;
+    }
+    
+    .status-col {
+        width: 70px;
+    }
+    
+    .action-col {
+        width: 60px;
+    }
+    
+    .btn-action {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .btn-action i {
+        font-size: 0.8rem;
+    }
+    
+    .badge {
+        padding: 0.25em 0.5em;
+        font-size: 0.7em;
+    }
+    
+    .pagination {
+        gap: 3px;
+    }
+    
+    .page-item .page-link {
+        padding: 6px 8px;
+        min-width: 35px;
+        min-height: 35px;
+        font-size: 0.85rem;
+    }
+    
+    .action-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 9px;
+        padding: 3px 1px;
+    }
+    
+    .action-btn i {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .user-approval-table {
+        font-size: 0.75rem;
+    }
+    
+    .user-approval-table th,
+    .user-approval-table td {
+        padding: 4px 3px;
+        font-size: 0.7rem;
+    }
+    
+    .user-approval-table th {
+        font-size: 0.6rem;
+        padding: 6px 3px;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+    }
+    
+    .id-col {
+        width: 35px;
+    }
+    
+    .name-col {
+        min-width: 70px;
+    }
+    
+    .email-col {
+        min-width: 100px;
+    }
+    
+    .date-col {
+        min-width: 70px;
+    }
+    
+    .status-col {
+        width: 60px;
+    }
+    
+    .action-col {
+        width: 50px;
+    }
+    
+    .btn-action {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .btn-action i {
+        font-size: 0.7rem;
+    }
+    
+    .badge {
+        padding: 0.2em 0.4em;
+        font-size: 0.65em;
+    }
+    
+    .pagination {
+        gap: 2px;
+    }
+    
+    .page-item .page-link {
+        padding: 5px 6px;
+        min-width: 30px;
+        min-height: 30px;
+        font-size: 0.8rem;
+    }
+    
+    .modal-dialog {
+        margin: 0.25rem;
+    }
+    
+    .modal-body {
+        padding: 0.75rem;
+    }
+    
+    .modal-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .modal-title {
+        font-size: 1rem;
+    }
+    
+    .action-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 8px;
+        padding: 2px 1px;
+    }
+    
+    .action-btn i {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-approval-table {
+        font-size: 0.7rem;
+    }
+    
+    .user-approval-table th,
+    .user-approval-table td {
+        padding: 3px 2px;
+        font-size: 0.65rem;
+    }
+    
+    .user-approval-table th {
+        font-size: 0.55rem;
+        padding: 4px 2px;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+    }
+    
+    .id-col {
+        width: 30px;
+    }
+    
+    .name-col {
+        min-width: 60px;
+    }
+    
+    .email-col {
+        min-width: 80px;
+    }
+    
+    .date-col {
+        min-width: 60px;
+    }
+    
+    .status-col {
+        width: 50px;
+    }
+    
+    .action-col {
+        width: 40px;
+    }
+    
+    .btn-action {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .btn-action i {
+        font-size: 0.6rem;
+    }
+    
+    .badge {
+        padding: 0.15em 0.3em;
+        font-size: 0.6em;
+    }
+    
+    .page-item .page-link {
+        padding: 4px 5px;
+        min-width: 28px;
+        min-height: 28px;
+        font-size: 0.75rem;
+    }
+    
+    .action-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 7px;
+        padding: 1px;
+    }
+    
+    .action-btn i {
+        font-size: 10px;
+    }
+}
+
+/* Landscape orientation for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .user-approval-table th,
+    .user-approval-table td {
+        padding: 4px 3px;
+    }
+    
+    .modal-dialog {
+        margin: 0.5rem;
+        max-height: 90vh;
+    }
+    
+    .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
     }
 }
 
@@ -219,31 +586,81 @@
 .user-approval-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
 .user-approval-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
 
-
-
- /* Horizontal icon-text button style */
-.action-btn {
-  width: 60px;
-  height: 60px;
-  font-size: 12px;
-  padding: 6px 4px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .user-approval-table,
+    .modal-content,
+    .table-container {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
 }
 
-.action-btn i {
-  font-size: 16px;
+/* Print styles */
+@media print {
+    .user-approval-table {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .btn-action,
+    .action-btn {
+        display: none;
+    }
+    
+    .table-responsive {
+        overflow: visible;
+    }
+    
+    .pagination {
+        display: none;
+    }
 }
 
-.action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .user-approval-table tbody tr,
+    .btn-action,
+    .action-btn {
+        animation: none;
+        transition: none;
+    }
 }
 
-.action-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .user-approval-table {
+        background: #2d3748;
+        color: white;
+    }
+    
+    .user-approval-table tbody tr:hover {
+        background-color: rgba(67, 97, 238, 0.1);
+    }
+    
+    .user-approval-table td {
+        border-bottom-color: #4a5568;
+    }
+    
+    .table-container {
+        background: #2d3748;
+    }
+    
+    .modal-content {
+        background: #2d3748;
+        color: white;
+    }
+    
+    .modal-header {
+        background: linear-gradient(135deg, #4a5568, #2d3748);
+    }
+    
+    .btn-action {
+        color: white;
+    }
+    
+    .btn-action:hover {
+        background-color: rgba(67, 97, 238, 0.2);
+    }
 }
 
 

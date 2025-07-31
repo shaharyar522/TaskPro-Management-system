@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@include('layouts.sidebar')
 @section('content')
 <!-- Header -->
-@include('layouts.header')
+
 <link rel="stylesheet" href="{{asset('css/dashbodfront.css')}}">
+@include('layouts.header')
 
 <!-- Dashboard Content -->
 <div class="dashboard-container">

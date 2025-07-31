@@ -1,58 +1,9 @@
-
-
 @extends('layouts.app')
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
 <link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
 <link rel="stylesheet" href="{{asset('css/SidebarCCI/table.css')}}">
 
 @section('content')
-<style>/* Action Button Container (for the specific action buttons) */
-.action-buttons {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-}
-
-/* Ensure only buttons inside .action-buttons are affected */
-.action-buttons .btn {
-    font-size: 0.85rem; /* Smaller text on mobile */
-    padding: 6px 12px; /* Adjust padding */
-}
-
-/* On small screens (mobile devices), stack buttons vertically and make them full width */
-@media (max-width: 576px) {
-    .action-buttons {
-        flex-direction: column; /* Stack the buttons vertically */
-        align-items: flex-start; /* Align buttons to the left */
-    }
-
-    .action-buttons .btn {
-        width: 100%; /* Make buttons full width */
-        margin-bottom: 8px; /* Space between buttons */
-    }
-}
-/* For the Send Mail button */
-.btn-send-mail {
-    max-width: 210px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 16px;
-    text-align: center;
-}
-
-/* For Mobile or Small Screens */
-@media (max-width: 576px) {
-    .btn-send-mail {
-        width: 100%;         /* Full width on small screens */
-        padding: 10px 15px;  /* Increased padding */
-    }
-}
-
-</style>
 @include('layouts.header')
 <link rel="stylesheet" href="{{asset('css/SidebarFrontier/button.css')}}">
 <div class="dashboard-content">
@@ -116,14 +67,13 @@
         </form>
 
 
-       <form action="{{ route('cci.sendMail') }}" method="POST">
-    @csrf
-    <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
-    <button type="submit" class="btn btn-send-mail">
-        <i class="fas fa-envelope"></i> Send Mail
-    </button>
-</form>
-
+        <form action="{{ route('cci.sendMail') }}" method="POST">
+            @csrf
+            <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
+            <button type="submit" class="btn btn-send-mail">
+                <i class="fas fa-envelope"></i> Send Mail
+            </button>
+        </form>
 
         {{-- ================================= End Date Filtering ================================= --}}
 
@@ -204,19 +154,19 @@
                     <td>{{ $data->in }}</td>
                     <td>{{ $data->out }}</td>
                     <td>{{ $data->hours }}</td>
-                  <td class="action-buttons">
-    <!-- Edit button -->
-    <a href="{{route('admin.cci.edit',$data->id)}}" class="btn btn-sm btn-warning">
-        Edit
-    </a>
-    <!-- Delete form -->
-    <form action="{{route('admin.cci.destroy',$data->id)}}" method="POST" style="display:inline-block;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-sm btn-danger">Delete</button>
-    </form>
-</td>
-
+                    <td>
+                        <!-- Edit button -->
+                        <a href="{{route('admin.cci.edit',$data->id)}}" class="btn btn-sm btn-warning">
+                            Edit
+                        </a>
+                        <!-- Delete form -->
+                        <form action="{{route('admin.cci.destroy',$data->id)}}" method="POST"
+                            style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

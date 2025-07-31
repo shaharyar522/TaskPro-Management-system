@@ -3,7 +3,36 @@
 <link rel="stylesheet" href="{{asset('css/userpage/userpage.css')}}">
 <link rel="stylesheet" href="{{asset('css/userpage/showmodal.css')}}">
 <link rel="stylesheet" href="{{asset('css/SidebarFrontier/table.css')}}">
+<style>
+    /* For the action buttons container */
+.d-flex {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
 
+/* Ensure the action buttons have some padding and proper sizing */
+.d-flex .btn {
+    font-size: 0.85rem; /* Smaller text on mobile */
+    padding: 6px 12px; /* Adjust padding for mobile view */
+}
+
+/* When screen width is small (mobile devices), stack buttons vertically */
+@media (max-width: 576px) {
+    .d-flex {
+        flex-direction: column; /* Stack the buttons vertically */
+        align-items: flex-start; /* Align buttons to the left */
+    }
+
+    .d-flex .btn {
+        width: 100%; /* Make buttons full width */
+        margin-bottom: 8px; /* Space between buttons */
+    }
+}
+
+</style>
 
 @section('content')
 @include('layouts.header')

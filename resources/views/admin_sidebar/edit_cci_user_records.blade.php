@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@include('layouts.sidebar')
 
 <link rel="stylesheet" href="{{asset('css/SidebarCCI/editcci.css')}}">
 

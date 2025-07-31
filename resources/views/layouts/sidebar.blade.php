@@ -1,77 +1,87 @@
-<div class="sidebar">
-    
+<div class="sidebar" id="sidebar">
+
+    {{-- ADMIN SIDEBAR --}}
     @role('admin')
     <div class="sidebar-header">
         <div class="logo-icon">
             <i class="fas fa-user-shield"></i>
         </div>
-        <div class="logo-text">Admin</div>
+        <div class="logo-text">Admin Panel</div>
     </div>
+
     <ul class="sidebar-menu">
         <li>
-            <a href="{{route('admin.dashboard')}}" class="nav-link active" id="dashboard-link">
+            <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
         </li>
         <li>
-            <a href="{{route('user.pending')}}" class="nav-link" id="pending-link">
+            <a href="{{ route('user.pending') }}" class="nav-link {{ request()->routeIs('user.pending') ? 'active' : '' }}">
                 <i class="fas fa-user-clock"></i>
                 <span>Pending Users</span>
-                <span class="menu-badge bg-warning">{{ $pendingCount ?? 0 }}</span>
+                @if(isset($pendingCount))
+                    <span class="menu-badge bg-warning">{{ $pendingCount }}</span>
+                @endif
             </a>
         </li>
         <li>
-            <a href="{{route('user.approve')}}" class="nav-link" id="approved-link">
+            <a href="{{ route('user.approve') }}" class="nav-link {{ request()->routeIs('user.approve') ? 'active' : '' }}">
                 <i class="fas fa-user-check"></i>
                 <span>Approved Users</span>
-                <span class="menu-badge bg-success">{{ $approvedCount ?? 0 }}</span>
+                @if(isset($approvedCount))
+                    <span class="menu-badge bg-success">{{ $approvedCount }}</span>
+                @endif
             </a>
         </li>
         <li>
-            <a href="{{route('user.blocked')}}" class="nav-link" id="blocked-link">
+            <a href="{{ route('user.blocked') }}" class="nav-link {{ request()->routeIs('user.blocked') ? 'active' : '' }}">
                 <i class="fas fa-user-lock"></i>
                 <span>Blocked Users</span>
-                <span class="menu-badge bg-danger">{{ $blockedCount ?? 0 }}</span>
+                @if(isset($blockedCount))
+                    <span class="menu-badge bg-danger">{{ $blockedCount }}</span>
+                @endif
             </a>
         </li>
         <li>
-             <a href="{{route('user.frontier')}}" class="nav-link" id="blocked-link">
+            <a href="{{ route('user.frontier') }}" class="nav-link {{ request()->routeIs('user.frontier') ? 'active' : '' }}">
                 <i class="fas fa-user"></i>
                 <span>Frontier</span>
             </a>
         </li>
         <li>
-            <a href="{{route('user.cci')}}" class="nav-link" id="blocked-link">
+            <a href="{{ route('user.cci') }}" class="nav-link {{ request()->routeIs('user.cci') ? 'active' : '' }}">
                 <i class="fas fa-user"></i>
-                <span>CCI </span>
+                <span>CCI</span>
             </a>
         </li>
     </ul>
     @endrole
-    
+
+
+    {{-- USER SIDEBAR --}}
     @role('user')
     <div class="sidebar-header">
         <div class="logo-icon">
-            <i class="fas fa-user-shield"></i>
+            <i class="fas fa-user"></i>
         </div>
-        <div class="logo-text">User</div>
+        <div class="logo-text">User Panel</div>
     </div>
+
     <ul class="sidebar-menu">
         <li>
-            <a href="{{route('user.dashboard')}}" class="nav-link active" id="dashboard-link">
+            <a href="{{ route('user.dashboard') }}" class="nav-link {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
         </li>
-       
         <li>
-            <a href="#" class="nav-link" id="blocked-link">
-                <i class="fas fa-user-lock"></i>
-                <span>Test users</span>
-                
+            <a href="#" class="nav-link">
+                <i class="fas fa-vial"></i>
+                <span>Test Users</span>
             </a>
         </li>
     </ul>
     @endrole
+
 </div>

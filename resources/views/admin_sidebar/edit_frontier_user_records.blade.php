@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@include('layouts.sidebar')
 @section('content')
 <link rel="stylesheet" href="{{asset('css/SidebarFrontier/editfrotier.css')}}">
 @include('layouts.header')

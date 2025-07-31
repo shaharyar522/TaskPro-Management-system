@@ -30,10 +30,14 @@
     margin-bottom: 2rem;
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-wrap: wrap;
+    gap: 2rem;
 }
 
 .welcome-header {
     margin-bottom: 2rem;
+    flex: 1;
+    min-width: 300px;
 }
 
 .welcome-title {
@@ -44,12 +48,14 @@
     background: linear-gradient(135deg, #4361ee, #3a0ca3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    line-height: 1.2;
 }
 
 .welcome-text {
     font-size: 1.1rem;
     color: #7f8c8d;
     margin-bottom: 0;
+    line-height: 1.6;
 }
 
 /* Stats Cards */
@@ -68,6 +74,7 @@
     align-items: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 100px;
 }
 
 .stat-card:hover {
@@ -85,6 +92,7 @@
     margin-right: 1rem;
     font-size: 1.2rem;
     color: white;
+    flex-shrink: 0;
 }
 
 .stat-card:nth-child(1) .stat-icon {
@@ -108,18 +116,21 @@
     font-weight: 700;
     display: block;
     color: #2c3e50;
+    line-height: 1.2;
 }
 
 .stat-label {
     font-size: 0.9rem;
     color: #7f8c8d;
     display: block;
+    line-height: 1.4;
 }
 
 /* Buttons */
 .welcome-actions {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -132,10 +143,14 @@
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
+    text-decoration: none;
+    font-size: 0.95rem;
+    min-height: 44px;
 }
 
 .btn i {
     margin-right: 0.5rem;
+    font-size: 1rem;
 }
 
 .btn-primary {
@@ -147,6 +162,7 @@
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+    color: white;
 }
 
 .btn-secondary {
@@ -158,6 +174,7 @@
 .btn-secondary:hover {
     background: rgba(67, 97, 238, 0.05);
     transform: translateY(-2px);
+    color: #4361ee;
 }
 
 /* Illustration */
@@ -166,11 +183,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .welcome-illustration img {
     max-width: 100%;
     height: auto;
+    max-height: 200px;
 }
 
 /* Recent Activity */
@@ -181,6 +200,7 @@
     margin-bottom: 1.5rem;
     position: relative;
     padding-left: 1.5rem;
+    line-height: 1.3;
 }
 
 .section-title::before {
@@ -215,6 +235,8 @@
     padding: 1rem;
     border-radius: 10px;
     transition: all 0.3s ease;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .activity-item:hover {
@@ -232,6 +254,7 @@
     margin-right: 1rem;
     font-size: 1rem;
     color: white;
+    flex-shrink: 0;
 }
 
 .activity-icon.completed {
@@ -246,51 +269,435 @@
     background: linear-gradient(135deg, #f72585, #b5179e);
 }
 
+.activity-details {
+    flex: 1;
+    min-width: 200px;
+}
+
 .activity-details p {
     margin: 0;
     font-weight: 500;
     color: #2c3e50;
+    line-height: 1.4;
 }
 
 .activity-time {
     font-size: 0.8rem;
     color: #7f8c8d;
+    margin-top: 0.25rem;
 }
 
-/* Responsive Design */
+/* Enhanced Responsive Design */
+@media (max-width: 1400px) {
+    .dashboard-container {
+        padding: 1.5rem;
+        max-width: 1200px;
+    }
+    
+    .welcome-card {
+        padding: 2rem;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .dashboard-container {
+        padding: 1.25rem;
+    }
+    
+    .welcome-stats {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1.25rem;
+    }
+    
+    .stat-card {
+        padding: 1.25rem;
+    }
+}
+
 @media (max-width: 992px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+    
     .welcome-card {
         flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.5rem;
     }
     
     .welcome-illustration {
         width: 100%;
-        margin-top: 2rem;
+        margin-top: 0;
+    }
+    
+    .welcome-illustration img {
+        max-height: 150px;
     }
     
     .welcome-stats {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+        min-height: 80px;
+    }
+    
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        margin-right: 0.75rem;
+    }
+    
+    .stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .recent-activity {
+        padding: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+        padding-left: 1.25rem;
     }
 }
 
 @media (max-width: 768px) {
     .dashboard-container {
-        padding: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .welcome-card {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
     }
     
     .welcome-title {
         font-size: 1.8rem;
     }
     
+    .welcome-text {
+        font-size: 1rem;
+    }
+    
     .welcome-stats {
         grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+        min-height: 70px;
+    }
+    
+    .stat-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+        margin-right: 0.75rem;
+    }
+    
+    .stat-number {
+        font-size: 1.1rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
     }
     
     .welcome-actions {
         flex-direction: column;
+        gap: 0.75rem;
     }
     
     .btn {
         width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .recent-activity {
+        padding: 1.25rem;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
+        padding-left: 1rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .activity-item {
+        padding: 0.75rem;
+    }
+    
+    .activity-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+        margin-right: 0.75rem;
+    }
+    
+    .activity-details {
+        min-width: 150px;
+    }
+    
+    .activity-details p {
+        font-size: 0.9rem;
+    }
+    
+    .activity-time {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-container {
+        padding: 0.5rem;
+    }
+    
+    .welcome-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    
+    .welcome-text {
+        font-size: 0.9rem;
+    }
+    
+    .welcome-stats {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .stat-card {
+        padding: 0.75rem;
+        min-height: 60px;
+        border-radius: 8px;
+    }
+    
+    .stat-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+    }
+    
+    .stat-number {
+        font-size: 1rem;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
+    }
+    
+    .btn {
+        padding: 0.7rem 0.75rem;
+        font-size: 0.85rem;
+        min-height: 40px;
+    }
+    
+    .btn i {
+        font-size: 0.9rem;
+    }
+    
+    .recent-activity {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+        padding-left: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section-title::before {
+        width: 3px;
+    }
+    
+    .activity-item {
+        padding: 0.5rem;
+        border-radius: 8px;
+    }
+    
+    .activity-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+    }
+    
+    .activity-details {
+        min-width: 120px;
+    }
+    
+    .activity-details p {
+        font-size: 0.85rem;
+    }
+    
+    .activity-time {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        padding: 0.25rem;
+    }
+    
+    .welcome-card {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .welcome-title {
+        font-size: 1.3rem;
+    }
+    
+    .welcome-text {
+        font-size: 0.85rem;
+    }
+    
+    .stat-card {
+        padding: 0.5rem;
+        min-height: 55px;
+    }
+    
+    .stat-icon {
+        width: 25px;
+        height: 25px;
+        font-size: 0.7rem;
+        margin-right: 0.5rem;
+    }
+    
+    .stat-number {
+        font-size: 0.9rem;
+    }
+    
+    .stat-label {
+        font-size: 0.65rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 0.5rem;
+        font-size: 0.8rem;
+        min-height: 35px;
+    }
+    
+    .recent-activity {
+        padding: 0.75rem;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+        padding-left: 0.5rem;
+    }
+    
+    .activity-item {
+        padding: 0.4rem;
+    }
+    
+    .activity-icon {
+        width: 25px;
+        height: 25px;
+        font-size: 0.7rem;
+        margin-right: 0.4rem;
+    }
+    
+    .activity-details p {
+        font-size: 0.8rem;
+    }
+    
+    .activity-time {
+        font-size: 0.65rem;
+    }
+}
+
+/* Landscape orientation for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .dashboard-container {
+        padding: 0.5rem;
+    }
+    
+    .welcome-card {
+        padding: 1rem;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .welcome-illustration {
+        width: 30%;
+    }
+    
+    .welcome-stats {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .stat-card {
+        padding: 0.5rem;
+        min-height: 50px;
+    }
+    
+    .stat-icon {
+        width: 25px;
+        height: 25px;
+        font-size: 0.7rem;
+        margin-right: 0.4rem;
+    }
+    
+    .stat-number {
+        font-size: 0.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.6rem;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .welcome-card,
+    .stat-card,
+    .recent-activity {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+}
+
+/* Print styles */
+@media print {
+    .dashboard-container {
+        padding: 0;
+        max-width: none;
+    }
+    
+    .welcome-card,
+    .stat-card,
+    .recent-activity {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .btn {
+        border: 1px solid #333;
+        background: white !important;
+        color: #333 !important;
     }
 }
