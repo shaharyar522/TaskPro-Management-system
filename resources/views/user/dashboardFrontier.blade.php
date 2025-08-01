@@ -186,6 +186,8 @@ body {
     }
 }
 
+
+
 @media (max-width: 992px) {
     .header-left {
         gap: 20px;
@@ -199,6 +201,8 @@ body {
         font-size: 1rem;
     }
 }
+
+
 
 @media (max-width: 1200px) {
     .header-left {
@@ -214,6 +218,7 @@ body {
     }
 }
 
+
 @media (min-width: 1200px) {
     .header-left {
         gap: 30px;
@@ -227,9 +232,52 @@ body {
         font-size: 1.2rem;
     }
 }
+@media (max-width: 576px) {
+        .profile-form-container form.d-flex {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .profile-form-container .mt-4,
+        .profile-form-container .form-control-sm,
+        .profile-form-container .btn,
+        .profile-form-container .btn-send-mail {
+            width: 100% !important;
+        }
+
+        .profile-form-container .d-flex.gap-2 {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+        }
+
+        .profile-form-container table {
+            font-size: 12px;
+        }
+    }
+
+
+/* Action buttons container */
+.action-cell .action-wrapper {
+    display: flex;
+    gap: 6px;
+}
+
+/* Responsive: stack buttons vertically on small screens */
+@media (max-width: 576px) {
+    .action-cell .action-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-cell .btn {
+        font-size: 12px;
+        padding: 6px 8px;
+        width: 100%;
+    }
+}
 
 </style> 
-
 
 
 <div id="form-section">
@@ -394,12 +442,12 @@ body {
                     </div>
 
                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                    <div class="form-submit text-end">
+                        <button type="submit" class="btn btn-primary px-4">
+                            Save Information
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="form-submit">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i> <span id="form-button-text">Save Information</span>
-                </button>
             </div>
         </form>
     </div>
@@ -411,8 +459,12 @@ body {
 <div class="card mt-4 profile-form-container">
 
     <div id="report-section" style="display: none;">
+       <div class="d-flex flex-wrap gap-3 justify-content-between align-items-start mb-4">
+   
+        </div> 
+
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="text-primary">User Report Frontier Information</h4>
+            <h4 class="text-primary"> Frontier Information Details</h4>
 
             <form action="{{ route('user.dashboardFrontier') }}" method="GET" class="d-flex gap-2 align-items-center">
                 <div>
@@ -519,11 +571,17 @@ body {
                                     Edit
                                 </a>
                                 <!-- Delete form -->
-                                <form action="{{ route('userfrontier.destroy', $data->id) }}" method="POST" class="m-0">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </form>
+                              
+                                
+                                 <form id="delete-form-{{ $data->id }}" action="{{ route('userfrontier.destroy', $data->id) }}"
+                                method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-sm btn-danger"
+                                    onclick="confirmDelete({{ $data->id }})">
+                                    Delete
+                                </button>
+                            </form>
                             </div>
                         </td>
                     </tr>
@@ -662,6 +720,26 @@ body {
     }
     document.getElementById('in').addEventListener('change', calculateHours);
     document.getElementById('out').addEventListener('change', calculateHours);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+          title: "Are you sure?",
+text: "This CCI record will be permanently deleted.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${id}`).submit();
+            }
+        });
+    }
 </script>
 
 @endsection

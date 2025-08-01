@@ -29,6 +29,34 @@
 
 @section('content')
 
+<!--<header class="dashboard-header">-->
+<!--    <div class="header-left">-->
+
+<!--        <h1 class="header-title" onclick="showSection('form-section')">Dashboard</h1>-->
+<!--        <h1 class="header-title" onclick="showSection('report-section')">Report</h1>-->
+
+<!--    </div>-->
+<!--    <div class="header-right">-->
+<!--        <div class="user-dropdown">-->
+<!--            <div class="user-profile">-->
+<!--                <img src="https://media.istockphoto.com/id/1321387967/vector/concept-of-project-closure-project-managment-life-cycle-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZLW7FtbJVoEZMvgErFn4ALa8wXntkEtLqCmPSiydN6c="-->
+<!--                    alt="User" class="user-avatar">-->
+
+<!--                <i class="fas fa-chevron-down"></i>-->
+<!--            </div>-->
+<!--            <div class="dropdown-menu">-->
+<!--                <a href="#" class="dropdown-item"-->
+<!--                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">-->
+<!--                    <i class="fas fa-sign-out-alt"></i> Logout-->
+<!--                </a>-->
+<!--                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">-->
+<!--                    @csrf-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
+
 <header class="dashboard-header">
     <div class="header-left">
         <!-- Dashboard and Report Titles (aligned to the left) -->
@@ -39,7 +67,7 @@
     <div class="header-right">
         <!-- Logout button with text inside -->
         <button class="logout-button"
-        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="fas fa-sign-out-alt"></i><br>
             <span class="logout-text">Logout</span>
         </button>
@@ -49,210 +77,261 @@
     </div>
 </header>
 
-
 <style>
- /* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    /* Global Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
 
-/* Dashboard Header */
-.dashboard-header {
-    background-color: #ffffff;
-    padding: 0 20px;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-/* Header Left */
-.header-left {
-    display: flex;
-    justify-content: flex-start;
-    gap: 30px;
-    flex: 1;
-}
-
-.header-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #4e73df;
-    margin: 0;
-    cursor: pointer;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-/* Header Right (Logout Button) */
-.header-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: relative;
-}
-
-/* Logout button styling */
-.logout-button {
-    background: none;
-    border: none;
-    color: #333;
-    font-size: 14px;
-    cursor: pointer;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-}
-
-.logout-button i {
-    font-size: 1.5rem;
-}
-
-.logout-text {
-    font-size: 0.8rem;
-    color: #6c757d;
-    display: block;
-}
-
-/* Hover effect for Logout button */
-.logout-button:hover {
-    color: #224abe;
-}
-
-.logout-button:hover i {
-    transform: scale(1.1);
-}
-
-/* Responsive Styles */
-
-/* Extra small devices (phones, less than 576px) */
-@media (max-width: 576px) {
+    /* Dashboard Header */
     .dashboard-header {
-        flex-direction: row; /* Keep layout as row to avoid stacking */
-        padding: 0 10px;
-        height: 70px; /* Maintain height */
-    }
-
-    .form-group-vertical input {
-        width: 100% !important;
-    }
-
-    .header-left {
-        flex: 1;
-        justify-content: flex-start;
-    }
-
-    .header-title {
-        font-size: 1.1rem;
-    }
-
-    .header-right {
+        background-color: #ffffff;
+        padding: 0 20px;
+        height: 70px;
         display: flex;
-        justify-content: flex-end; /* Ensure logout button is on the right */
-        align-items: center;
-        gap: 12px; /* Maintain space between elements */
-        width: auto; /* Avoid taking full width */
-        margin-left: auto; /* Push logout to the right */
-    }
-
-    .logout-button {
-        align-items: center; /* Center align text and icon */
-        text-align: right;
-        /*display: inline-flex; */
-        margin-top: 0; /* Remove any margin */
-        padding: 0; /* Ensure no extra padding */
-    }
-
-    .logout-text {
-        font-size: 0.75rem;
-    }
-}
-
-/* Additional Styles for other screen sizes */
-@media (max-width: 768px) {
-    .dashboard-header {
-        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 0 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
     }
 
+    /* Header Left */
     .header-left {
-        flex: 1;
+        display: flex;
         justify-content: flex-start;
-    }
-
-    .header-right {
-        flex-shrink: 0;
-        justify-content: flex-end;
-    }
-
-    .header-title {
-        font-size: 1.1rem;
-    }
-
-    .logout-button {
-        font-size: 1rem;
-        width: 100%;
-    }
-}
-
-@media (max-width: 992px) {
-    .header-left {
-        gap: 20px;
-    }
-
-    .header-title {
-        font-size: 1.3rem;
-    }
-
-    .logout-button {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 1200px) {
-    .header-left {
-        gap: 20px;
-    }
-
-    .header-title {
-        font-size: 1.3rem;
-    }
-
-    .logout-button {
-        font-size: 1rem;
-    }
-}
-
-@media (min-width: 1200px) {
-    .header-left {
         gap: 30px;
+        flex: 1;
     }
 
     .header-title {
         font-size: 1.5rem;
+        font-weight: 600;
+        color: #4e73df;
+        margin: 0;
+        cursor: pointer;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
+    /* Header Right (Logout Button) */
+    .header-right {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        position: relative;
+    }
+
+    /* Logout button styling */
     .logout-button {
-        font-size: 1.2rem;
+        background: none;
+        border: none;
+        color: #333;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
     }
-}
 
-</style> 
+    .logout-button i {
+        font-size: 1.5rem;
+    }
 
+    .logout-text {
+        font-size: 0.8rem;
+        color: #6c757d;
+        display: block;
+    }
+
+    /* Hover effect for Logout button */
+    .logout-button:hover {
+        color: #224abe;
+    }
+
+    .logout-button:hover i {
+        transform: scale(1.1);
+    }
+
+    /* Responsive Styles */
+
+    /* Extra small devices (phones, less than 576px) */
+    @media (max-width: 576px) {
+        .dashboard-header {
+            flex-direction: row;
+            /* Keep layout as row to avoid stacking */
+            padding: 0 10px;
+            height: 70px;
+            /* Maintain height */
+        }
+
+        .form-group-vertical input {
+            width: 100% !important;
+        }
+
+        .header-left {
+            flex: 1;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+        }
+
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            /* Ensure logout button is on the right */
+            align-items: center;
+            gap: 12px;
+            /* Maintain space between elements */
+            width: auto;
+            /* Avoid taking full width */
+            margin-left: auto;
+            /* Push logout to the right */
+        }
+
+        .logout-button {
+            align-items: center;
+            /* Center align text and icon */
+            text-align: right;
+            /*display: inline-flex; */
+            margin-top: 0;
+            /* Remove any margin */
+            padding: 0;
+            /* Ensure no extra padding */
+        }
+
+        .logout-text {
+            font-size: 0.75rem;
+        }
+    }
+
+    /* Additional Styles for other screen sizes */
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .header-left {
+            flex: 1;
+            justify-content: flex-start;
+        }
+
+        .header-right {
+            flex-shrink: 0;
+            justify-content: flex-end;
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+        }
+
+        .logout-button {
+            font-size: 1rem;
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .header-left {
+            gap: 20px;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+        }
+
+        .logout-button {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .header-left {
+            gap: 20px;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+        }
+
+        .logout-button {
+            font-size: 1rem;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .header-left {
+            gap: 30px;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+        }
+
+        .logout-button {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .profile-form-container form.d-flex {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .profile-form-container .mt-4,
+        .profile-form-container .form-control-sm,
+        .profile-form-container .btn,
+        .profile-form-container .btn-send-mail {
+            width: 100% !important;
+        }
+
+        .profile-form-container .d-flex.gap-2 {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+        }
+
+        .profile-form-container table {
+            font-size: 12px;
+        }
+    }
+
+
+    /* Action buttons container */
+    .action-cell .action-wrapper {
+        display: flex;
+        gap: 6px;
+    }
+
+    /* Responsive: stack buttons vertically on small screens */
+    @media (max-width: 576px) {
+        .action-cell .action-wrapper {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .action-cell .btn {
+            font-size: 12px;
+            padding: 6px 8px;
+            width: 100%;
+        }
+    }
+</style>
 
 
 <div id="form-section">
@@ -362,14 +441,16 @@ body {
                     </div>
 
                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                    <div class="form-submit text-end">
+                        <button type="submit" class="btn btn-primary px-4">
+                            Save Information
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-submit">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i> <span id="form-button-text">Save Information</span>
-                </button>
-            </div>
+
+
         </form>
 
 
@@ -378,19 +459,12 @@ body {
 </div>
 
 {{-- end forom show --}}
+
 <div class="card mt-4 profile-form-container">
     <div id="report-section" style="display: none;">
-        {{-- <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="text-primary">User Report CCI Information</h4>
+        <div class="d-flex flex-wrap gap-3 justify-content-between align-items-start mb-4">
 
-
-
-
-            </form>
-
-
-
-        </div> --}}
+        </div>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="text-primary"> CCI Information Details</h4>
@@ -438,7 +512,7 @@ body {
                     </i> Download CSV File
                 </a>
 
-                <a href="" class="btn btn-danger">
+                <a href="{{route('usercci.export.pdf')}}" class="btn btn-danger">
                     Download PDF File
                 </a>
             </div>
@@ -480,21 +554,27 @@ body {
                         <td>{{ $data->in }}</td>
                         <td>{{ $data->out }}</td>
                         <td>{{ $data->hours }}</td>
-                        <td>
-                            <!-- Edit button -->
-                            <a href="{{route('usercci.edit',$data->id)}}" class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
+                        <td class="action-cell">
+                            <div class="action-wrapper">
+                                <!-- Edit button -->
+                                <a href="{{ route('usercci.edit', $data->id) }}" class="btn btn-sm btn-warning">
+                                    Edit
+                                </a>
 
-                            <!-- Delete form -->
-                            <form action="{{route('usercci.destroy',$data->id)}}" method="POST"
-                                style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </form>
-
+                                <!-- Delete form -->
+                                <form id="delete-form-{{ $data->id }}"
+                                    action="{{ route('usercci.destroy', $data->id) }}" method="POST"
+                                    style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                        onclick="confirmDelete({{ $data->id }})">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </td>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -632,5 +712,26 @@ body {
     document.getElementById('out').addEventListener('change', calculateHours);
 </script>
 
+
+{{-- only for delte sweet alert message --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+          title: "Are you sure?",
+text: "This CCI record will be permanently deleted.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${id}`).submit();
+            }
+        });
+    }
+</script>
 
 @endsection

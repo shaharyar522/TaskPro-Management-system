@@ -63,45 +63,7 @@
             @yield('content')
 
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        @if(session('success'))
-        <script>
-            Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: '{{ session('success') }}',
-            timer: 3000,
-            showConfirmButton: false
-        });
-        </script>
-        @endif
-
-
-
         <script>
             function showSection(sectionId) {
                   document.getElementById('form-section').style.display = 'none';
@@ -113,35 +75,23 @@
         {{-- bootstrap --}}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
-
-
-
-
-        @if(session('redirect_to_report') && session('success_type') && session('success'))
+        @if(session('success'))
         <script>
             window.onload = function () {
-            // Show the Report tab
+        @if(session('redirect_to_report'))
             showSection('report-section');
-
-            // Show SweetAlert
-            Swal.fire({
-                icon: 'success',
-                title: '{{ session('success_type') }}', // "Updated!" or "Deleted!"
-                text: '{{ session('success') }}',
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#3085d6',
-                showConfirmButton: true,
-                background: '#f0f8ff',
-                customClass: {
-                    popup: 'animated fadeIn faster'
-                }
-            });
-        };
+        @endif
+        Swal.fire({
+            icon: 'success',
+            title: '{{ session('success_type') ?? 'Success' }}',
+            text: '{{ session('success') }}',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+    };
         </script>
         @endif
+
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

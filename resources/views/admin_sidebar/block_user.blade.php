@@ -63,7 +63,7 @@
     </table>
 
     <div class="mt-3 d-flex justify-content-center">
-      {{ $blocked->links('pagination::bootstrap-5') }}
+          {{ $blocked->links() }}
     </div>
   </div>
 </div>

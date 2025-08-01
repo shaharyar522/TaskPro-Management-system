@@ -5,14 +5,12 @@
 @include('layouts.header')
 
 
-
 <div class="dashboard-content">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="section-title">
       <i class="fas fa-user-check me-2"></i> Approved Users Management
     </h2>
   </div>
-
   <div class="table-responsive">
     <table class="table user-approval-table" id="approved-users-table">
       <thead>
@@ -39,7 +37,6 @@
           <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y') }}</td>
           <td>{{ $user->email }}</td>
           <td><span class="badge bg-success">Approved</span></td>
-
           <td>
             <div class="d-flex gap-2 justify-content-center action-buttons">
               <!-- Block Button -->
@@ -54,16 +51,15 @@
               </button>
             </div>
           </td>
-
-
         </tr>
         @endforeach
       </tbody>
     </table>
 
     <div class="mt-3 d-flex justify-content-center">
-      {{ $approved->links('pagination::bootstrap-5') }}
+     {{ $approved->links() }}
     </div>
+    
   </div>
 </div>
 

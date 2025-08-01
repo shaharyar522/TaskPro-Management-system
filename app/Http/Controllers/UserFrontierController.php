@@ -208,7 +208,7 @@ class UserFrontierController extends Controller
             ->route('user.dashboardFrontier')
             ->with('redirect_to_report', true)
             ->with('success_type', 'Deleted!')
-            ->with('success', 'User record deleted successfully.');
+            ->with('success', 'Frontier record will be permanently deleted successfully');
     }
     public function exportPDF()
     {

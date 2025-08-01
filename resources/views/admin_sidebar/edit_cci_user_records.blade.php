@@ -126,12 +126,11 @@
             </div>
 
             <input type="hidden" id="user_id" name="user_id" value="{{ $userCCI->user_id }}">
-        </div>
-
-        <div class="form-submit">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save btn-icon"></i> Update Information
-            </button>
+               <div class="form-submit text-end">
+    <button type="submit" class="btn btn-primary px-4">
+        Update Information
+    </button>
+</div>
         </div>
     </form>
 </div>

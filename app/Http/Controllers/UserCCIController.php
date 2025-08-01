@@ -144,10 +144,10 @@ class UserCCIController extends Controller
             'out'           => $request->out,
             'hours'         => $request->hours,
             'user_id'         => $user->id,
-        ]);
+        ]); 
 
         return redirect()
-            ->route('usercci.index')
+            ->route('user.dashboardCCI')
             ->with('redirect_to_report', true)
             ->with('success_type', 'Updated!')
             ->with('success', 'User CCI data updated successfully.');
@@ -167,7 +167,7 @@ class UserCCIController extends Controller
             ->route('user.dashboardCCI')
             ->with('redirect_to_report', true)
             ->with('success_type', 'Deleted!')
-            ->with('success', 'User record deleted successfully.');
+            ->with('success', 'CCI record will be permanently deleted successfully.');
     }
 
     public function exportPDF()

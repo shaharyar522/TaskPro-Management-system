@@ -222,6 +222,11 @@
             </div>
 
             <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+            <div class="form-submit text-end">
+    <button type="submit" class="btn btn-primary px-4">
+        Update Information
+    </button>
+</div>
         </form>
 
     </div>
