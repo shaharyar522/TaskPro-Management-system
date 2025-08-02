@@ -504,7 +504,7 @@ body {
                 <a href="{{ route('userfrontier.export.excel') }}" class="btn btn-success">
                     </i> Download Excel File
                 </a>
-
+ 
                 <a href="{{ route('userfrontier.export.csv') }}" class="btn btn-secondary">
                     </i> Download CSV File
                 </a>
